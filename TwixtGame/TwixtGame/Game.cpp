@@ -79,8 +79,27 @@ void Game::render()
 	line4.setPosition(581.5, 97.5);
 	line4.setFillColor(sf::Color::Black);
 	this->window->clear();
+
 	//Render stuff
 
+	this->window->draw(square);
+	this->window->draw(line1);
+	this->window->draw(line2);
+	this->window->draw(line3);
+	this->window->draw(line4);
+
+	for (int i = 0; i < line; i++) {
+		for (int j = 0; j < colum; j++) {
+			if ((i != 0 || j != 0) && (i != 23 || j != 23) && (i != 23 || j != 0) && (i != 0 || j != 23)) {
+				sf::CircleShape circle(3);
+				circle.setFillColor(sf::Color(128, 128, 128, 255));
+				circle.setPosition(i * 20 + 130, j * 20 + 80);
+				this->window->draw(circle);
+			}
+		}
+	}
+
+	//Display stuff
 	this->window->display();
 }
 
