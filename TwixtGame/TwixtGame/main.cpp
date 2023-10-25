@@ -3,7 +3,7 @@
 
 int main()
 {
-    std::cout << "Stemi main\n"; // Verificare Branch
+    std::cout << "Stemi main\n";
     //Initializare game onject
     Game game;
 
