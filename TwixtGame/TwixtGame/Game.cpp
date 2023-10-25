@@ -50,10 +50,15 @@ void Game::pollEvents()
 
 void Game::update()
 {
+	this->pollEvents();
 }
 
 void Game::render()
 {
+	this->window->clear();
+	//Render stuff
+
+	this->window->display();
 }
 
 

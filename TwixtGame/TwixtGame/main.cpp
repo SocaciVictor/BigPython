@@ -9,8 +9,13 @@ int main()
 
     //Game loop
     while (game.running()) {
-
+        game.update();
+        game.render();
     }
+
+    // nu modificati main-ul cand dati commit 
+    // puteti sa il folositi pt testare dar cand dati commit sa ramana asa
+    // este stufful pt SFML 
     
     return 0;
 }
