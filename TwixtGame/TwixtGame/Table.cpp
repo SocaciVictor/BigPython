@@ -1,6 +1,6 @@
 #include "Table.h"
 
-
+//Constructor Deconstructor
 Table::Table(int height, int width, std::string color = "white", int pozitionX = 0, int pozitionY = 0)
 {
 	this->height = height;
@@ -13,6 +13,8 @@ Table::Table(int height, int width, std::string color = "white", int pozitionX =
 Table::~Table()
 {
 }
+
+//Setteri
 
 void Table::setHeight(int height)
 {
@@ -31,11 +33,15 @@ void Table::setColor(std::string color)
 
 void Table::setPozitionX()
 {
+	this->pozitionX = pozitionX;
 }
 
 void Table::setPozitionY()
 {
+	this->pozitionY = pozitionY;
 }
+
+//Geteri
 
 int Table::getHeight()
 {
@@ -49,7 +55,12 @@ int Table::getWidth()
 
 int Table::getPozitionX()
 {
-	return 0;
+	return this->pozitionX;
+}
+
+int Table::getPozitionY()
+{
+	return this->pozitionY;
 }
 
 std::string Table::getColor()
