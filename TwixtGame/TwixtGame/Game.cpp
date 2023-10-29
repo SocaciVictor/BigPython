@@ -7,7 +7,8 @@ void Game::initVariable()
 
 void Game::initWindow()
 {
-	this->videoMode = sf::VideoMode(800, 600);
+	this->videoMode.width = 1000;	 // Window width
+	this->videoMode.height = 800;    //Window height
 	this->window = new sf::RenderWindow(this->videoMode, "TwixT BigPython", sf::Style::Close | sf::Style::Titlebar);
 }
 
@@ -55,9 +56,18 @@ void Game::update()
 
 void Game::render()
 {
+	sf::CircleShape circle(50);
+	std::cout << circle.getPosition().x<<"\n";
+		
+	circle.setFillColor(sf::Color(192, 192, 192, 255));
+
 	this->window->clear();
+
 	//Render stuff
 
+	this->window->draw(circle);
+
+	//Display stuff
 	this->window->display();
 }
 
