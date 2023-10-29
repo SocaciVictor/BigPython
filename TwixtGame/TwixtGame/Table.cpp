@@ -1,10 +1,13 @@
 #include "Table.h"
 
-Table::Table(int height, int width, std::string color)
+
+Table::Table(int height, int width, std::string color, int pozitionX, int pozitionY)
 {
 	this->height = height;
 	this->width = width;
 	this->color = color;
+	this->pozitionX = pozitionX;
+	this->pozitionY = pozitionY;
 }
 
 Table::~Table()
@@ -23,19 +26,20 @@ void Table::setWidth(int width)
 
 void Table::setColor(std::string color)
 {
+	this->color = color;
 }
 
 int Table::getHeight()
 {
-	return 0;
+	return this->height;
 }
 
 int Table::getWidth()
 {
-	return 0;
+	return this->width;
 }
 
 std::string Table::getColor()
 {
-	return std::string();
+	return this->color;
 }

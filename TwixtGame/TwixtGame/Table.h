@@ -6,6 +6,8 @@ class Table
 private:
 	int height;
 	int width;
+	int pozitionX;
+	int pozitionY;
 	std::string color;
 	
 
