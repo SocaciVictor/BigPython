@@ -1,9 +1,0 @@
-# ninja log v5
-8	306	7205609250353790	TwixT2/TwixT2_autogen/timestamp	d6f1ef5519448c59
-8	306	7205609250353790	TwixT2/TwixT2_autogen/mocs_compilation.cpp	d6f1ef5519448c59
-8	306	7205609250353790	C:/modern_c++/TwixT2/out/build/TwixT2/TwixT2_autogen/timestamp	d6f1ef5519448c59
-8	306	7205609250353790	C:/modern_c++/TwixT2/out/build/TwixT2/TwixT2_autogen/mocs_compilation.cpp	d6f1ef5519448c59
-311	1951	7205609267174048	TwixT2/CMakeFiles/TwixT2.dir/main.cpp.obj	bcbae201602fbbe5
-314	1955	7205609267214152	TwixT2/CMakeFiles/TwixT2.dir/TwixT2.cpp.obj	d4ff889b2df7d75b
-307	1960	7205609267274312	TwixT2/CMakeFiles/TwixT2.dir/TwixT2_autogen/mocs_compilation.cpp.obj	39ce90c959c76b2
-1960	2229	7205609269833146	TwixT2/TwixT2.exe	a6acaa4aaa932339
