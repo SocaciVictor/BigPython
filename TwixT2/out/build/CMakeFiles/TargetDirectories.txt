@@ -1,0 +1,7 @@
+C:/modern_c++/TwixT2/out/build/CMakeFiles/edit_cache.dir
+C:/modern_c++/TwixT2/out/build/CMakeFiles/rebuild_cache.dir
+C:/modern_c++/TwixT2/out/build/TwixT2/CMakeFiles/TwixT2.dir
+C:/modern_c++/TwixT2/out/build/TwixT2/CMakeFiles/edit_cache.dir
+C:/modern_c++/TwixT2/out/build/TwixT2/CMakeFiles/rebuild_cache.dir
+C:/modern_c++/TwixT2/out/build/TwixT2/CMakeFiles/TwixT2_autogen_timestamp_deps.dir
+C:/modern_c++/TwixT2/out/build/TwixT2/CMakeFiles/TwixT2_autogen.dir
