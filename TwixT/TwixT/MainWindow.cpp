@@ -16,6 +16,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent*)
 {
+    //Desenat Dreptunghiuri
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
