@@ -1,5 +1,4 @@
 ﻿#include "MainWindow.h"
-#include "squarewidget.h"
 #include <QtWidgets/QApplication>
 #include <QPainter>
 
