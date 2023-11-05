@@ -105,9 +105,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameRules.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClInclude Include="GameController.h" />
     <ClInclude Include="GameRules.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
