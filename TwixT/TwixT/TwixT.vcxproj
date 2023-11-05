@@ -105,6 +105,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClInclude Include="Piece.h" />
+    <ClInclude Include="Player.h" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="GameBoard.ui" />
     <QtUic Include="MainWindow.ui" />
