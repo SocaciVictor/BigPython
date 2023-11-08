@@ -20,5 +20,13 @@ public:
 	GameBoard(int lines, int columns, QWidget* parent = nullptr);
 	GameBoard(int size, int lines, int columns, QWidget* parent = nullptr);
 	GameBoard(int size, int lines, int columns, int poz_x, int poz_y, QWidget* parent = nullptr);
-	
+	GameBoard(int size, int lines, int collumns, QPoint coordinates, QWidget* parent = nullptr);
+	GameBoard(int size, int lines, int columns, int poz_x, int poz_y, QColor backround_color, QWidget* parent = nullptr);
+	GameBoard(int size, int lines, int columns, QPoint coordinates, QColor backround_color, QWidget* parent = nullptr);
+	//Deconstructor
+	~GameBoard();
+protected:
+	void styleBoard();
+	void paintEvent(QPaintEvent*);
+	void addBases();
 };
