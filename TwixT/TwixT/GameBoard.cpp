@@ -113,3 +113,17 @@ GameBoard::GameBoard(int size, int lines, int columns, int poz_x, int poz_y, QCo
 	styleBoard();
 	addBases();
 }
+
+GameBoard::GameBoard(int size, int lines, int columns, QPoint coordinates, QColor backround_color, QWidget* parent) : QWidget(parent)
+{
+	this->size = size;
+	this->lines = lines;
+	this->columns = columns;
+	this->size_width = this->size * (this->columns + 1);
+	this->size_height = this->size * (this->lines + 1);
+	this->coordinates = coordinates;
+	this->background_color = backround_color;
+
+	styleBoard();
+	addBases();
+}
