@@ -20,3 +20,13 @@ MainWindow::MainWindow(int width, int height, QWidget* parent)
 	styleMainWindow();
 	displayChildren();
 }
+
+MainWindow::MainWindow(int width, int height, QColor background_color, QWidget* parent)
+{
+	this->size_width = width;
+	this->size_height = height;
+	this->background_color = background_color;
+
+	styleMainWindow();
+	displayChildren();
+}
