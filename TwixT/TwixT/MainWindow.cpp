@@ -67,3 +67,10 @@ void MainWindow::styleMainWindow()
 	palette.setColor(QPalette::Window, background_color);
 	setPalette(palette);
 }
+
+//functie de afisat widgeturi in aceasta
+void MainWindow::displayChildren()
+{
+	addBoard();
+
+}
