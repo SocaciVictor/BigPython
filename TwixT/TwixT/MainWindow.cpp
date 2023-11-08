@@ -50,3 +50,20 @@ int MainWindow::getHeight()
 {
 	return size_height;
 }
+
+QColor MainWindow::getColor()
+{
+	return background_color;
+}
+
+//Functie de stilizat fereastra
+void MainWindow::styleMainWindow()
+{
+	//schimbarea marimi ferestrei
+	resize(size_width, size_height);
+	setFixedSize(size());
+	//schimbarea culoarei de fundal
+	QPalette palette;
+	palette.setColor(QPalette::Window, background_color);
+	setPalette(palette);
+}
