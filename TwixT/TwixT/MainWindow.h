@@ -24,4 +24,5 @@ public:
 protected:
     void styleMainWindow();
     void displayChildren();
+    void addBoard();
 };

@@ -119,7 +119,7 @@
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Pillar.h" />
     <ClInclude Include="Player.h" />
-    <QtMoc Include="GameBoard.h" />
+    <ClInclude Include="GameBoard.h" />
     <ClInclude Include="MainWindow.h" />
     <ClCompile Include="GameBoard.cpp" />
     <ClCompile Include="MainWindow.cpp" />
