@@ -17,5 +17,12 @@ public:
     MainWindow(int width, int height, QColor background_color, QWidget* parent = nullptr);
     ~MainWindow();
     //Geteri
-   
+    int getWidth();
+    int getHeight();
+    QColor getColor();
+    //Seteri
+protected:
+    void styleMainWindow();
+    void displayChildren();
+    void addBoard();
 };
