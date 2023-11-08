@@ -71,6 +71,6 @@ void MainWindow::styleMainWindow()
 //functie de afisat widgeturi in aceasta
 void MainWindow::displayChildren()
 {
-	addBoard();
+	
 
 }
