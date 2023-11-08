@@ -127,3 +127,22 @@ GameBoard::GameBoard(int size, int lines, int columns, QPoint coordinates, QColo
 	styleBoard();
 	addBases();
 }
+
+
+GameBoard::~GameBoard()
+{
+}
+
+void GameBoard::styleBoard()
+{
+	setFixedSize(size_width, size_height);
+	//mut board astfel incat sa aiba mijlocul fix in punctul coordinates
+	move(coordinates.x() - size_width / 2, coordinates.y() - size_height / 2);
+
+
+	QString border = "border:" + QString::number(size / 10) + "px solid #AAAAAA;";
+	QString backgroundColor = "background-color:" + background_color.name() + ";";
+
+	setStyleSheet(backgroundColor + border);
+
+}
