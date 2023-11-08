@@ -10,3 +10,13 @@ MainWindow::MainWindow(QWidget* parent)
 	styleMainWindow();
 	displayChildren();
 }
+
+MainWindow::MainWindow(int width, int height, QWidget* parent)
+{
+	this->size_width = width;
+	this->size_height = height;
+	this->background_color = "#ffffff";
+
+	styleMainWindow();
+	displayChildren();
+}
