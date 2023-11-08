@@ -1,15 +1,27 @@
 #pragma once
-
-#include <QtWidgets/QMainWindow>
-#include "ui_MainWindow.h"
-
+#include <QMainWindow>
+#include <QtWidgets>
 
 class MainWindow : public QMainWindow
 {
 private:
-    void paintEvent(QPaintEvent*);
+    int size_width;
+    int size_height;
+    QColor background_color;
+    QVector<QWidget*> vector_widgeturi;
 
 public:
-    MainWindow(int width = 400, int height = 300, QString color = "#ffffff", QWidget* parent = nullptr);
+    //Constructor Deconstructor
+    MainWindow(QWidget* parent = nullptr);
+    MainWindow(int width, int height, QWidget* parent = nullptr);
+    MainWindow(int width, int height, QColor background_color, QWidget* parent = nullptr);
     ~MainWindow();
+    //Geteri
+    int getWidth();
+    int getHeight();
+    QColor getColor();
+    //Seteri
+protected:
+    void styleMainWindow();
+    void displayChildren();
 };
