@@ -166,3 +166,18 @@ void GameBoard::paintEvent(QPaintEvent*)
 	painter.drawLine(size * 23.5, size * 2, size * 23.5, size * 23);
 
 }
+
+void GameBoard::addBases()
+{
+	for (uint16_t i{ 0 }; i < lines; i++) {
+		QVector<QWidget*> line_widgets;
+		for (uint16_t j{ 0 }; j < columns; j++) {
+			//verificari sa nu creez cele 4 colturi
+			if (i == 0 && j == 0) continue;
+			if (i == 0 && j == columns - 1) continue;
+			if (i == lines - 1 && j == 0) continue;
+			if (i == lines - 1 && j == columns - 1) continue;
+			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), "#808080", this} };
+		}
+	}
+}
