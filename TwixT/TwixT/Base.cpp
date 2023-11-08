@@ -36,3 +36,15 @@ void Base::enterEvent(QEnterEvent* event)
 	QString backgroundColor = "background-color:rgba(255, 0, 0, 0.5);";
 	setStyleSheet(backgroundColor + border);
 }
+
+void Base::leaveEvent(QEvent* event)
+{
+	setFixedSize(radius * 2, radius * 2);
+	//mut Base astfel incat sa aiba mijlocul fix in punctul coordinates
+	move(coordinates.x() - radius, coordinates.y() - radius);
+
+	QString border = "border-radius: " + QString::number(radius) + "px;border: none";
+	QString backgroundColor = "background-color:" + background_color.name() + ";";
+
+	setStyleSheet(backgroundColor + border);
+}
