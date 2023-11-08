@@ -1,4 +1,4 @@
-#include "GameBoard.h"
+﻿#include "GameBoard.h"
 #include "Base.h"
 #include<QPainter>
 
@@ -144,5 +144,25 @@ void GameBoard::styleBoard()
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
+
+}
+
+void GameBoard::paintEvent(QPaintEvent*)
+{
+	QPainter painter(this);
+
+	QPen pen;
+	pen.setColor(Qt::red); // Setează culoarea liniei
+	pen.setWidth(size / 5); // Setează grosimea liniei
+	painter.setPen(pen);
+
+	painter.drawLine(size * 2, size * 1.5, size * 23, size * 1.5);
+	painter.drawLine(size * 2, size * 23.5, size * 23, size * 23.5);
+
+	pen.setColor(Qt::black); // Setează culoarea liniei
+	painter.setPen(pen);
+
+	painter.drawLine(size * 1.5, size * 2, size * 1.5, size * 23);
+	painter.drawLine(size * 23.5, size * 2, size * 23.5, size * 23);
 
 }
