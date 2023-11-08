@@ -76,7 +76,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pillar.h">
-    <ClInclude Include="Pillar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
