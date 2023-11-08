@@ -13,5 +13,12 @@ private:
 	QColor background_color;
 	QVector<QVector<QWidget*>> bases;
 public:
+	//Constructori
+	GameBoard(QWidget* parent = nullptr);
+	GameBoard(int size, QWidget* parent = nullptr);
+	GameBoard(int size, QColor backround_color, QWidget* parent = nullptr);
+	GameBoard(int lines, int columns, QWidget* parent = nullptr);
+	GameBoard(int size, int lines, int columns, QWidget* parent = nullptr);
+	GameBoard(int size, int lines, int columns, int poz_x, int poz_y, QWidget* parent = nullptr);
 	
 };
