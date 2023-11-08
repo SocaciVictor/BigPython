@@ -105,12 +105,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameRules.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Pillar.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="Bridge.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameRules.h" />
