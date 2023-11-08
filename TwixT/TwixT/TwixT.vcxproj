@@ -105,17 +105,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameRules.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="Pillar.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClInclude Include="Bridge.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameRules.h" />
     <ClInclude Include="Piece.h" />
+    <ClInclude Include="Pillar.h" />
     <ClInclude Include="Player.h" />
-    <QtRcc Include="MainWindow.qrc" />
-    <QtUic Include="GameBoard.ui" />
-    <QtUic Include="MainWindow.ui" />
     <QtMoc Include="GameBoard.h" />
     <ClInclude Include="MainWindow.h" />
     <ClCompile Include="GameBoard.cpp" />

@@ -1,14 +1,14 @@
-﻿#include "MainWindow.h"
-#include <QtWidgets/QApplication>
-#include <QPainter>
+﻿#include <QtWidgets/QApplication>
+#include "MainWindow.h"
 
-int main(int argc, char *argv[])
+
+int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w(800, 450, "#efefef");
-   
-    //Am adaugat Qt
+    QApplication app(argc, argv);
+    MainWindow main_window{ 960 , 540, "#efefef" };
 
-    w.show();
-    return a.exec();
+
+    main_window.show();
+
+    return app.exec();
 }

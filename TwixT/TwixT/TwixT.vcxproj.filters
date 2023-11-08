@@ -23,12 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="MainWindow.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-    <QtUic Include="MainWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +46,12 @@
     <ClCompile Include="GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pillar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
@@ -69,15 +69,16 @@
     <ClInclude Include="GameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pillar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GameBoard.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="GameBoard.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>
