@@ -30,3 +30,12 @@ MainWindow::MainWindow(int width, int height, QColor background_color, QWidget* 
 	styleMainWindow();
 	displayChildren();
 }
+
+//Deconstructtor
+MainWindow::~MainWindow()
+{
+	for (QWidget* widget : vector_widgeturi) {
+		delete widget;
+	}
+	vector_widgeturi.clear();
+}
