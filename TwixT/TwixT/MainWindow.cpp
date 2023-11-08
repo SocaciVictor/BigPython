@@ -39,3 +39,14 @@ MainWindow::~MainWindow()
 	}
 	vector_widgeturi.clear();
 }
+
+//Geteri
+int MainWindow::getWidth()
+{
+	return size_width;
+}
+
+int MainWindow::getHeight()
+{
+	return size_height;
+}
