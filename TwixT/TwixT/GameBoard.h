@@ -1,16 +1,17 @@
 #pragma once
-
 #include <QWidget>
-#include "ui_GameBoard.h"
 
 class GameBoard : public QWidget
 {
-	Q_OBJECT
-
-public:
-	GameBoard(QWidget *parent = nullptr);
-	~GameBoard();
-
 private:
-	Ui::GameBoardClass ui;
+	int size; //size ul per linie si coloana
+	int lines;
+	int columns;
+	int size_width;
+	int size_height;
+	QPoint coordinates; //pozitia la centrul widgetului
+	QColor background_color;
+	QVector<QVector<QWidget*>> bases;
+public:
+	
 };
