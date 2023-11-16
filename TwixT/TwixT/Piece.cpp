@@ -1,5 +1,10 @@
 #include "Piece.h"
 
-Piece::Piece(QColor& color, QPoint& coordonates) : color{ color }, coordonates{coordonates}
+void Piece::setBoard(GameBoard* board)
+{
+	parentBoard = board;
+}
+
+Piece::Piece(const QColor& color, QPoint& coordonates) : color{ color }, coordonates{coordonates}
 {
 }
