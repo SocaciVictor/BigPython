@@ -1,5 +1,4 @@
 ﻿#include "GameBoard.h"
-#include "Base.h"
 #include<QPainter>
 
 GameBoard::GameBoard(QWidget* parent) : QWidget(parent)
@@ -172,8 +171,9 @@ void GameBoard::paintEvent(QPaintEvent*)
 
 void GameBoard::addBases()
 {
+	bases.resize(lines);
 	for (uint16_t i{ 0 }; i < lines; i++) {
-		QVector<QWidget*> line_widgets;
+		bases[i].resize(columns);
 		for (uint16_t j{ 0 }; j < columns; j++) {
 			//verificari sa nu creez cele 4 colturi
 			if (i == 0 && j == 0) continue;
@@ -181,6 +181,17 @@ void GameBoard::addBases()
 			if (i == lines - 1 && j == 0) continue;
 			if (i == lines - 1 && j == columns - 1) continue;
 			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), "#808080", this} };
+			bases[i][j] = base;
 		}
 	}
+}
+
+void GameBoard::removeBase(Base* base){
+	for(int i=0;i < bases.count();i++)
+		for(int j=0;j<bases[i].count();j++)
+			if (base == bases[i][j]) {
+				bases[i].remove(j);
+				delete base;
+				return;
+			}
 }

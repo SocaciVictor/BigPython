@@ -80,5 +80,4 @@ void MainWindow::addBoard()
 {
 	GameBoard* board{ new GameBoard{ size_width / 50, 24, 24, size_width / 2, size_height / 2, "#C0C0C0", this } };
 	vector_widgeturi.push_back(board);
-	Piece::setBoard(board);
 }
