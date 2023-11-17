@@ -5,6 +5,8 @@ class Pillar : public Piece
 private:
 
 public:
-	Pillar() = default;
+	Pillar(const QColor& color, QPoint& coordonates);
+
+
 };
 
