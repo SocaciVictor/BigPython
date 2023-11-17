@@ -1,4 +1,5 @@
 ﻿#include "GameBoard.h"
+#include "Pillar.h"
 #include<QPainter>
 
 GameBoard::GameBoard(QWidget* parent) : QWidget(parent)
@@ -183,6 +184,13 @@ void GameBoard::addBases()
 			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), "#808080", this} };
 			bases[i][j] = base;
 		}
+	}
+}
+
+void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
+	if (curentPlayer.canPlace()) {
+		Pillar* pillar{ new Pillar{curentPlayer.getColor(),coord, radius, this} };
+		curentPlayer.addPiece(coord, pillar);
 	}
 }
 

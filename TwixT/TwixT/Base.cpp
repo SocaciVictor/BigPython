@@ -24,7 +24,7 @@ void Base::styleBase()
 	//mut Base astfel incat sa aiba mijlocul fix in punctul coordinates
 	move(coordinates.x() - radius, coordinates.y() - radius);
 
-	QString border = "border-radius: " + QString::number(radius) + "px;border: none";
+	QString border = "border-radius: " + QString::number(radius) + "px;border: none;";
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
@@ -53,9 +53,6 @@ void Base::leaveEvent(QEvent* event)
 }
 
 void Base::mousePressEvent(QMouseEvent*){ //se adauga piesa si se sterge baza
-	if (static_cast<GameBoard*>(parentWidget())->curentPlayer.canPlace()) {
-		static_cast<GameBoard*>(parentWidget())->removeBase(this);
-		//Pillar* pillar = new Pillar(static_cast<GameBoard*>(parentWidget()))
-	}
-	
+	static_cast<GameBoard*>(parentWidget())->addPiece(coordinates, radius);
+	static_cast<GameBoard*>(parentWidget())->removeBase(this);
 }

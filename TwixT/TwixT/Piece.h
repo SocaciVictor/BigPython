@@ -1,5 +1,6 @@
 #pragma once
 #include <QtWidgets>
+#include "MainWindow.h"
 
 class Piece : public QWidget
 {
@@ -11,7 +12,7 @@ protected:
 	QPoint coordonates;
 public:
 
-	Piece(const QColor& color, QPoint& coordonates, uint16_t& radius);
+	Piece(const QColor& color, QPoint coordonates, uint16_t radius, QWidget* parent);
 	Piece(const Piece&) = default;
 	Piece(Piece&&) = default;
 	Piece& operator=(const Piece&) = default;

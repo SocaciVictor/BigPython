@@ -39,6 +39,7 @@ public:
 	~GameBoard();
 
 	void removeBase(Base* base);
+	void addPiece(QPoint& coord, uint16_t& radius);
 
 protected:
 	void styleBoard();
