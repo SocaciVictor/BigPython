@@ -2,6 +2,7 @@
 #include <QWidget>
 #include "MainWindow.h"
 
+
 class Base : public QWidget
 {
 private:
@@ -16,5 +17,6 @@ protected:
 	void styleBase();
 	void enterEvent(QEnterEvent* event);
 	void leaveEvent(QEvent* event);
+	void mousePressEvent(QMouseEvent*) override;
 };
 

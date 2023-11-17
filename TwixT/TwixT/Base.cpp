@@ -1,4 +1,5 @@
 #include "Base.h"
+#include "Piece.h"
 
 Base::Base(QWidget* parent) :
 	QWidget{ parent }, radius{ 5 }, coordinates{ QPoint{5,5} }, background_color{ QColor{"blue"} }
@@ -47,4 +48,8 @@ void Base::leaveEvent(QEvent* event)
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
+}
+
+void Base::mousePressEvent(QMouseEvent*){ //se adauga piesa si se sterge baza
+	
 }

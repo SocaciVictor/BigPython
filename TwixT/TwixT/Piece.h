@@ -4,12 +4,15 @@
 class Piece : public QWidget
 {
 private:
-	inline static QWidget* parentBoard = nullptr;
+	
 protected:
 	uint16_t radius;
 	QColor color;
 	QPoint coordonates;
 public:
+
+	inline static QWidget* parentBoard = nullptr;
+
 	static void setBoard(QWidget* board);
 	Piece(const QColor& color, QPoint& coordonates, uint16_t& radius);
 	Piece(const Piece&) = default;

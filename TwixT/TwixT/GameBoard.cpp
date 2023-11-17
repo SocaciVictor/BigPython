@@ -129,8 +129,11 @@ GameBoard::GameBoard(int size, int lines, int columns, QPoint coordinates, QColo
 }
 
 
-GameBoard::~GameBoard()
-{
+GameBoard::~GameBoard(){
+	for (auto& line : bases) {
+		for (auto& base : line)
+			delete base;
+	}
 }
 
 void GameBoard::styleBoard()

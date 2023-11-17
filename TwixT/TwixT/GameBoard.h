@@ -17,6 +17,7 @@ private:
 	//pot fi pusi in constructori (da mai incolo)
 	Player player1 = Player("red", QColor(Qt::red));
 	Player player2 = Player("black", QColor(Qt::black));
+	Player& curentPlayer = player1;
 public:
 	//Constructori
 	GameBoard(QWidget* parent = nullptr);
@@ -34,6 +35,7 @@ public:
 
 	//Deconstructor
 	~GameBoard();
+
 protected:
 	void styleBoard();
 	void paintEvent(QPaintEvent*);
