@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include "Player.h"
 
 class GameBoard : public QWidget
 {
@@ -12,6 +13,10 @@ private:
 	QPoint coordinates; //pozitia la centrul widgetului
 	QColor background_color;
 	QVector<QVector<QWidget*>> bases;
+
+	//pot fi pusi in constructori (da mai incolo)
+	Player player1 = Player("red", QColor(Qt::red));
+	Player player2 = Player("black", QColor(Qt::black));
 public:
 	//Constructori
 	GameBoard(QWidget* parent = nullptr);

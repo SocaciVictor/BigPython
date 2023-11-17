@@ -20,11 +20,13 @@ private:
 	static const uint16_t maxBridge = 50;
 	
 	std::string name;
-	QColor playerColor;
+	QColor color;
 
 	std::unordered_map<QPoint, Piece*> pieces;
 public:
-	Player(std::string& name, QColor& playerColor);
+	Player() = default;
+	Player(std::string name, QColor& playerColor);
+	Player(std::string name, QColor&& playerColor);
 	Player(Player& otherPlayer);
 	~Player();
 };

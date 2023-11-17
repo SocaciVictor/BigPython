@@ -1,16 +1,17 @@
 #pragma once
 #include <QtWidgets>
-#include "GameBoard.h"
 
 class Piece : public QWidget
 {
 private:
+	inline static QWidget* parentBoard = nullptr;
+protected:
+	uint16_t radius;
 	QColor color;
 	QPoint coordonates;
-	inline static GameBoard* parentBoard = nullptr;
 public:
-	static void setBoard(GameBoard* board);
-	Piece(const QColor& color, QPoint& coordonates);
+	static void setBoard(QWidget* board);
+	Piece(const QColor& color, QPoint& coordonates, uint16_t& radius);
 	Piece(const Piece&) = default;
 	Piece(Piece&&) = default;
 	Piece& operator=(const Piece&) = default;

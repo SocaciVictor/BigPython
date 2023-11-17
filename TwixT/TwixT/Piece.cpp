@@ -1,10 +1,10 @@
 #include "Piece.h"
 
-void Piece::setBoard(GameBoard* board)
+void Piece::setBoard(QWidget* board)
 {
 	parentBoard = board;
 }
 
-Piece::Piece(const QColor& color, QPoint& coordonates) : color{ color }, coordonates{coordonates}
-{
-}
+Piece::Piece(const QColor& color, QPoint& coordonates, uint16_t& radius) : 
+	color{ color }, coordonates{ coordonates }, radius{radius}
+{}
