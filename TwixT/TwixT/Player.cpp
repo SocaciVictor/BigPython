@@ -1,10 +1,11 @@
 #include "Player.h"
+#include "Pillar.h"
 
-Player::Player(std::string name, QColor& playerColor) :name{ name }, color{playerColor}
+Player::Player(const std::string_view& name, QColor& playerColor) :name{ name }, color{playerColor}
 {
 }
 
-Player::Player(std::string name, QColor&& playerColor):
+Player::Player(const std::string_view& name, QColor&& playerColor):
 	name{ name }, color{playerColor}
 {
 }
@@ -22,4 +23,25 @@ Player::Player(Player& otherPlayer)
 Player::~Player(){
 	for (auto& it : pieces)
 		delete it.second;
+}
+
+void Player::addPiece(QPoint& coord, Piece* piece){
+	Pillar* check = dynamic_cast<Pillar*>(piece);
+	if (check != nullptr) {
+		pillarCount++;
+	}
+	else {
+		bridgeCount++;
+	}
+	pieces.insert(std::make_pair(coord, piece));
+}
+
+bool Player::canPlace() const
+{
+	return(pillarCount < maxPillar && bridgeCount < maxBridge);
+}
+
+QColor Player::getColor() const
+{
+	return color;
 }

@@ -1,6 +1,7 @@
 #include "Base.h"
-#include "Piece.h"
+#include "Pillar.h"
 #include "GameBoard.h"
+
 
 Base::Base(QWidget* parent) :
 	QWidget{ parent }, radius{ 5 }, coordinates{ QPoint{5,5} }, background_color{ QColor{"blue"} }
@@ -52,5 +53,9 @@ void Base::leaveEvent(QEvent* event)
 }
 
 void Base::mousePressEvent(QMouseEvent*){ //se adauga piesa si se sterge baza
-	static_cast<GameBoard*>(parentWidget())->removeBase(this);
+	if (static_cast<GameBoard*>(parentWidget())->curentPlayer.canPlace()) {
+		static_cast<GameBoard*>(parentWidget())->removeBase(this);
+		//Pillar* pillar = new Pillar(static_cast<GameBoard*>(parentWidget()))
+	}
+	
 }

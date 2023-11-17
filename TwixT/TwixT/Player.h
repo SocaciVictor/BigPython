@@ -4,12 +4,11 @@
 #include <unordered_map>
 #include <string>
 
-template <>
-struct std::hash<QPoint>
-{
+class Hash {
+public:
 	std::size_t operator()(const QPoint& q) const
 	{
-		return hash<std::string>()(std::to_string(q.x()) + std::to_string(q.y()));
+		return std::hash<std::string>()(std::to_string(q.x()) + std::to_string(q.y()));
 	}
 };
 
@@ -20,14 +19,20 @@ private:
 	static const uint16_t maxBridge = 50;
 	
 	std::string name;
+	uint16_t pillarCount = 0;
+	uint16_t bridgeCount = 0;
 	QColor color;
 
-	std::unordered_map<QPoint, Piece*> pieces;
+	std::unordered_map<QPoint, Piece*, Hash> pieces;
 public:
 	Player() = default;
-	Player(std::string name, QColor& playerColor);
-	Player(std::string name, QColor&& playerColor);
+	Player(const std::string_view& name, QColor& playerColor);
+	Player(const std::string_view& name, QColor&& playerColor);
 	Player(Player& otherPlayer);
 	~Player();
+
+	void addPiece(QPoint& coord,Piece* piece);
+	bool canPlace() const;
+	QColor getColor() const;
 };
 
