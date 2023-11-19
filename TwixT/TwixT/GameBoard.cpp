@@ -199,6 +199,12 @@ void GameBoard::removePiece(Piece* piece, const QPoint& point){
 	delete piece;
 }
 
+void GameBoard::addBase(uint16_t& radius, QPoint& point, QColor& background_color){
+	Base* base = new Base{ radius,point,background_color,this };
+	bases.first().push_back(base);
+
+}
+
 void GameBoard::removeBase(Base* base){
 	for(int i=0;i < bases.count();i++)
 		for(int j=0;j<bases[i].count();j++)

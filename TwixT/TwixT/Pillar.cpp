@@ -1,4 +1,5 @@
 #include "Pillar.h"
+#include "GameBoard.h"
 
 Pillar::Pillar(const QColor& color, QPoint coordonates, uint16_t radius, QWidget* parent) :
 	Piece(color,coordonates, radius, parent)
@@ -21,7 +22,15 @@ void Pillar::paintEvent(QPaintEvent*){
 void Pillar::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::RightButton) {
-		
+		Pillar* check = dynamic_cast<Pillar*>(this);
+		if (check != nullptr) {
+			QColor baseColor = QColor{ "#808080" };
+			static_cast<GameBoard*>(parentWidget())->addBase(radius, coordonates, baseColor);
+			static_cast<GameBoard*>(parentWidget())->removePiece(this, coordonates);
+		}
+		else {
+			//to do delete bridge
+		}
 	}
 	else {
 		//to add bridge

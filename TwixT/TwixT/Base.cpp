@@ -17,7 +17,9 @@ Base::Base(uint16_t radius, uint16_t poz_x, uint16_t poz_y, QColor background_co
 
 Base::Base(uint16_t& radius, QPoint& point, QColor background_color, QWidget* parent) :
 	radius{ radius }, coordinates{ point }, background_color{ background_color }, QWidget{parent}
-{}
+{
+	styleBase();
+}
 
 Base::~Base()
 {}
@@ -32,6 +34,7 @@ void Base::styleBase()
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
+	show();
 }
 
 void Base::enterEvent(QEnterEvent* event)
