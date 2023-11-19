@@ -18,8 +18,14 @@ void Pillar::paintEvent(QPaintEvent*){
 	show();
 }
 
-void Pillar::mousePressEvent(QMouseEvent*)
+void Pillar::mousePressEvent(QMouseEvent* event)
 {
-	//to add bridge
+	if (event->button() == Qt::RightButton) {
+		
+	}
+	else {
+		//to add bridge
+	}
+	
 }
 

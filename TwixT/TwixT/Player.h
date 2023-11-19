@@ -34,5 +34,6 @@ public:
 	void addPiece(QPoint& coord,Piece* piece);
 	bool canPlace() const;
 	QColor getColor() const;
+	void removePiece(const QPoint& point);
 };
 

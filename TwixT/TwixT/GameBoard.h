@@ -40,6 +40,8 @@ public:
 
 	void removeBase(Base* base);
 	void addPiece(QPoint& coord, uint16_t& radius);
+	void removePiece(Piece* piece, const QPoint& point);
+	
 
 protected:
 	void styleBoard();

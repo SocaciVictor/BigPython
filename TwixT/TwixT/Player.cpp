@@ -45,3 +45,7 @@ QColor Player::getColor() const
 {
 	return color;
 }
+
+void Player::removePiece(const QPoint& point){
+	pieces.erase(point);
+}

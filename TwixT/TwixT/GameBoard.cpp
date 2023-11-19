@@ -194,6 +194,11 @@ void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
 	}
 }
 
+void GameBoard::removePiece(Piece* piece, const QPoint& point){
+	curentPlayer.removePiece(point);
+	delete piece;
+}
+
 void GameBoard::removeBase(Base* base){
 	for(int i=0;i < bases.count();i++)
 		for(int j=0;j<bases[i].count();j++)
