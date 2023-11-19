@@ -181,7 +181,7 @@ void GameBoard::addBases()
 			if (i == 0 && j == columns - 1) continue;
 			if (i == lines - 1 && j == 0) continue;
 			if (i == lines - 1 && j == columns - 1) continue;
-			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), "#808080", this} };
+			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), BASE_COLOR, this} };
 			bases[i][j] = base;
 		}
 	}
@@ -199,7 +199,7 @@ void GameBoard::removePiece(Piece* piece, const QPoint& point){
 	delete piece;
 }
 
-void GameBoard::addBase(uint16_t& radius, QPoint& point, QColor& background_color){
+void GameBoard::addBase(uint16_t& radius, QPoint& point, const QColor& background_color){
 	Base* base = new Base{ radius,point,background_color,this };
 	bases.first().push_back(base);
 

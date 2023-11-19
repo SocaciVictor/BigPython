@@ -25,6 +25,11 @@ Player::~Player(){
 		delete it.second;
 }
 
+bool Player::operator==(Player& other)
+{
+	return (name == other.name);
+}
+
 void Player::addPiece(QPoint& coord, Piece* piece){
 	Pillar* check = dynamic_cast<Pillar*>(piece);
 	if (check != nullptr) {

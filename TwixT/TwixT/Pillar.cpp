@@ -13,7 +13,7 @@ void Pillar::paintEvent(QPaintEvent*){
 	move(coordonates.x() - radius, coordonates.y() - radius);
 
 	QString border = "border-radius: " + QString::number(radius) + "px;border: none;";
-	QString backgroundColor = "background-color: #ff0000;";// + color.name() + ";";
+	QString backgroundColor = "background-color: " + color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
 	show();
@@ -25,7 +25,7 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 		Pillar* check = dynamic_cast<Pillar*>(this);
 		if (check != nullptr) {
 			QColor baseColor = QColor{ "#808080" };
-			static_cast<GameBoard*>(parentWidget())->addBase(radius, coordonates, baseColor);
+			static_cast<GameBoard*>(parentWidget())->addBase(radius, coordonates, GameBoard::BASE_COLOR);
 			static_cast<GameBoard*>(parentWidget())->removePiece(this, coordonates);
 		}
 		else {

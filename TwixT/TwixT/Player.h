@@ -31,6 +31,8 @@ public:
 	Player(Player& otherPlayer);
 	~Player();
 
+	bool operator==(Player& other);
+
 	void addPiece(QPoint& coord,Piece* piece);
 	bool canPlace() const;
 	QColor getColor() const;

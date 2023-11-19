@@ -16,6 +16,9 @@ private:
 	QVector<QVector<QWidget*>> bases;
 
 public:
+
+	inline static const QColor BASE_COLOR = QColor{ "#808080" };
+
 	//pot fi pusi in constructori (da mai incolo)
 	Player player1 = Player("red", QColor(Qt::red));
 	Player player2 = Player("black", QColor(Qt::black));
@@ -41,7 +44,7 @@ public:
 	void removeBase(Base* base);
 	void addPiece(QPoint& coord, uint16_t& radius);
 	void removePiece(Piece* piece, const QPoint& point);
-	void addBase(uint16_t& radius, QPoint& point, QColor& background_color);
+	void addBase(uint16_t& radius, QPoint& point, const QColor& background_color);
 
 protected:
 	void styleBoard();
