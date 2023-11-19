@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "GameBoard.h"
+#include "Piece.h"
 
 //Constructori
 MainWindow::MainWindow(QWidget* parent)

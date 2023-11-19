@@ -1,4 +1,7 @@
 #include "Base.h"
+#include "Pillar.h"
+#include "GameBoard.h"
+
 
 Base::Base(QWidget* parent) :
 	QWidget{ parent }, radius{ 5 }, coordinates{ QPoint{5,5} }, background_color{ QColor{"blue"} }
@@ -12,6 +15,12 @@ Base::Base(uint16_t radius, uint16_t poz_x, uint16_t poz_y, QColor background_co
 	styleBase();
 }
 
+Base::Base(uint16_t& radius, QPoint& point, QColor background_color, QWidget* parent) :
+	radius{ radius }, coordinates{ point }, background_color{ background_color }, QWidget{parent}
+{
+	styleBase();
+}
+
 Base::~Base()
 {}
 
@@ -21,10 +30,11 @@ void Base::styleBase()
 	//mut Base astfel incat sa aiba mijlocul fix in punctul coordinates
 	move(coordinates.x() - radius, coordinates.y() - radius);
 
-	QString border = "border-radius: " + QString::number(radius) + "px;border: none";
+	QString border = "border-radius: " + QString::number(radius) + "px;border: none;";
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
+	show();
 }
 
 void Base::enterEvent(QEnterEvent* event)
@@ -47,4 +57,9 @@ void Base::leaveEvent(QEvent* event)
 	QString backgroundColor = "background-color:" + background_color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
+}
+
+void Base::mousePressEvent(QMouseEvent*){ //se adauga piesa si se sterge baza
+	static_cast<GameBoard*>(parentWidget())->addPiece(coordinates, radius);
+	static_cast<GameBoard*>(parentWidget())->removeBase(this);
 }

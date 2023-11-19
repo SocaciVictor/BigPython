@@ -1,5 +1,5 @@
 ﻿#include "GameBoard.h"
-#include "Base.h"
+#include "Pillar.h"
 #include<QPainter>
 
 GameBoard::GameBoard(QWidget* parent) : QWidget(parent)
@@ -129,8 +129,11 @@ GameBoard::GameBoard(int size, int lines, int columns, QPoint coordinates, QColo
 }
 
 
-GameBoard::~GameBoard()
-{
+GameBoard::~GameBoard(){
+	for (auto& line : bases) {
+		for (auto& base : line)
+			delete base;
+	}
 }
 
 void GameBoard::styleBoard()
@@ -169,8 +172,9 @@ void GameBoard::paintEvent(QPaintEvent*)
 
 void GameBoard::addBases()
 {
+	bases.resize(lines);
 	for (uint16_t i{ 0 }; i < lines; i++) {
-		QVector<QWidget*> line_widgets;
+		bases[i].resize(columns);
 		for (uint16_t j{ 0 }; j < columns; j++) {
 			//verificari sa nu creez cele 4 colturi
 			if (i == 0 && j == 0) continue;
@@ -178,6 +182,35 @@ void GameBoard::addBases()
 			if (i == lines - 1 && j == 0) continue;
 			if (i == lines - 1 && j == columns - 1) continue;
 			Base* base{ new Base{uint16_t(size / 5), uint16_t((j + 1) * size), uint16_t((i + 1) * size), "#808080", this} };
+			bases[i][j] = base;
 		}
 	}
+}
+
+void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
+	if (curentPlayer.canPlace()) {
+		Pillar* pillar{ new Pillar{curentPlayer.getColor(),coord, radius, this} };
+		curentPlayer.addPiece(coord, pillar);
+	}
+}
+
+void GameBoard::removePiece(Piece* piece, const QPoint& point){
+	curentPlayer.removePiece(point);
+	delete piece;
+}
+
+void GameBoard::addBase(uint16_t& radius, QPoint& point, QColor& background_color){
+	Base* base = new Base{ radius,point,background_color,this };
+	bases.first().push_back(base);
+
+}
+
+void GameBoard::removeBase(Base* base){
+	for(int i=0;i < bases.count();i++)
+		for(int j=0;j<bases[i].count();j++)
+			if (base == bases[i][j]) {
+				bases[i].remove(j);
+				delete base;
+				return;
+			}
 }
