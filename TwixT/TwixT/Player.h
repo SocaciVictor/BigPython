@@ -31,11 +31,12 @@ public:
 	Player(Player& otherPlayer);
 	~Player();
 
-	bool operator==(Player& other);
+	bool operator==(Player other) const;
 
 	void addPiece(QPoint& coord,Piece* piece);
 	bool canPlace() const;
 	QColor getColor() const;
 	void removePiece(const QPoint& point);
+	bool isContained(const QPoint& point) const;
 };
 

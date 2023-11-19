@@ -24,7 +24,6 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	if (event->button() == Qt::RightButton) {
 		Pillar* check = dynamic_cast<Pillar*>(this);
 		if (check != nullptr) {
-			QColor baseColor = QColor{ "#808080" };
 			static_cast<GameBoard*>(parentWidget())->addBase(radius, coordonates, GameBoard::BASE_COLOR);
 			static_cast<GameBoard*>(parentWidget())->removePiece(this, coordonates);
 		}

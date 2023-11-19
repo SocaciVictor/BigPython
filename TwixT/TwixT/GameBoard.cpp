@@ -1,4 +1,5 @@
 ﻿#include "GameBoard.h"
+#include "GameController.h"
 #include "Pillar.h"
 #include<QPainter>
 
@@ -188,15 +189,24 @@ void GameBoard::addBases()
 }
 
 void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
-	if (curentPlayer.canPlace()) {
-		Pillar* pillar{ new Pillar{curentPlayer.getColor(),coord, radius, this} };
-		curentPlayer.addPiece(coord, pillar);
+	if (curentPlayer->canPlace()) {
+		Pillar* pillar{ new Pillar{curentPlayer->getColor(),coord, radius, this} };
+		curentPlayer->addPiece(coord, pillar);
 	}
 }
 
 void GameBoard::removePiece(Piece* piece, const QPoint& point){
-	curentPlayer.removePiece(point);
-	delete piece;
+	if (!curentPlayer->isContained(point)) {
+		GameController::switchPlayer(player1, player2, curentPlayer);
+		curentPlayer->removePiece(point);
+		delete piece;
+		GameController::switchPlayer(player1, player2, curentPlayer);
+	}
+	else {
+		curentPlayer->removePiece(point);
+		delete piece;
+	}
+	
 }
 
 void GameBoard::addBase(uint16_t& radius, QPoint& point, const QColor& background_color){

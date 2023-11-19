@@ -25,8 +25,7 @@ Player::~Player(){
 		delete it.second;
 }
 
-bool Player::operator==(Player& other)
-{
+bool Player::operator==(Player other) const{
 	return (name == other.name);
 }
 
@@ -53,4 +52,9 @@ QColor Player::getColor() const
 
 void Player::removePiece(const QPoint& point){
 	pieces.erase(point);
+}
+
+bool Player::isContained(const QPoint& point) const
+{
+	return pieces.contains(point);
 }
