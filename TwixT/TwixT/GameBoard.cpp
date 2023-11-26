@@ -194,6 +194,13 @@ void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
 	}
 }
 
+void GameBoard::addPiece(Pillar* start, Pillar* end){
+	if (curentPlayer->canPlace()) {
+		Bridge* bridge{ new Bridge{start, end, curentPlayer->getColor(), this} };
+		//curentPlayer->addPiece(coord, pillar);
+	}
+}
+
 void GameBoard::removePiece(Piece* piece, const QPoint& point){
 	if (!curentPlayer->isContained(point)) {
 		GameController::switchPlayer(player1, player2, curentPlayer);

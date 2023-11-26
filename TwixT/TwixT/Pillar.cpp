@@ -19,8 +19,7 @@ void Pillar::paintEvent(QPaintEvent*){
 	show();
 }
 
-void Pillar::mousePressEvent(QMouseEvent* event)
-{
+void Pillar::mousePressEvent(QMouseEvent* event){
 	if (event->button() == Qt::RightButton) {
 		Pillar* check = dynamic_cast<Pillar*>(this);
 		if (check != nullptr) {
@@ -31,19 +30,22 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 			//to do delete bridge
 		}
 	}
-	else {
-		//check if pillar belongs to curent player
-
+	else if (event->button() == Qt::LeftButton) {
 
 		if (Bridge::save_pillar != nullptr) {
-
-			Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());
+			//check if pillar belongs to curent player
+			if (!isCurentPlayer(static_cast<GameBoard*>(parentWidget())->curentPlayer->getColor())) {
+				Bridge::save_pillar = this;
+				return;
+			}
+		
+			//Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());
 		}
 		else {
 			Bridge::save_pillar = this;
 		}
 	}
-	
+
 }
 
 const QPoint& Pillar::getCoordinates() const noexcept
