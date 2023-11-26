@@ -8,5 +8,8 @@ public:
 	Pillar(const QColor& color, QPoint coordonates, uint16_t radius, QWidget* parent);
 	void paintEvent(QPaintEvent*) override;
 	void mousePressEvent(QMouseEvent*) override;
+	const QPoint& getCoordonates() const noexcept;
+
+	
 };
 

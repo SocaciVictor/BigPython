@@ -168,7 +168,6 @@ void GameBoard::paintEvent(QPaintEvent*)
 
 	painter.drawLine(size * 1.5, size * 2, size * 1.5, size * 23);
 	painter.drawLine(size * 23.5, size * 2, size * 23.5, size * 23);
-
 }
 
 void GameBoard::addBases()

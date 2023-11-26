@@ -37,3 +37,8 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	
 }
 
+const QPoint& Pillar::getCoordonates() const noexcept
+{
+	return coordonates;
+}
+
