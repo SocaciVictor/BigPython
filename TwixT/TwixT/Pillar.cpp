@@ -33,8 +33,9 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	}
 	else {
 		//to add bridge
-		if (Bridge::save_pillar != nullptr) {
+		if (Bridge::save_pillar == nullptr) {
 
+			/*Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());*/
 		}
 		else {
 
