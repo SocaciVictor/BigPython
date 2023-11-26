@@ -1,18 +1,18 @@
 #include "Pillar.h"
 #include "GameBoard.h"
 
-Pillar::Pillar(const QColor& color, QPoint coordonates, uint16_t radius, QWidget* parent) :
-	Piece(color,coordonates, radius, parent)
+Pillar::Pillar(const QColor& color, QPoint coordinates, uint16_t radius, QWidget* parent) :
+	Piece{ color, parent },m_coordinates{coordinates},m_radius{radius}
 {
 	paintEvent(nullptr);
 }
 
 void Pillar::paintEvent(QPaintEvent*){
-	setFixedSize(radius * 2, radius * 2);
+	setFixedSize(m_radius * 2, m_radius * 2);
 	//mut Base astfel incat sa aiba mijlocul fix in punctul coordinates
-	move(coordonates.x() - radius, coordonates.y() - radius);
+	move(m_coordinates.x() - m_radius, m_coordinates.y() - m_radius);
 
-	QString border = "border-radius: " + QString::number(radius) + "px;border: none;";
+	QString border = "border-radius: " + QString::number(m_radius) + "px;border: none;";
 	QString backgroundColor = "background-color: " + color.name() + ";";
 
 	setStyleSheet(backgroundColor + border);
@@ -24,8 +24,8 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	if (event->button() == Qt::RightButton) {
 		Pillar* check = dynamic_cast<Pillar*>(this);
 		if (check != nullptr) {
-			static_cast<GameBoard*>(parentWidget())->addBase(radius, coordonates, GameBoard::BASE_COLOR);
-			static_cast<GameBoard*>(parentWidget())->removePiece(this, coordonates);
+			static_cast<GameBoard*>(parentWidget())->addBase(m_radius, m_coordinates, GameBoard::BASE_COLOR);
+			static_cast<GameBoard*>(parentWidget())->removePiece(this, m_coordinates);
 		}
 		else {
 			//to do delete bridge
@@ -37,8 +37,8 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	
 }
 
-const QPoint& Pillar::getCoordonates() const noexcept
+const QPoint& Pillar::getCoordinates() const noexcept
 {
-	return coordonates;
+	return m_coordinates;
 }
 
