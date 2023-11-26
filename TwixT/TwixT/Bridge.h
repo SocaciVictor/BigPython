@@ -9,4 +9,5 @@ public:
 	static Pillar* save_pillar;
 	Bridge() = default;
 	Bridge(Pillar* start, Pillar* end,QColor color,QWidget* parent);
+	void paintEvent(QPaintEvent*) override;
 };
