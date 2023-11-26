@@ -197,7 +197,7 @@ void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
 void GameBoard::addPiece(Pillar* start, Pillar* end){
 	if (curentPlayer->canPlace()) {
 		Bridge* bridge{ new Bridge{start, end, curentPlayer->getColor(), this} };
-		//curentPlayer->addPiece(coord, pillar);
+		curentPlayer->addPiece(start->getCoordinates(), end->getCoordinates(), bridge);
 	}
 }
 

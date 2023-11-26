@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Pillar.h"
+#include "Bridge.h"
 
 QPoint Player::hashForBridge(const QPoint& start, const QPoint& end){
 	QPoint rezult(start.x() * pow(10, (std::to_string(end.x()).length())) + end.x(),
@@ -41,14 +42,15 @@ void Player::addPiece(QPoint& coord, Piece* piece){
 	if (check != nullptr) {
 		pillarCount++;
 	}
-	else {
-		bridgeCount++;
-	}
 	pieces.insert(std::make_pair(coord, piece));
 }
 
 void Player::addPiece(const QPoint& start, const QPoint& end, Piece* piece){
-
+	Bridge* check = dynamic_cast<Bridge*>(piece);
+	if (check != nullptr) {
+		bridgeCount++;
+	}
+	pieces.insert(std::make_pair(hashForBridge(start, end), piece));
 }
 
 bool Player::canPlace() const

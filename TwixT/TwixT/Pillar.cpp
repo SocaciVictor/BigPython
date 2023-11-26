@@ -35,11 +35,13 @@ void Pillar::mousePressEvent(QMouseEvent* event){
 		if (Bridge::save_pillar != nullptr) {
 			//check if pillar belongs to curent player
 			if (!isCurentPlayer(static_cast<GameBoard*>(parentWidget())->curentPlayer->getColor())) {
-				Bridge::save_pillar = this;
+				Bridge::save_pillar = nullptr;
 				return;
 			}
-		
+			
 			//Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());
+			static_cast<GameBoard*>(parentWidget())->addPiece(Bridge::save_pillar, this);
+			Bridge::save_pillar = nullptr;
 		}
 		else {
 			Bridge::save_pillar = this;
