@@ -33,6 +33,12 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 	}
 	else {
 		//to add bridge
+		if (Bridge::save_pillar != nullptr) {
+
+		}
+		else {
+
+		}
 	}
 	
 }

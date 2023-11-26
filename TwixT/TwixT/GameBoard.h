@@ -2,6 +2,7 @@
 #include <QWidget>
 #include "Player.h"
 #include "Base.h"
+#include "Bridge.h"
 
 class GameBoard : public QWidget
 {
