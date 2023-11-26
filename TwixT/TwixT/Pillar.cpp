@@ -32,13 +32,15 @@ void Pillar::mousePressEvent(QMouseEvent* event)
 		}
 	}
 	else {
-		//to add bridge
-		if (Bridge::save_pillar == nullptr) {
+		//check if pillar belongs to curent player
 
-			/*Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());*/
+
+		if (Bridge::save_pillar != nullptr) {
+
+			Bridge bridge(Bridge::save_pillar, this, this->color, this->parentWidget());
 		}
 		else {
-
+			Bridge::save_pillar = this;
 		}
 	}
 	

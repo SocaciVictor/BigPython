@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include "MainWindow.h"
 
+
 class Piece : public QWidget
 {
 private:
@@ -16,5 +17,7 @@ public:
 	Piece& operator=(const Piece&) = default;
 	Piece& operator=(Piece&&) = default;
 	virtual ~Piece() = default;
+
+	const bool isCurentPlayer(const QColor& playerColor);
 };
 

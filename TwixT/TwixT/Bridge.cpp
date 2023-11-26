@@ -6,3 +6,4 @@ Bridge::Bridge(Pillar* start, Pillar* end, QColor color, QWidget* parent) :
 	p_start = start->getCoordinates();
 	p_end = end->getCoordinates();
 }
+Pillar* Bridge::save_pillar = nullptr;
