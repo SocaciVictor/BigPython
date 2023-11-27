@@ -10,7 +10,15 @@ double Bridge::calculUnghi(const QPoint& point1, const QPoint& point2)
 	// Calculul unghiului folosind atan2
 	double unghiRad = atan2(deltaY, deltaX);
 
-	return 0.0f;
+	// Convertirea unghiului din radiani in grade
+	double unghiGrade = unghiRad * 180.0 / M_PI;
+
+	// Asigurarea că unghiul este în intervalul [0, 360)
+	if (unghiGrade < 0) {
+		unghiGrade += 360.0;
+	}
+
+	return unghiGrade;
 }
 
 Bridge::Bridge(Pillar* start, Pillar* end, QColor color, QWidget* parent) :
