@@ -21,6 +21,13 @@ double Bridge::calculUnghi(const QPoint& point1, const QPoint& point2)
 	return unghiGrade;
 }
 
+double Bridge::dinstantaPoints(const QPoint& point1, const QPoint& point2)
+{
+	double deltaX = point2.x() - point1.x();
+	double deltaY = point2.y() - point1.y();
+	return std::sqrt(deltaX * deltaX + deltaY * deltaY);
+}
+
 Bridge::Bridge(Pillar* start, Pillar* end, QColor color, QWidget* parent) :
 	Piece{color,parent}
 {
