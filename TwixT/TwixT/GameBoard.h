@@ -2,6 +2,7 @@
 #include <QWidget>
 #include "Player.h"
 #include "Base.h"
+#include "Bridge.h"
 
 class GameBoard : public QWidget
 {
@@ -43,6 +44,7 @@ public:
 
 	void removeBase(Base* base);
 	void addPiece(QPoint& coord, uint16_t& radius);
+	void addPiece(Pillar* start, Pillar* end);
 	void removePiece(Piece* piece, const QPoint& point);
 	void addBase(uint16_t& radius, QPoint& point, const QColor& background_color);
 

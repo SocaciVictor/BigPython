@@ -168,7 +168,6 @@ void GameBoard::paintEvent(QPaintEvent*)
 
 	painter.drawLine(size * 1.5, size * 2, size * 1.5, size * 23);
 	painter.drawLine(size * 23.5, size * 2, size * 23.5, size * 23);
-
 }
 
 void GameBoard::addBases()
@@ -192,6 +191,13 @@ void GameBoard::addPiece(QPoint& coord, uint16_t& radius){
 	if (curentPlayer->canPlace()) {
 		Pillar* pillar{ new Pillar{curentPlayer->getColor(),coord, radius, this} };
 		curentPlayer->addPiece(coord, pillar);
+	}
+}
+
+void GameBoard::addPiece(Pillar* start, Pillar* end){
+	if (curentPlayer->canPlace()) {
+		Bridge* bridge{ new Bridge{start, end, curentPlayer->getColor(), this} };
+		curentPlayer->addPiece(start->getCoordinates(), end->getCoordinates(), bridge);
 	}
 }
 

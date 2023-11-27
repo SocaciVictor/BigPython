@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include <unordered_map>
 #include <string>
+#include <cmath>
 
 class Hash {
 public:
@@ -24,6 +25,8 @@ private:
 	QColor color;
 
 	std::unordered_map<QPoint, Piece*, Hash> pieces;
+
+	QPoint hashForBridge(const QPoint& start, const QPoint& end);
 public:
 	Player() = default;
 	Player(const std::string_view& name, QColor& playerColor);
@@ -34,6 +37,7 @@ public:
 	bool operator==(Player other) const;
 
 	void addPiece(QPoint& coord,Piece* piece);
+	void addPiece(const QPoint& start,const QPoint& end, Piece* piece);
 	bool canPlace() const;
 	QColor getColor() const;
 	void removePiece(const QPoint& point);
