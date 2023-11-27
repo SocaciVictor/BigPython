@@ -1,5 +1,5 @@
 ﻿#include "Bridge.h"
-
+#include<cmath>
 
 double Bridge::calculUnghi(const QPoint& point1, const QPoint& point2)
 {
@@ -36,9 +36,14 @@ Bridge::Bridge(Pillar* start, Pillar* end, QColor color, QWidget* parent) :
 	paintEvent(nullptr);
 }
 void Bridge::paintEvent(QPaintEvent*){
-	setFixedSize(50, 50);
+	uint16_t width = abs(p_start.x() - p_end.x());
+	uint16_t height = abs(p_start.y() - p_end.y());
+
+	setFixedSize(width, height);
 	//mut Base astfel incat sa aiba mijlocul fix in punctul coordinates
-	move(200, 200);
+	int top = std::min(p_start.y(), p_end.y());
+	int left = std::min(p_start.x(), p_end.x());
+	move(left, top);
 
 	QString backgroundColor = "background-color:" + color.name() + ";";
 	QString rotate = "transform: rotate(45deg);";
