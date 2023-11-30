@@ -25,3 +25,14 @@ public:
 	virtual PieceColor getColor() const noexcept;
 	virtual void click();
 };
+
+class Pillar : public Base
+{
+protected:
+	PieceColor m_color;
+
+public:
+	Pillar(Point coordinates, PieceColor color, GameElement* parent = nullptr);
+	PieceColor getColor() const noexcept override;
+	void click();
+};

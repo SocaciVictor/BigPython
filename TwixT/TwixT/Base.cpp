@@ -22,3 +22,28 @@ PieceColor Base::getColor() const noexcept
 {
 	return PieceColor::None;
 }
+
+void Pillar::click()
+{
+	std::cout << "click on pillar \n";
+}
+
+//Clasa Pillar
+Pillar::Pillar(Point coordinates, PieceColor color, GameElement* parent) :
+	Base{ coordinates, parent }, m_color{ color }
+{}
+
+PieceColor Pillar::getColor() const noexcept
+{
+	return m_color;
+}
+
+char pieceColorToChar(PieceColor color)
+{
+	switch (color) {
+	case PieceColor::Red: return 'R';
+	case PieceColor::Black: return 'B';
+	case PieceColor::None: return 'N';
+	default: return '?';
+	}
+}
