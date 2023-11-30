@@ -103,15 +103,19 @@
   <ItemGroup>
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="ConsoleGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameElement.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameElement.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
