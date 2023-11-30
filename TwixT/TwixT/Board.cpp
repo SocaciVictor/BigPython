@@ -21,3 +21,32 @@ const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const no
 {
 	return m_date;
 }
+
+void Board::addPillar(Point coordinates)
+{
+	//verifica
+	m_date[coordinates.y][coordinates.x] =
+		std::make_unique<Pillar>(coordinates, static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(), this);
+	static_cast<Game*>(getParent())->getCurrentPlayer()->setMoved(true);
+}
+
+std::ostream& operator<<(std::ostream& output, const Board& board)
+{
+	for (const auto& [y, row] : std::views::enumerate(board.getData()))
+	{
+		for (const auto& [x, element] : std::views::enumerate(row)) {
+			if (element == nullptr) {
+				output << "  ";
+				continue;
+			}
+			if (element->getColor() != PieceColor::None) {
+				output << pieceColorToChar(element->getColor()) << ' ';
+			}
+			else {
+				output << "_ ";
+			}
+		}
+		output << "\n";
+	}
+	return output;
+}
