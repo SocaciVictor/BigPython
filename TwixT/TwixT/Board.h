@@ -28,7 +28,7 @@ protected:
 	std::uint8_t m_rows;
 	std::uint8_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_date;
-	std::unordered_map<std::pair<Point, Point>, std::unique_ptr<Bridge>, Hash> bridges;
+	std::unordered_map<TwoPoint, std::unique_ptr<Bridge>, TwoPointHash> bridges;
 public:
 	Board() = default;
 	Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent = nullptr);

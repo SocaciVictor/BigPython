@@ -18,6 +18,28 @@ struct Point {
 		return ((x == other.x) && (y == other.y));
 	}
 };
+struct PointHash {
+	size_t operator()(const Point& p) const {
+		size_t hashX = std::hash<int>{}(p.x);
+		size_t hashY = std::hash<int>{}(p.y);
+		return hashX ^ (hashY << 1);
+	}
+};
+struct TwoPoint {
+	Point first;
+	Point last;
+	TwoPoint(Point first, Point last) : first{ first }, last{ last } {}
+	bool operator==(const TwoPoint& other) const {
+		return ((first == other.first && last == other.last) || (first == other.last && last == other.first));
+	}
+};
+struct TwoPointHash {
+	size_t operator()(const TwoPoint& two) const {
+		size_t hashX = PointHash{}(two.first);
+		size_t hashY = PointHash{}(two.last);
+		return hashX ^ (hashY);
+	}
+};
 
 class Base : public GameElement {
 protected:
