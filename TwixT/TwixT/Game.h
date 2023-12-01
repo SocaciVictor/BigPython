@@ -12,7 +12,6 @@ public:
 	Player* getCurrentPlayer() const noexcept;
 	void nextPlayer();
 	bool finished();
-	void playMove(Point move);
 private:
 	std::shared_ptr<Player> m_player1;
 	std::shared_ptr<Player> m_player2;

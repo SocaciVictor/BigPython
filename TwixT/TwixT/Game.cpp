@@ -32,8 +32,3 @@ void Game::nextPlayer()
 		m_current_player = m_player1.get();
 	}
 }
-
-void Game::playMove(Point move)
-{
-	m_board.addPillar(move);
-}
