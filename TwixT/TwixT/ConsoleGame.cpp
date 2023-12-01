@@ -24,7 +24,7 @@ void ConsoleGame::playerAddPillar()
 		else {
 			m_game.getBoard().getData()[y][x]->click();
 		}
-	} while (!validMove || !m_game.getCurrentPlayer()->getMoved());
+	} while (!m_game.getCurrentPlayer()->getMoved());
 }
 
 void ConsoleGame::playerAddBridge()
