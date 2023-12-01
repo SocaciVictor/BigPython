@@ -2,6 +2,7 @@
 #include <ranges>
 #include<vector>
 #include "Base.h"
+#include "Bridge.h"
 
 class Board : public GameElement
 {

@@ -42,10 +42,25 @@ void Board::addPillar(Point coordinates)
 
 void Board::addBridge(Point coordinates)
 {
+	if (!static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
 	//verificare daca pillarul pe care sa apasat este de aceiasi culoare cu playerul current;
 	if (m_date[coordinates.y][coordinates.x]->getColor() !=
 		static_cast<Game*>(getParent())->getCurrentPlayer()->getColor()) return;
-
+	//verific daca exista un pillar deja salvat pentru crearea podului;
+	if (Bridge::save_pillar != nullptr) {
+		//verificare daca pillarul apasat nu este acelasi cu cel salvat;
+		if (Bridge::save_pillar == m_date[coordinates.y][coordinates.x].get()) {
+			//in caz ca da se va scoate din salvare;
+			Bridge::save_pillar = nullptr;
+		}
+		else {
+			//verificare daca bridgeul creat nu se intersecteaza cu alte poduri;
+			//creare Bridge;
+		}
+	}
+	else {
+		Bridge::save_pillar = static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get());
+	}
 }
 
 std::ostream& operator<<(std::ostream& output, const Board& board)

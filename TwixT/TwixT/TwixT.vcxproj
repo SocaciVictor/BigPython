@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="ConsoleGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameElement.cpp" />
@@ -112,6 +113,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Bridge.h" />
     <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameElement.h" />
