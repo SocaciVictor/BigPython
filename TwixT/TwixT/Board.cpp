@@ -40,6 +40,14 @@ void Board::addPillar(Point coordinates)
 	static_cast<Game*>(getParent())->getCurrentPlayer()->setMoved(true);
 }
 
+void Board::addBridge(Point coordinates)
+{
+	//verificare daca pillarul pe care sa apasat este de aceiasi culoare cu playerul current;
+	if (m_date[coordinates.y][coordinates.x]->getColor() !=
+		static_cast<Game*>(getParent())->getCurrentPlayer()->getColor()) return;
+
+}
+
 std::ostream& operator<<(std::ostream& output, const Board& board)
 {
 	for (const auto& [y, row] : std::views::enumerate(board.getData()))

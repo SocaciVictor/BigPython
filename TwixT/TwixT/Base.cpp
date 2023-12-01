@@ -1,10 +1,14 @@
 #include "Base.h"
 #include "Board.h"
 
-void Base::click()
+char pieceColorToChar(PieceColor color)
 {
-	std::cout << "Click on: " << getCoordinates().x << ", " << getCoordinates().y << " base\n";
-	static_cast<Board*>(getParent())->addPillar(getCoordinates());
+	switch (color) {
+	case PieceColor::Red: return 'R';
+	case PieceColor::Black: return 'B';
+	case PieceColor::None: return 'N';
+	default: return '?';
+	}
 }
 
 //Clasa Base
@@ -23,10 +27,12 @@ PieceColor Base::getColor() const noexcept
 	return PieceColor::None;
 }
 
-void Pillar::click()
+void Base::click()
 {
-	std::cout << "click on pillar \n";
+	std::cout << "Click on: " << getCoordinates().x << ", " << getCoordinates().y << " base!\n";
+	static_cast<Board*>(getParent())->addPillar(getCoordinates());
 }
+
 
 //Clasa Pillar
 Pillar::Pillar(Point coordinates, PieceColor color, GameElement* parent) :
@@ -38,12 +44,8 @@ PieceColor Pillar::getColor() const noexcept
 	return m_color;
 }
 
-char pieceColorToChar(PieceColor color)
+void Pillar::click()
 {
-	switch (color) {
-	case PieceColor::Red: return 'R';
-	case PieceColor::Black: return 'B';
-	case PieceColor::None: return 'N';
-	default: return '?';
-	}
+	std::cout << "Click on: " << getCoordinates().x << ", " << getCoordinates().y << " pillar!\n";
+	static_cast<Board*>(getParent())->addBridge(getCoordinates());
 }
