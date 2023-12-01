@@ -42,6 +42,7 @@ void Board::addPillar(Point coordinates)
 
 void Board::addBridge(Point coordinates)
 {
+	//verificare daca player a adaugat pilon
 	if (!static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
 	//verificare daca pillarul pe care sa apasat este de aceiasi culoare cu playerul current;
 	if (m_date[coordinates.y][coordinates.x]->getColor() !=
@@ -56,6 +57,7 @@ void Board::addBridge(Point coordinates)
 		else {
 			//verificare daca bridgeul creat nu se intersecteaza cu alte poduri;
 			//creare Bridge;
+
 		}
 	}
 	else {

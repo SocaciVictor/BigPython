@@ -3,6 +3,19 @@
 #include<vector>
 #include "Base.h"
 #include "Bridge.h"
+#include <unordered_map>
+#include <algorithm>
+#include <string>
+
+class Hash {
+public:
+	std::size_t operator()(const std::pair<Point, Point>& p) const
+	{
+		return std::hash<std::string>()(std::to_string(std::min(p.first.x, p.second.x) + std::max(p.first.x, p.second.x)) + 
+			std::to_string(std::min(p.first.y, p.second.y) + std::max(p.first.y, p.second.y)));
+	}
+};
+
 
 class Board : public GameElement
 {
@@ -10,6 +23,7 @@ protected:
 	std::uint8_t m_rows;
 	std::uint8_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_date;
+	std::unordered_map<std::pair<Point, Point>, std::unique_ptr<Bridge>, Hash> bridges;
 public:
 	Board() = default;
 	Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent = nullptr);
