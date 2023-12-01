@@ -57,7 +57,10 @@ void Board::addBridge(Point coordinates)
 		else {
 			//verificare daca bridgeul creat nu se intersecteaza cu alte poduri;
 			//creare Bridge;
-
+			bridges[std::make_pair(coordinates, Bridge::save_pillar->getCoordinates())] =
+				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
+					this);
+			Bridge::save_pillar = nullptr;
 		}
 	}
 	else {

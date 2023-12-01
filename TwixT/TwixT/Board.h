@@ -7,6 +7,11 @@
 #include <algorithm>
 #include <string>
 
+//bool operator==(const std::pair<Point, Point>& p1, const std::pair<Point, Point>& p2) {
+//	return(((p1.first == p2.first) && (p1.second == p2.second)) ||
+//		((p1.first == p2.second) && (p1.second == p2.first)));
+//}
+
 class Hash {
 public:
 	std::size_t operator()(const std::pair<Point, Point>& p) const

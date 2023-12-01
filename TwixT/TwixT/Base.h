@@ -14,6 +14,9 @@ struct Point {
 	std::uint16_t x;
 	std::uint16_t y;
 	Point(std::uint16_t c_x, std::uint16_t c_y) : x{ c_x }, y{ c_y } {};
+	bool operator==(const Point& other) const {
+		return ((x == other.x) && (y == other.y));
+	}
 };
 
 class Base : public GameElement {
