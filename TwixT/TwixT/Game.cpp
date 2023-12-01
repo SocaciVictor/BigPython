@@ -31,4 +31,6 @@ void Game::nextPlayer()
 	else {
 		m_current_player = m_player1.get();
 	}
+	Bridge::save_pillar = nullptr;
+	getCurrentPlayer()->setMoved(false);
 }
