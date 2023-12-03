@@ -11,7 +11,6 @@ void ConsoleGame::playerAddPillar()
 {
 	bool validMove{};
 	std::uint16_t x, y;
-	m_game.getCurrentPlayer()->setMoved(false);
 	//clickul pentru a adauga pillar;
 	do {
 		std::cout << std::format("\n Player {}, click on base x y: ",
@@ -33,10 +32,10 @@ void ConsoleGame::playerAddBridge()
 	std::uint16_t x, y;
 	//clickul pentru a adauga bridge sau a trece la urmatorul player;
 	do {
-		std::cout << std::format("\n Player {}, click on pillar or prees 0 for next ",
+		std::cout << std::format("\n Player {}, click on pillar or prees 99 for next ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 		std::cin >> x;
-		if (x != 0) {
+		if (x != 99) {
 			std::cin >> y;
 			validMove = isInBoard(Point{ x,y });
 		}
@@ -46,7 +45,7 @@ void ConsoleGame::playerAddBridge()
 		else {
 			m_game.getBoard().getData()[y][x]->click();
 		}
-	} while (x != 0 && y != 0);
+	} while (x != 99 && y != 99);
 }
 
 void ConsoleGame::run()
