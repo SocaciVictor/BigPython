@@ -1,6 +1,37 @@
 #include "Board.h"
 #include "Game.h"
 
+bool Board::isNotIntersection(const Point& p1, const Point& p2)
+{
+	//calculam directiile
+	short dx = p1.x - p2.x;
+	short dy = p1.y - p2.y;
+	//verificam daca distantele calculate sunt egale cu 3 (daca e 3 inseamna ca e forma de L);
+	if (abs(dx) + abs(dy) != 3) return false;
+
+	//initializam erorile distantelor cu 1;
+	short erorY = 1;
+	short erorX = 1;
+
+	//verificam in ce cadran ne aflam;
+	if (dy < 0) erorY = -1;
+	if (dx < 0) erorX = -1;
+
+	//vectori pentru cazul dx>dy cadran 1;
+	short X1[9]{ -1,0,-2,1,-1,-1,-2,-2,-1 }; // x pt P1;
+	short Y1[9]{ 1,-1,0,-1,-1,0,1,-2,-1 }; // y pt P1;
+	short X2[9]{ 2,0,1,1,-1,2,1,1,2 }; // x pt P2;
+	short Y2[9]{ 0,1,-1,1,1,-1,0,1,2 }; // y pt P2;
+
+	//verificam care directie e mai mare;
+	if (abs(dx) < abs(dy)) {
+		std::swap(X1, Y1);
+		std::swap(X2, Y2);
+	}
+
+	return true;
+}
+
 //Constructor Board;
 Board::Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent) :
 	GameElement{ parent }, m_rows{ rows }, m_columns{ columns }
@@ -28,10 +59,10 @@ void Board::addPillar(Point coordinates)
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
 	//verificare ca playerul sa nu poata adauga pillar in bazele inamice;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Red &&
-		coordinates.x == 0 || coordinates.x == 23
+		coordinates.x == 0 || coordinates.x == m_columns
 		) return;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Black &&
-		coordinates.y == 0 || coordinates.y == 23
+		coordinates.y == 0 || coordinates.y == m_rows
 		) return;
 	//daca verificarile sunt bune se va adauga pillarul;
 	m_date[coordinates.y][coordinates.x] =

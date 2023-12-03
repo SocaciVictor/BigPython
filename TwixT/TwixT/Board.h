@@ -29,6 +29,7 @@ protected:
 	std::uint8_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_date;
 	std::unordered_map<TwoPoint, std::unique_ptr<Bridge>, TwoPointHash> bridges;
+	static bool isNotIntersection(const Point& p1, const Point& p2);
 public:
 	Board() = default;
 	Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent = nullptr);
