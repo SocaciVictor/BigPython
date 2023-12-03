@@ -63,6 +63,11 @@ const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const no
 	return m_date;
 }
 
+const auto& Board::getBridges() const noexcept
+{
+	return m_bridges;
+}
+
 void Board::addPillar(Point coordinates)
 {
 	//verificare daca playerul a adaugat deja un pillar sa nu mai poata adauga;
@@ -128,5 +133,10 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 		}
 		output << "\n";
 	}
+
+	for (const auto& pair : board.getBridges()) {
+		
+	}
+	
 	return output;
 }
