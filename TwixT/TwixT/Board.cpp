@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Game.h"
+#include <iomanip>
 
 bool Board::isNotIntersection(const Point& p1, const Point& p2)
 {
@@ -102,7 +103,7 @@ void Board::addBridge(Point coordinates)
 		}
 		else {
 			//verificare daca bridgeul creat nu se intersecteaza cu alte poduri;
-			if (isNotIntersection(Bridge::save_pillar->getCoordinates(), coordinates)) return;
+			if (!isNotIntersection(Bridge::save_pillar->getCoordinates(), coordinates)) return;
 			//creare Bridge;
 			m_bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
 				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
@@ -117,26 +118,34 @@ void Board::addBridge(Point coordinates)
 
 std::ostream& operator<<(std::ostream& output, const Board& board)
 {
+	std::cout << "   ";
+	for (int i = 0; i < board.getData().size(); i++) {
+		std::cout << std::setw(3) << i;
+	}
+	std::cout << "\n";
 	for (const auto& [y, row] : std::views::enumerate(board.getData()))
 	{
+		output << std::setw(2) << y << "  ";
 		for (const auto& [x, element] : std::views::enumerate(row)) {
 			if (element == nullptr) {
-				output << "  ";
+				output << "   ";
 				continue;
 			}
 			if (element->getColor() != PieceColor::None) {
-				output << pieceColorToChar(element->getColor()) << ' ';
+				output << ' ' << pieceColorToChar(element->getColor()) << ' ';
 			}
 			else {
-				output << "_ ";
+				output << " . ";
 			}
 		}
 		output << "\n";
 	}
-
+	output << "\n";
+	output << "Bridges: ";
 	for (const auto& pair : board.getBridges()) {
-		
+		output << "(" << pieceColorToChar(pair.second->getColor())<<" "
+			<< pair.first.first.x << " " << pair.first.first.y << " , "
+			<< pair.first.last.x << " " << pair.first.last.y << "); ";
 	}
-	
 	return output;
 }

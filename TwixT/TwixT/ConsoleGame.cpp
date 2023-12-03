@@ -16,9 +16,11 @@ void ConsoleGame::playerAddPillar()
 		std::cout << std::format("\n Player {}, click on base x y: ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 		std::cin >> x >> y;
+		std::system("cls");
+		std::cout << m_game.getBoard() << "\n";
 		validMove = isInBoard(Point{ x,y });
 		if (!validMove) {
-			std::cout << "Not a valid base!";
+			std::cout << "\nNot a valid base!\n";
 		}
 		else {
 			m_game.getBoard().getData()[y][x]->click();
@@ -35,12 +37,13 @@ void ConsoleGame::playerAddBridge()
 		std::cout << std::format("\n Player {}, click on pillar or prees 99 for next ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 		std::cin >> x;
-		if (x != 99) {
-			std::cin >> y;
-			validMove = isInBoard(Point{ x,y });
-		}
+		if (x == 99) break;
+		std::cin >> y;
+		std::system("cls");
+		std::cout << m_game.getBoard() << "\n";
+		validMove = isInBoard(Point{ x,y });
 		if (!validMove) {
-			std::cout << "Not a valid pillar!";
+			std::cout << "\nNot a valid pillar!\n";
 		}
 		else {
 			m_game.getBoard().getData()[y][x]->click();

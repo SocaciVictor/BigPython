@@ -29,7 +29,7 @@ PieceColor Base::getColor() const noexcept
 
 void Base::click()
 {
-	std::cout << "Click on: " << getCoordinates().x << ", " << getCoordinates().y << " base!\n";
+	std::cout << "\nClick on: " << getCoordinates().x << ", " << getCoordinates().y << " base!\n";
 	static_cast<Board*>(getParent())->addPillar(getCoordinates());
 }
 
@@ -46,6 +46,6 @@ PieceColor Pillar::getColor() const noexcept
 
 void Pillar::click()
 {
-	std::cout << "Click on: " << getCoordinates().x << ", " << getCoordinates().y << " pillar!\n";
+	std::cout << "\nClick on: " << getCoordinates().x << ", " << getCoordinates().y << " pillar!\n";
 	static_cast<Board*>(getParent())->addBridge(getCoordinates());
 }
