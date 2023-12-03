@@ -4,24 +4,27 @@
 bool Board::isNotIntersection(const Point& p1, const Point& p2)
 {
 	//calculam directiile
-	short dx = p1.x - p2.x;
-	short dy = p1.y - p2.y;
+	int16_t dx = p1.x - p2.x;
+	int16_t dy = p1.y - p2.y;
 	//verificam daca distantele calculate sunt egale cu 3 (daca e 3 inseamna ca e forma de L);
 	if (abs(dx) + abs(dy) != 3) return false;
 
-	//initializam erorile distantelor cu 1;
-	short erorY = 1;
-	short erorX = 1;
+	//verificam daca podul care vrem sa il cream nu exista deja;
+	if (m_bridges.find({ p1,p2 }) != m_bridges.end()) return false;
+
+	//initializam erorile distantelor cu +;
+	int16_t erorY = 1;
+	int16_t erorX = 1;
 
 	//verificam in ce cadran ne aflam;
 	if (dy < 0) erorY = -1;
 	if (dx < 0) erorX = -1;
 
 	//vectori pentru cazul dx>dy cadran 1;
-	short X1[9]{ -1,0,-2,1,-1,-1,-2,-2,-1 }; // x pt P1;
-	short Y1[9]{ 1,-1,0,-1,-1,0,1,-2,-1 }; // y pt P1;
-	short X2[9]{ 2,0,1,1,-1,2,1,1,2 }; // x pt P2;
-	short Y2[9]{ 0,1,-1,1,1,-1,0,1,2 }; // y pt P2;
+	int16_t X1[9]{ -1,0,-2,1,-1,-1,-2,-2,-1 }; // x pt P1;
+	int16_t Y1[9]{ 1,-1,0,-1,-1,0,1,-2,-1 }; // y pt P1;
+	int16_t X2[9]{ 2,0,1,1,-1,2,1,1,2 }; // x pt P2;
+	int16_t Y2[9]{ 0,1,-1,1,1,-1,0,1,2 }; // y pt P2;
 
 	//verificam care directie e mai mare;
 	if (abs(dx) < abs(dy)) {
@@ -29,6 +32,13 @@ bool Board::isNotIntersection(const Point& p1, const Point& p2)
 		std::swap(X2, Y2);
 	}
 
+	//parcurgem cele 9 cazuri posibile de poduri care se pot intersecta cu podul nou creat;
+	for (int i = 0; i < 9; i++) {
+		Point new_p1{ uint16_t(p1.x + X1[i] * erorX),uint16_t(p1.y + Y1[i] * erorY) };
+		Point new_p2{ uint16_t(p2.x + X2[i] * erorX),uint16_t(p2.y + Y2[i] * erorY) };
+		//verificam daca exista un pod care nu ne lasa sa cream podul curent;
+		if (m_bridges.find({new_p1,new_p2}) != m_bridges.end()) return false;
+	}
 	return true;
 }
 
@@ -87,8 +97,9 @@ void Board::addBridge(Point coordinates)
 		}
 		else {
 			//verificare daca bridgeul creat nu se intersecteaza cu alte poduri;
+			if (isNotIntersection(Bridge::save_pillar->getCoordinates(), coordinates)) return;
 			//creare Bridge;
-			bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
+			m_bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
 				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
 					this);
 			Bridge::save_pillar = nullptr;
