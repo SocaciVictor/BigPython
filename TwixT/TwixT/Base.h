@@ -1,6 +1,8 @@
 #pragma once
 #include "GameElement.h"
 #include<iostream>
+#include <unordered_map>
+#include<memory>
 
 enum class PieceColor : std::uint8_t {
 	Red,
@@ -55,9 +57,12 @@ class Pillar : public Base
 {
 protected:
 	PieceColor m_color;
-
+	std::unordered_map<Point, Pillar*, PointHash> m_neighbors;
 public:
 	Pillar(Point coordinates, PieceColor color, GameElement* parent = nullptr);
+	void addNeighbor(Pillar* neighbor);
+	void removeNeighbor(Point& point);
+	const auto& getNeighbors() const noexcept;
 	PieceColor getColor() const noexcept override;
 	void click();
 };

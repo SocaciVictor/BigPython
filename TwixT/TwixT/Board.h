@@ -1,11 +1,10 @@
 #pragma once
 #include <ranges>
-#include<vector>
 #include "Base.h"
 #include "Bridge.h"
-#include <unordered_map>
 #include <algorithm>
 #include <string>
+#include<vector>
 
 enum class State : std::uint8_t
 {
@@ -29,5 +28,6 @@ public:
 	const auto& getBridges() const noexcept;
 	void addPillar(Point coordinates);
 	void addBridge(Point coordinates);
+	void removeBridge(Point& first, Point& last);
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
 };

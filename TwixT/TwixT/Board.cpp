@@ -108,6 +108,8 @@ void Board::addBridge(Point coordinates)
 			m_bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
 				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
 					this);
+			Bridge::save_pillar->addNeighbor(static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
+			static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get())->addNeighbor(Bridge::save_pillar);
 			Bridge::save_pillar = nullptr;
 		}
 	}
@@ -115,6 +117,16 @@ void Board::addBridge(Point coordinates)
 		Bridge::save_pillar = static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get());
 	}
 }
+
+void Board::removeBridge(Point& first, Point& last)
+{
+	//stergerea podului;
+	m_bridges.erase({ first,last });
+	//stergerea conexiuni de vecinatate dintre cei doi pillari;
+	static_cast<Pillar*>(m_date[first.y][first.x].get())->removeNeighbor(last);
+	static_cast<Pillar*>(m_date[last.y][last.x].get())->removeNeighbor(first);
+}
+
 
 std::ostream& operator<<(std::ostream& output, const Board& board)
 {
