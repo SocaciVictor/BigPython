@@ -83,6 +83,8 @@ void Board::addPillar(Point coordinates)
 	//daca verificarile sunt bune se va adauga pillarul;
 	m_date[coordinates.y][coordinates.x] =
 		std::make_unique<Pillar>(coordinates, static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(), this);
+	//playerului curent i se scade un pillar;
+	static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberPillars(-1);
 	//playerul este setat ca si cum a adaugat deja un pillar;
 	static_cast<Game*>(getParent())->getCurrentPlayer()->setMoved(true);
 }
@@ -91,6 +93,8 @@ void Board::addBridge(Point coordinates)
 {
 	//verificare daca player a adaugat pilon
 	if (!static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
+	//verificare daca playerul curent mai are poduri;
+	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getNumberBridges() == 0) return;
 	//verificare daca pillarul pe care sa apasat este de aceiasi culoare cu playerul current;
 	if (m_date[coordinates.y][coordinates.x]->getColor() !=
 		static_cast<Game*>(getParent())->getCurrentPlayer()->getColor()) return;
@@ -106,10 +110,14 @@ void Board::addBridge(Point coordinates)
 			if (!isNotIntersection(Bridge::save_pillar->getCoordinates(), coordinates)) return;
 			//creare Bridge;
 			m_bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
-				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
-					this);
+				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(),
+					static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(), this);
+			//playerului curent i se scade un bridge;
+			static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberBridges(-1);
+			//adaug conexiunile dintre cei doi noi vecini;
 			Bridge::save_pillar->addNeighbor(static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
 			static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get())->addNeighbor(Bridge::save_pillar);
+			//reinitializez save_pillar cu nullptr;
 			Bridge::save_pillar = nullptr;
 		}
 	}
@@ -122,6 +130,8 @@ void Board::removeBridge(Point& first, Point& last)
 {
 	//stergerea podului;
 	m_bridges.erase({ first,last });
+	//playerului curent i se adauga un bridge;
+	static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberBridges(1);
 	//stergerea conexiuni de vecinatate dintre cei doi pillari;
 	static_cast<Pillar*>(m_date[first.y][first.x].get())->removeNeighbor(last);
 	static_cast<Pillar*>(m_date[last.y][last.x].get())->removeNeighbor(first);

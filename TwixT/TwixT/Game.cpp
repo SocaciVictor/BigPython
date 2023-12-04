@@ -6,7 +6,7 @@ void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 
 void Game::updateState()
 {
-	
+	if (m_player1->getNumberPillars() == 0 && m_player2->getNumberPillars() == 0) m_state = State::Draw;
 }
 
 Game::Game() :
