@@ -1,5 +1,14 @@
 #include "Game.h"
 
+void Game::updateState(Pillar* pillar1, Pillar* pillar2)
+{
+}
+
+void Game::updateState()
+{
+	
+}
+
 Game::Game() :
 	m_board{ 24,24,this },
 	m_player1{ std::make_shared<Player>(Player{50,50,PieceColor::Red}) },

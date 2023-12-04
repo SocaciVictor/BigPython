@@ -6,13 +6,6 @@
 #include <string>
 #include<vector>
 
-enum class State : std::uint8_t
-{
-	None,
-	Draw,
-	Win,
-};
-
 class Board : public GameElement
 {
 protected:

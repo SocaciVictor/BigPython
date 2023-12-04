@@ -4,9 +4,19 @@ Player::Player(std::uint8_t number_pillars, std::uint8_t number_bridges, PieceCo
 	m_number_pillars{ number_pillars }, m_number_bridges{ number_bridges }, m_color{ color }, m_moved{ false }
 {}
 
-PieceColor Player::getColor() const noexcept
+const PieceColor& Player::getColor() const noexcept
 {
 	return m_color;
+}
+
+const uint8_t Player::getNumberPillars() const noexcept
+{
+	return m_number_pillars;
+}
+
+const uint8_t Player::getNumberBridges() const noexcept
+{
+	return m_number_pillars;
 }
 
 const bool& Player::getMoved() const noexcept

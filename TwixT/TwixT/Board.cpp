@@ -127,7 +127,6 @@ void Board::removeBridge(Point& first, Point& last)
 	static_cast<Pillar*>(m_date[last.y][last.x].get())->removeNeighbor(first);
 }
 
-
 std::ostream& operator<<(std::ostream& output, const Board& board)
 {
 	std::cout << "   ";

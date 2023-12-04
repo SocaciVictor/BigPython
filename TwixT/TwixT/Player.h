@@ -11,7 +11,9 @@ public:
 	void setMoved(bool moved);
 	Player() = default;
 	Player(std::uint8_t number_pillars, std::uint8_t number_bridges, PieceColor color);
-	PieceColor getColor() const noexcept;
+	const PieceColor& getColor() const noexcept;
+	const uint8_t getNumberPillars() const noexcept;
+	const uint8_t getNumberBridges() const noexcept;
 	const bool& getMoved() const noexcept;
 };
 
