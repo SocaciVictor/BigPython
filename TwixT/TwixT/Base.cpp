@@ -39,6 +39,23 @@ Pillar::Pillar(Point coordinates, PieceColor color, GameElement* parent) :
 	Base{ coordinates, parent }, m_color{ color }
 {}
 
+void Pillar::addNeighbor(Pillar * neighbor)
+{
+	m_neighbors[neighbor->getCoordinates()] = neighbor;
+}
+
+void Pillar::removeNeighbor(Point& point)
+{
+	m_neighbors.erase(point);
+}
+
+
+
+const std::unordered_map<Point, Pillar*, PointHash>& Pillar::getNeighbors() const noexcept
+{
+	return m_neighbors;
+}
+
 PieceColor Pillar::getColor() const noexcept
 {
 	return m_color;

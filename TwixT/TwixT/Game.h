@@ -2,14 +2,25 @@
 #include"Player.h"
 #include"Board.h"
 
+enum class State : std::uint8_t
+{
+	None,
+	Draw,
+	Win,
+};
+
 class Game : public GameElement
 {
 protected:
 	Board m_board;
+	State m_state{ State::None };
 public:
 	Game();
 	const Board& getBoard() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
+	const State& getState() const noexcept;
+	void updateState(Pillar* pillar1, Pillar* pillar2);
+	void updateState();
 	void nextPlayer();
 	bool finished();
 private:

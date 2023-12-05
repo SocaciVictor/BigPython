@@ -13,8 +13,9 @@ void ConsoleGame::playerAddPillar()
 	std::uint16_t x, y;
 	//clickul pentru a adauga pillar;
 	do {
-		std::cout << std::format("\n Player {}, click on base x y: ",
-			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
+		std::cout << std::format("\n Player {}, pillars {}, click on base x y: ",
+			pieceColorToChar(m_game.getCurrentPlayer()->getColor()),
+			m_game.getCurrentPlayer()->getNumberPillars());
 		std::cin >> x >> y;
 		std::system("cls");
 		std::cout << m_game.getBoard() << "\n";
@@ -34,8 +35,8 @@ void ConsoleGame::playerAddBridge()
 	std::uint16_t x, y;
 	//clickul pentru a adauga bridge sau a trece la urmatorul player;
 	do {
-		std::cout << std::format("\n Player {}, click on pillar or prees 99 for next ",
-			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
+		std::cout << std::format("\n Player {}, bridges {}, click on pillar or prees 99 for next ",
+			pieceColorToChar(m_game.getCurrentPlayer()->getColor()),m_game.getCurrentPlayer()->getNumberBridges());
 		std::cin >> x;
 		if (x == 99) break;
 		std::cin >> y;
@@ -48,7 +49,7 @@ void ConsoleGame::playerAddBridge()
 		else {
 			m_game.getBoard().getData()[y][x]->click();
 		}
-	} while (x != 99 && y != 99);
+	} while (x != 99 && y != 99 && !m_game.finished());
 }
 
 void ConsoleGame::run()
@@ -60,7 +61,18 @@ void ConsoleGame::run()
 		std::system("cls");
 		std::cout << m_game.getBoard() << "\n";
 		playerAddBridge();
-		m_game.nextPlayer();
+		m_game.updateState();
+		if (!m_game.finished()) {
+			m_game.nextPlayer();
+		}
 	} while (!m_game.finished());
+
+	if (m_game.getState() == State::Draw) {
+		std::cout << "Jocul sa terminat cu remiza. \n";
+	}
+	if (m_game.getState() == State::Win) {
+		std::cout << std::format("\n Player {}, a castigat! ",
+			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
+	}
 }
 

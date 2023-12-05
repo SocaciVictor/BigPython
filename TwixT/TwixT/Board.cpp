@@ -44,7 +44,7 @@ bool Board::isNotIntersection(const Point& p1, const Point& p2)
 }
 
 //Constructor Board;
-Board::Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent) :
+Board::Board(std::uint16_t rows, std::uint16_t columns, GameElement* parent) :
 	GameElement{ parent }, m_rows{ rows }, m_columns{ columns }
 {
 	//Creare Tabla de joc;
@@ -64,6 +64,16 @@ const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const no
 	return m_date;
 }
 
+const uint16_t& Board::getRows() const noexcept
+{
+	return m_rows;
+}
+
+const uint16_t& Board::getColumns() const noexcept
+{
+	return m_columns;
+}
+
 const auto& Board::getBridges() const noexcept
 {
 	return m_bridges;
@@ -75,14 +85,16 @@ void Board::addPillar(Point coordinates)
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
 	//verificare ca playerul sa nu poata adauga pillar in bazele inamice;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Red &&
-		coordinates.x == 0 || coordinates.x == m_columns
+		(coordinates.x == 0 || coordinates.x == m_columns - 1)
 		) return;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Black &&
-		coordinates.y == 0 || coordinates.y == m_rows
+		(coordinates.y == 0 || coordinates.y == m_rows - 1)
 		) return;
 	//daca verificarile sunt bune se va adauga pillarul;
 	m_date[coordinates.y][coordinates.x] =
 		std::make_unique<Pillar>(coordinates, static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(), this);
+	//playerului curent i se scade un pillar;
+	static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberPillars(-1);
 	//playerul este setat ca si cum a adaugat deja un pillar;
 	static_cast<Game*>(getParent())->getCurrentPlayer()->setMoved(true);
 }
@@ -91,6 +103,8 @@ void Board::addBridge(Point coordinates)
 {
 	//verificare daca player a adaugat pilon
 	if (!static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
+	//verificare daca playerul curent mai are poduri;
+	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getNumberBridges() == 0) return;
 	//verificare daca pillarul pe care sa apasat este de aceiasi culoare cu playerul current;
 	if (m_date[coordinates.y][coordinates.x]->getColor() !=
 		static_cast<Game*>(getParent())->getCurrentPlayer()->getColor()) return;
@@ -106,14 +120,34 @@ void Board::addBridge(Point coordinates)
 			if (!isNotIntersection(Bridge::save_pillar->getCoordinates(), coordinates)) return;
 			//creare Bridge;
 			m_bridges[TwoPoint{ coordinates, Bridge::save_pillar->getCoordinates() }] =
-				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(), static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(),
-					this);
+				std::make_unique<Bridge>(coordinates, Bridge::save_pillar->getCoordinates(),
+					static_cast<Game*>(getParent())->getCurrentPlayer()->getColor(), this);
+			//playerului curent i se scade un bridge;
+			static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberBridges(-1);
+			//adaug conexiunile dintre cei doi noi vecini;
+			Bridge::save_pillar->addNeighbor(static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
+			static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get())->addNeighbor(Bridge::save_pillar);
+			//updatarea stari jocului;
+			static_cast<Game*>(getParent())->updateState(Bridge::save_pillar, static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
+			//reinitializez save_pillar cu nullptr;
 			Bridge::save_pillar = nullptr;
 		}
 	}
 	else {
 		Bridge::save_pillar = static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get());
 	}
+
+}
+
+void Board::removeBridge(Point& first, Point& last)
+{
+	//stergerea podului;
+	m_bridges.erase({ first,last });
+	//playerului curent i se adauga un bridge;
+	static_cast<Game*>(getParent())->getCurrentPlayer()->updateNumberBridges(1);
+	//stergerea conexiuni de vecinatate dintre cei doi pillari;
+	static_cast<Pillar*>(m_date[first.y][first.x].get())->removeNeighbor(last);
+	static_cast<Pillar*>(m_date[last.y][last.x].get())->removeNeighbor(first);
 }
 
 std::ostream& operator<<(std::ostream& output, const Board& board)
