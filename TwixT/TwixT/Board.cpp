@@ -85,10 +85,10 @@ void Board::addPillar(Point coordinates)
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getMoved()) return;
 	//verificare ca playerul sa nu poata adauga pillar in bazele inamice;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Red &&
-		coordinates.x == 0 || coordinates.x == m_columns - 1
+		(coordinates.x == 0 || coordinates.x == m_columns - 1)
 		) return;
 	if (static_cast<Game*>(getParent())->getCurrentPlayer()->getColor() == PieceColor::Black &&
-		coordinates.y == 0 || coordinates.y == m_rows - 1
+		(coordinates.y == 0 || coordinates.y == m_rows - 1)
 		) return;
 	//daca verificarile sunt bune se va adauga pillarul;
 	m_date[coordinates.y][coordinates.x] =
@@ -136,6 +136,7 @@ void Board::addBridge(Point coordinates)
 	else {
 		Bridge::save_pillar = static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get());
 	}
+
 }
 
 void Board::removeBridge(Point& first, Point& last)

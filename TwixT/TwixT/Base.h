@@ -62,7 +62,7 @@ public:
 	Pillar(Point coordinates, PieceColor color, GameElement* parent = nullptr);
 	void addNeighbor(Pillar* neighbor);
 	void removeNeighbor(Point& point);
-	const auto& getNeighbors() const noexcept;
+	const std::unordered_map<Point, Pillar*, PointHash>& getNeighbors() const noexcept;
 	PieceColor getColor() const noexcept override;
 	void click();
 };

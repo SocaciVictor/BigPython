@@ -49,7 +49,7 @@ void ConsoleGame::playerAddBridge()
 		else {
 			m_game.getBoard().getData()[y][x]->click();
 		}
-	} while (x != 99 && y != 99);
+	} while (x != 99 && y != 99 && !m_game.finished());
 }
 
 void ConsoleGame::run()
@@ -66,11 +66,12 @@ void ConsoleGame::run()
 			m_game.nextPlayer();
 		}
 	} while (!m_game.finished());
+
 	if (m_game.getState() == State::Draw) {
 		std::cout << "Jocul sa terminat cu remiza. \n";
 	}
 	if (m_game.getState() == State::Win) {
-		std::cout << std::format("\n Player {}, a castigat ! ",
+		std::cout << std::format("\n Player {}, a castigat! ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 	}
 }

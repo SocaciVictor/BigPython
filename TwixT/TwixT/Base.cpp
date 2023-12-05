@@ -51,7 +51,7 @@ void Pillar::removeNeighbor(Point& point)
 
 
 
-const auto& Pillar::getNeighbors() const noexcept
+const std::unordered_map<Point, Pillar*, PointHash>& Pillar::getNeighbors() const noexcept
 {
 	return m_neighbors;
 }

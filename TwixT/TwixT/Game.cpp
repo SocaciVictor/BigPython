@@ -27,20 +27,39 @@ void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 	bool base1{ false }, base2{ false };
 	//incepere algoritm 
 	pqueue.push(pillar1->getCoordinates());
-	pqueue.push(pillar2->getCoordinates());
 	matrice_vizitate[pillar1->getCoordinates().y][pillar1->getCoordinates().x] = true;
+	pqueue.push(pillar2->getCoordinates());
 	matrice_vizitate[pillar2->getCoordinates().y][pillar2->getCoordinates().x] = true;
+	//parcurgere elementelor din priority queue;
 	while (pqueue.size() != 0) {
+		//extragerea elementului cu prioritate maxima din coada;
 		Point loc_current = pqueue.top();
+		pqueue.pop();
+		//verificare daca se ajunge la una din baze;
 		if ((loc_current.y == 0 && m_current_player->getColor() == PieceColor::Red) ||
 			(loc_current.x == 0 && m_current_player->getColor() == PieceColor::Black))
+		{
 			base1 = true;
+		}
 		if ((loc_current.y == m_board.getRows() - 1 && m_current_player->getColor() == PieceColor::Red) ||
 			(loc_current.x == m_board.getColumns() - 1 && m_current_player->getColor() == PieceColor::Black))
+		{
 			base2 = true;
+		}
+		//verificare daca sa ajuns la ambele baze;
+		if (base1 && base2) {
+			m_state = State::Win;
+			break;
+		}
+		//parcurgere toti vecini;
+		for (auto neighbor : static_cast<Pillar*>(getBoard().getData()[loc_current.y][loc_current.x].get())->getNeighbors()) {
+			//daca vecinul este deja vizitat se trece mai departe;
+			if (matrice_vizitate[neighbor.first.y][neighbor.first.x]) continue;
+			//se adauga locatia vecinului in coada de prioritate;
+			pqueue.push(neighbor.first);
+			matrice_vizitate[neighbor.first.y][neighbor.first.x] = true;
+		}
 	}
-
-	
 }
 
 void Game::updateState()
