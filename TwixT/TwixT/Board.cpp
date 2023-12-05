@@ -44,7 +44,7 @@ bool Board::isNotIntersection(const Point& p1, const Point& p2)
 }
 
 //Constructor Board;
-Board::Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent) :
+Board::Board(std::uint16_t rows, std::uint16_t columns, GameElement* parent) :
 	GameElement{ parent }, m_rows{ rows }, m_columns{ columns }
 {
 	//Creare Tabla de joc;
@@ -62,6 +62,16 @@ Board::Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent) :
 const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const noexcept
 {
 	return m_date;
+}
+
+const uint16_t& Board::getRows() const noexcept
+{
+	return m_rows;
+}
+
+const uint16_t& Board::getColumns() const noexcept
+{
+	return m_columns;
 }
 
 const auto& Board::getBridges() const noexcept

@@ -1,7 +1,21 @@
 #include "Game.h"
+#include <queue>
 
 void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 {
+	auto comparator = [this](const Point& p1, const Point& p2) {
+		if (getCurrentPlayer()->getColor() == PieceColor::Red) {
+			return std::min(abs(p1.y - getBoard().getRows()), abs(p1.y - 0)) >
+				std::min(abs(p2.y - getBoard().getRows()), abs(p2.y - 0));
+		}
+		if (getCurrentPlayer()->getColor() == PieceColor::Black) {
+			return std::min(abs(p1.x - getBoard().getColumns()), abs(p1.x - 0)) >
+				std::min(abs(p2.x - getBoard().getColumns()), abs(p2.x - 0));
+		}
+	};
+	
+	std::priority_queue<Point, std::vector<Point>, decltype(comparator)> pq(comparator);
+
 
 
 }

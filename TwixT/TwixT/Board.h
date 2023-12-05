@@ -9,15 +9,17 @@
 class Board : public GameElement
 {
 protected:
-	std::uint8_t m_rows;
-	std::uint8_t m_columns;
+	std::uint16_t m_rows;
+	std::uint16_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_date;
 	std::unordered_map<TwoPoint, std::unique_ptr<Bridge>, TwoPointHash> m_bridges;
 	bool isNotIntersection(const Point& p1, const Point& p2);
 public:
 	Board() = default;
-	Board(std::uint8_t rows, std::uint8_t columns, GameElement* parent = nullptr);
+	Board(std::uint16_t rows, std::uint16_t columns, GameElement* parent = nullptr);
 	const std::vector<std::vector<std::unique_ptr<Base>>>& getData() const noexcept;
+	const uint16_t& getRows() const noexcept;
+	const uint16_t& getColumns() const noexcept;
 	const auto& getBridges() const noexcept;
 	void addPillar(Point coordinates);
 	void addBridge(Point coordinates);
