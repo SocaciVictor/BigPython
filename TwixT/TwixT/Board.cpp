@@ -127,6 +127,8 @@ void Board::addBridge(Point coordinates)
 			//adaug conexiunile dintre cei doi noi vecini;
 			Bridge::save_pillar->addNeighbor(static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
 			static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get())->addNeighbor(Bridge::save_pillar);
+			//updatarea stari jocului;
+			static_cast<Game*>(getParent())->updateState(Bridge::save_pillar, static_cast<Pillar*>(m_date[coordinates.y][coordinates.x].get()));
 			//reinitializez save_pillar cu nullptr;
 			Bridge::save_pillar = nullptr;
 		}

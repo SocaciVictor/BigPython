@@ -61,6 +61,7 @@ void ConsoleGame::run()
 		std::system("cls");
 		std::cout << m_game.getBoard() << "\n";
 		playerAddBridge();
+		m_game.updateState();
 		if (!m_game.finished()) {
 			m_game.nextPlayer();
 		}

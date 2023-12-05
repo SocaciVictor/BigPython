@@ -1,23 +1,46 @@
 #include "Game.h"
 #include <queue>
+#include <array>
 
 void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 {
+	//Algoritmul Dijkstra
+	//creare comparator pentru prioritate in functie de culoarea playerului;
 	auto comparator = [this](const Point& p1, const Point& p2) {
 		if (getCurrentPlayer()->getColor() == PieceColor::Red) {
-			return std::min(abs(p1.y - getBoard().getRows()), abs(p1.y - 0)) >
-				std::min(abs(p2.y - getBoard().getRows()), abs(p2.y - 0));
+			return std::min(abs(p1.y - getBoard().getRows() - 1), abs(p1.y - 0)) >
+				std::min(abs(p2.y - getBoard().getRows() - 1), abs(p2.y - 0));
 		}
 		if (getCurrentPlayer()->getColor() == PieceColor::Black) {
-			return std::min(abs(p1.x - getBoard().getColumns()), abs(p1.x - 0)) >
-				std::min(abs(p2.x - getBoard().getColumns()), abs(p2.x - 0));
+			return std::min(abs(p1.x - getBoard().getColumns() - 1), abs(p1.x - 0)) >
+				std::min(abs(p2.x - getBoard().getColumns() - 1), abs(p2.x - 0));
 		}
 	};
+	//initializare coada de prioritate;
+	std::priority_queue<Point, std::vector<Point>, decltype(comparator)> pqueue(comparator);
+	//initializare matrice de locuri vizitate;
+	std::vector<std::vector<bool>> matrice_vizitate;
+	matrice_vizitate.resize(m_board.getRows());
+	for (auto& rows : matrice_vizitate)
+		rows.resize(m_board.getColumns());
+	//initiaizare a 2 tipuri bool care vor retine daca se ajunge la una dintre baze;
+	bool base1{ false }, base2{ false };
+	//incepere algoritm 
+	pqueue.push(pillar1->getCoordinates());
+	pqueue.push(pillar2->getCoordinates());
+	matrice_vizitate[pillar1->getCoordinates().y][pillar1->getCoordinates().x] = true;
+	matrice_vizitate[pillar2->getCoordinates().y][pillar2->getCoordinates().x] = true;
+	while (pqueue.size() != 0) {
+		Point loc_current = pqueue.top();
+		if ((loc_current.y == 0 && m_current_player->getColor() == PieceColor::Red) ||
+			(loc_current.x == 0 && m_current_player->getColor() == PieceColor::Black))
+			base1 = true;
+		if ((loc_current.y == m_board.getRows() - 1 && m_current_player->getColor() == PieceColor::Red) ||
+			(loc_current.x == m_board.getColumns() - 1 && m_current_player->getColor() == PieceColor::Black))
+			base2 = true;
+	}
+
 	
-	std::priority_queue<Point, std::vector<Point>, decltype(comparator)> pq(comparator);
-
-
-
 }
 
 void Game::updateState()
