@@ -20,6 +20,7 @@ public:
 	Game();
 	const Board& getBoard() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
+	const State& getState() const noexcept;
 	void nextPlayer();
 	bool finished();
 private:

@@ -2,6 +2,8 @@
 
 void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 {
+
+
 }
 
 void Game::updateState()
@@ -26,9 +28,14 @@ Player* Game::getCurrentPlayer() const noexcept
 	return m_current_player;
 }
 
+const State& Game::getState() const noexcept
+{
+	return m_state;
+}
+
 bool Game::finished()
 {
-	//De implementat verificare daca jocul sa terminat;
+	if (m_state != State::None) return true;
 	return false;
 }
 
