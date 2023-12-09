@@ -116,4 +116,13 @@ void Game::saveGame()
 		std::cerr << "Unable to open the file." << std::endl;
 		return;
 	}
+
+	// Write to the file
+	// First line is the currentPlayer
+	if (m_current_player == m_player1.get())
+		outputFile << 0;
+	else
+		outputFile << 1;
+	outputFile << std::endl;
+
 }
