@@ -20,7 +20,7 @@ public:
 	const std::vector<std::vector<std::unique_ptr<Base>>>& getData() const noexcept;
 	const uint16_t& getRows() const noexcept;
 	const uint16_t& getColumns() const noexcept;
-	const auto& getBridges() const noexcept;
+	const std::unordered_map<TwoPoint, std::unique_ptr<Bridge>, TwoPointHash>& getBridges() const noexcept;
 	void addPillar(Point coordinates);
 	void addBridge(Point coordinates);
 	void removeBridge(Point& first, Point& last);
