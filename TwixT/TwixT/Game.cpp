@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <queue>
 #include <array>
+#include <fstream>
 
 void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 {
@@ -105,4 +106,60 @@ void Game::nextPlayer()
 	}
 	Bridge::save_pillar = nullptr;
 	getCurrentPlayer()->setMoved(false);
+}
+void Game::saveGame()
+{
+	std::ofstream outputFile("last_save.txt");
+
+	// Check if the file is successfully opened
+	if (!outputFile.is_open()) {
+		std::cerr << "Unable to open the file." << std::endl;
+		return;
+	}
+
+	// Write to the file
+	// First line is the currentPlayer
+	if (m_current_player == m_player1.get())
+		outputFile << 0;
+	else
+		outputFile << 1;
+	outputFile << std::endl;
+
+	// Next line has the player 1 number of Pillars and Bridges
+	outputFile << m_player1.get()->getNumberPillars() << ' ' << m_player1.get()->getNumberBridges() << std::endl;
+
+	// Next line has the player 2 number of Pillars and Bridges
+	outputFile << m_player2.get()->getNumberPillars() << ' ' << m_player2.get()->getNumberBridges() << std::endl;
+
+	outputFile << m_board.getData().size() << ' '; // Number of Rows
+	outputFile << m_board.getData()[0].size(); // Number of Columns
+	outputFile << std::endl;
+
+	// Next the board ( matrix of chars ) is printed : n for null ( corners), e for empty spot, b/r for the color of the spot
+	for (const auto& [y, row] : std::views::enumerate(m_board.getData()))
+	{
+		for (const auto& [x, element] : std::views::enumerate(row)) {
+			if (element == nullptr) {
+				outputFile << 'N' << ' ';
+				continue;
+			}
+			if (element->getColor() != PieceColor::None) {
+				outputFile << pieceColorToChar(element->getColor()) << ' ';
+			}
+			else {
+				outputFile << '.' << ' ';
+			}
+		}
+		outputFile << std::endl;
+	}
+	for (const auto& pair : m_board.getBridges()) {
+		outputFile << pieceColorToChar(pair.second->getColor()) << ' '
+			<< pair.first.first.x << ' ' << pair.first.first.y << ' '
+			<< pair.first.last.x << ' ' << pair.first.last.y << std::endl;
+	}
+
+	// Close the file
+	outputFile.close();
+
+	std::cout << "Data has been written to the file." << std::endl;
 }

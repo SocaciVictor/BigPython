@@ -74,7 +74,7 @@ const uint16_t& Board::getColumns() const noexcept
 	return m_columns;
 }
 
-const auto& Board::getBridges() const noexcept
+const std::unordered_map<TwoPoint, std::unique_ptr<Bridge>, TwoPointHash>& Board::getBridges() const noexcept
 {
 	return m_bridges;
 }

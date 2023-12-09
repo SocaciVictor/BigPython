@@ -13,10 +13,23 @@ void ConsoleGame::playerAddPillar()
 	std::uint16_t x, y;
 	//clickul pentru a adauga pillar;
 	do {
-		std::cout << std::format("\n Player {}, pillars {}, click on base x y: ",
+		std::cout << std::format("\n Player {}, pillars {}, click on base x y or press 97 to save game: ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()),
 			m_game.getCurrentPlayer()->getNumberPillars());
-		std::cin >> x >> y;
+		std::cin >> x;
+
+		if (x == 97)
+		{
+			std::cout << m_game.getBoard() << "\n";
+			m_game.saveGame();
+
+			std::cout << std::format("\n Player {}, pillars {}, click on base x y or press 97 to save game: ",
+				pieceColorToChar(m_game.getCurrentPlayer()->getColor()),
+				m_game.getCurrentPlayer()->getNumberPillars());
+			std::cin >> x;
+		}
+		std::cin >> y;
+
 		std::system("cls");
 		std::cout << m_game.getBoard() << "\n";
 		validMove = isInBoard(Point{ x,y });
@@ -35,7 +48,7 @@ void ConsoleGame::playerAddBridge()
 	std::uint16_t x, y;
 	//clickul pentru a adauga bridge sau a trece la urmatorul player;
 	do {
-		std::cout << std::format("\n Player {}, bridges {}, click on pillar or prees 99 for next ",
+		std::cout << std::format("\n Player {}, bridges {}, click on pillar or press 99 for next ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()),m_game.getCurrentPlayer()->getNumberBridges());
 		std::cin >> x;
 		if (x == 99) break;
