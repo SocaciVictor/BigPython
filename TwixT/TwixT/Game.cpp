@@ -134,4 +134,22 @@ void Game::saveGame()
 	outputFile << m_board.getData().size() << ' '; // Number of Rows
 	outputFile << m_board.getData()[0].size(); // Number of Columns
 	outputFile << std::endl;
+
+	// Next the board ( matrix of chars ) is printed : n for null ( corners), e for empty spot, b/r for the color of the spot
+	for (const auto& [y, row] : std::views::enumerate(m_board.getData()))
+	{
+		for (const auto& [x, element] : std::views::enumerate(row)) {
+			if (element == nullptr) {
+				outputFile << 'N' << ' ';
+				continue;
+			}
+			if (element->getColor() != PieceColor::None) {
+				outputFile << pieceColorToChar(element->getColor()) << ' ';
+			}
+			else {
+				outputFile << '.' << ' ';
+			}
+		}
+		outputFile << std::endl;
+	}
 }
