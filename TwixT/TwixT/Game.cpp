@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <queue>
 #include <array>
+#include <fstream>
 
 void Game::updateState(Pillar* pillar1, Pillar* pillar2)
 {
@@ -105,4 +106,14 @@ void Game::nextPlayer()
 	}
 	Bridge::save_pillar = nullptr;
 	getCurrentPlayer()->setMoved(false);
+}
+void Game::saveGame()
+{
+	std::ofstream outputFile("last_save.txt");
+
+	// Check if the file is successfully opened
+	if (!outputFile.is_open()) {
+		std::cerr << "Unable to open the file." << std::endl;
+		return;
+	}
 }

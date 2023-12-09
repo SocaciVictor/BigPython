@@ -22,6 +22,7 @@ public:
 	void updateState(Pillar* pillar1, Pillar* pillar2);
 	void updateState();
 	void nextPlayer();
+	void saveGame();
 	bool finished();
 private:
 	std::shared_ptr<Player> m_player1;
