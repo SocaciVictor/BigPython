@@ -12,8 +12,8 @@ public:
 	Player() = default;
 	Player(std::uint16_t number_pillars, std::uint16_t number_bridges, PieceColor color);
 	const PieceColor& getColor() const noexcept;
-	const uint8_t getNumberPillars() const noexcept;
-	const uint8_t getNumberBridges() const noexcept;
+	const uint16_t getNumberPillars() const noexcept;
+	const uint16_t getNumberBridges() const noexcept;
 	void updateNumberPillars(int16_t addend);
 	void updateNumberBridges(int16_t addend);
 	const bool& getMoved() const noexcept;

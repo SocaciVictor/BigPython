@@ -156,7 +156,9 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 	for (int i = 0; i < board.getData().size(); i++) {
 		std::cout << std::setw(3) << i;
 	}
+
 	std::cout << "\n";
+
 	for (const auto& [y, row] : std::views::enumerate(board.getData()))
 	{
 		output << std::setw(2) << y << "  ";
@@ -176,10 +178,12 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 	}
 	output << "\n";
 	output << "Bridges: ";
+
 	for (const auto& pair : board.getBridges()) {
 		output << "(" << pieceColorToChar(pair.second->getColor())<<" "
 			<< pair.first.first.x << " " << pair.first.first.y << " , "
 			<< pair.first.last.x << " " << pair.first.last.y << "); ";
 	}
+
 	return output;
 }

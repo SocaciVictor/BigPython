@@ -9,12 +9,12 @@ const PieceColor& Player::getColor() const noexcept
 	return m_color;
 }
 
-const uint8_t Player::getNumberPillars() const noexcept
+const uint16_t Player::getNumberPillars() const noexcept
 {
 	return m_number_pillars;
 }
 
-const uint8_t Player::getNumberBridges() const noexcept
+const uint16_t Player::getNumberBridges() const noexcept
 {
 	return m_number_bridges;
 }
