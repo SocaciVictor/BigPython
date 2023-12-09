@@ -152,4 +152,14 @@ void Game::saveGame()
 		}
 		outputFile << std::endl;
 	}
+	for (const auto& pair : m_board.getBridges()) {
+		outputFile << pieceColorToChar(pair.second->getColor()) << ' '
+			<< pair.first.first.x << ' ' << pair.first.first.y << ' '
+			<< pair.first.last.x << ' ' << pair.first.last.y << std::endl;
+	}
+
+	// Close the file
+	outputFile.close();
+
+	std::cout << "Data has been written to the file." << std::endl;
 }
