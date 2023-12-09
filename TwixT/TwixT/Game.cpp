@@ -125,4 +125,13 @@ void Game::saveGame()
 		outputFile << 1;
 	outputFile << std::endl;
 
+	// Next line has the player 1 number of Pillars and Bridges
+	outputFile << m_player1.get()->getNumberPillars() << ' ' << m_player1.get()->getNumberBridges() << std::endl;
+
+	// Next line has the player 2 number of Pillars and Bridges
+	outputFile << m_player2.get()->getNumberPillars() << ' ' << m_player2.get()->getNumberBridges() << std::endl;
+
+	outputFile << m_board.getData().size() << ' '; // Number of Rows
+	outputFile << m_board.getData()[0].size(); // Number of Columns
+	outputFile << std::endl;
 }
