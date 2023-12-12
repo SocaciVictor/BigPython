@@ -8,7 +8,6 @@
 
 class Button : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-
 private:
     QPixmap normalPixmap;
     QPixmap hoverPixmap;
