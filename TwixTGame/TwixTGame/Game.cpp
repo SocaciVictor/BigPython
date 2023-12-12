@@ -2,8 +2,8 @@
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
-	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Black}) },
+	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
+	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
 	m_current_player{ m_player1 }
 {}
 

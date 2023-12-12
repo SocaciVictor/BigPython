@@ -15,6 +15,7 @@ const PieceColor& charToPieceColor(const char& character);
 struct Point {
 	std::uint16_t x;
 	std::uint16_t y;
+	Point() = default;
 	Point(const std::uint16_t& c_x,const std::uint16_t& c_y) : x{ c_x }, y{ c_y } {};
 	bool operator==(const Point& other) const {
 		return ((x == other.x) && (y == other.y));
@@ -32,6 +33,7 @@ struct PointHash {
 struct TwoPoint {
 	Point point1;
 	Point point2;
+	TwoPoint() = default;
 	TwoPoint(const Point& first, const Point& last) : point1{ first }, point2{ last } {}
 	bool operator==(const TwoPoint& other) const {
 		return ((point1 == other.point1 && point2 == other.point2) || (point1 == other.point2 && point2 == other.point1));
