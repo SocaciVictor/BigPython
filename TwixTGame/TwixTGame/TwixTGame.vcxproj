@@ -95,18 +95,34 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bridge.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConsoleGame.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GraphicsBase.cpp" />
+    <ClCompile Include="GraphicsBridge.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SecondMenu.cpp" />
+    <ClCompile Include="TwixTGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bridge.h" />
+    <QtMoc Include="Button.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GraphicsBase.h" />
+    <ClInclude Include="GraphicsBridge.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SecondMenu.h" />
+    <ClInclude Include="TwixTGame.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt" />
