@@ -125,11 +125,11 @@ const bool& Game::loadGame(const std::string& fisier)
 	bool last_player, player_move;
 	uint16_t number_pillars, number_bridges;
 	input_file >> last_player;
-	input_file >> color >> number_pillars >> number_pillars >> player_move;
-	m_player1 = std::make_shared<Player>(number_pillars, number_pillars, charToPieceColor(color));
+	input_file >> color >> number_pillars >> number_bridges >> player_move;
+	m_player1 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player1->setMoved(player_move);
-	input_file >> color >> number_pillars >> number_pillars >> player_move;
-	m_player2 = std::make_shared<Player>(number_pillars, number_pillars, charToPieceColor(color));
+	input_file >> color >> number_pillars >> number_bridges >> player_move;
+	m_player2 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player2->setMoved(player_move);
 	if (!last_player) m_current_player = m_player1;
 	else m_current_player = m_player2;

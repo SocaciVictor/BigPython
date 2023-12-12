@@ -20,6 +20,30 @@
     <ClCompile Include="Bridge.cpp">
       <Filter>GameLogic\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsBase.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsBridge.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondMenu.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TwixTGame.cpp">
+      <Filter>QtGraphics\Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameLogic">
@@ -36,6 +60,15 @@
     </Filter>
     <Filter Include="SaveFile">
       <UniqueIdentifier>{78c49851-8a9e-414f-b86b-ed7a5d5c2d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QtGraphics">
+      <UniqueIdentifier>{c59579f2-d632-4bcb-a519-7f66cacaa34c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QtGraphics\Headers">
+      <UniqueIdentifier>{36d45b4a-9636-47b4-9970-9d954fdc9c9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QtGraphics\Sources">
+      <UniqueIdentifier>{3d6ab0a5-81da-4704-8a7b-fdd650700bd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +89,30 @@
     </ClInclude>
     <ClInclude Include="Bridge.h">
       <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsBase.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsBridge.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SecondMenu.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TwixTGame.h">
+      <Filter>QtGraphics\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

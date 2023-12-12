@@ -81,7 +81,7 @@ void ConsoleGame::playerBridgesMove()
 
 void ConsoleGame::run()
 {
-	m_game.loadGame("save1.txt");
+	//m_game.loadGame("save1.txt");
 	do {
 		playerPillarMove();
 		playerBridgesMove();
