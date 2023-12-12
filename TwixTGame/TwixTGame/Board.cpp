@@ -221,3 +221,29 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 	}
 	return output;
 }
+
+std::istream& operator>>(std::istream& input, Board& board)
+{
+	//citire bases
+	uint16_t rows, columns;
+	char base;
+	input >> rows >> columns;
+	board.m_bases.resize(rows);
+	for (uint16_t i = 0; i < rows; i++) {
+		board.m_bases[i].resize(columns);
+		for (uint16_t j = 0; j < columns; j++) {
+			input >> base;
+			if (base == 'N') {
+				board.m_bases[i][j] = nullptr;
+				continue;
+			}
+			if (base == '.') {
+				board.m_bases[i][j] = std::make_unique<Base>(Point{ j,i });
+				continue;
+			}
+			if (base == 'R' || base == 'B') {
+				board.m_bases[i][j] = std::make_unique<Pillar>(Point{ j,i }, charToPieceColor(base));
+			}
+		}
+	}
+}

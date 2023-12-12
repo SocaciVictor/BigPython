@@ -30,5 +30,6 @@ public:
 	const bool& removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
 	const bool& gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
+	friend std::istream& operator>>(std::istream& input, Board& board);
 };
 

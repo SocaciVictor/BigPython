@@ -3,12 +3,14 @@
 #include <unordered_set>
 
 enum class PieceColor : std::uint8_t {
+	Blue,
 	Red,
-	Black,
 	None
 };
 
 const char& pieceColorToChar(const PieceColor& color);
+
+const PieceColor& charToPieceColor(const char& character);
 
 struct Point {
 	std::uint16_t x;
