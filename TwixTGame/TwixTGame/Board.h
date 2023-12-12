@@ -26,7 +26,7 @@ public:
 	const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& getBridges() const noexcept;
 	const bool& isInBoard(const Point& point);
 	const bool& addPillar(const Point& point, const PieceColor& color);
-	const bool& addBridges(const Point& point1, const Point& point2, const PieceColor& color);
+	const bool& addBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	const bool& removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
 	const bool& gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);

@@ -102,7 +102,7 @@ const bool& Board::addPillar(const Point& point, const PieceColor& color)
 	return true;
 }
 
-const bool& Board::addBridges(const Point& point1, const Point& point2, const PieceColor& color)
+const bool& Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	if (!isInBoard(point1) || !isInBoard(point2)) return false;
 	//verificare daca pillari sunt de aceiasi culoare cu playerul current
