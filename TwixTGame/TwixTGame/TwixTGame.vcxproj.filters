@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Base.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ConsoleGame.cpp">
+      <Filter>ConsoleDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GameLogic">
+      <UniqueIdentifier>{acf0a42f-8466-4ec1-bde2-9891e08d5631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Headers">
+      <UniqueIdentifier>{b06a894b-bed4-468e-8338-54b0aa0198f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Sources">
+      <UniqueIdentifier>{44d5bbe4-00cf-49c4-a8b6-8098b7e6bb0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConsoleDraw">
+      <UniqueIdentifier>{e430ab40-5cbb-4ac7-a6ab-f96fc9d6e381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SaveFile">
+      <UniqueIdentifier>{78c49851-8a9e-414f-b86b-ed7a5d5c2d39}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleGame.h">
+      <Filter>ConsoleDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="save1.txt" />
+  </ItemGroup>
+</Project>
