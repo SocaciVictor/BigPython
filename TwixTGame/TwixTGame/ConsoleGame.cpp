@@ -53,7 +53,7 @@ void ConsoleGame::playerPillarMove()
 		drawPlayer(m_game.getCurrentPlayer());
 		std::cout << "add pillars on x y pozition: ";
 		std::cin >> x >> y;
-		valid_move = m_game.AddPillar(Point{ x, y });
+		valid_move = m_game.addPillar(Point{ x, y });
 	} while (!valid_move);
 	m_game.saveGame("save1.txt");
 }
@@ -72,7 +72,7 @@ void ConsoleGame::playerBridgesMove()
 		std::cin >> x;
 		if (x == 99) break;
 		std::cin >> y >> a >> b;
-		valid_move = m_game.AddBridges(Point{ x, y }, Point{ a,b });
+		valid_move = m_game.addBridge(Point{ x, y }, Point{ a,b });
 		if (!valid_move)
 			valid_move = m_game.removeBridges(Point{ x, y }, Point{ a,b });
 		m_game.saveGame("save1.txt");
@@ -81,6 +81,7 @@ void ConsoleGame::playerBridgesMove()
 
 void ConsoleGame::run()
 {
+	m_game.loadGame("save1.txt");
 	do {
 		playerPillarMove();
 		playerBridgesMove();

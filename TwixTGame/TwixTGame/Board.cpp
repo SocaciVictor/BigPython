@@ -47,20 +47,20 @@ Board::Board(const std::uint16_t& rows, const  std::uint16_t& columns) :
 	 m_rows{ rows }, m_columns{ columns }
 {
 	//Creare Tabla de joc;
-	m_date.resize(m_rows);
+	m_bases.resize(m_rows);
 	for (std::uint16_t i = 0; i < m_rows; i++) {
-		m_date[i].resize(m_columns);
+		m_bases[i].resize(m_columns);
 		for (std::uint16_t j = 0; j < m_columns; j++) {
 			//verificare sa nu se creeze si in colturile tablei;
 			if ((j == 0 || j == m_columns - 1) && (i == 0 || i == m_rows - 1)) continue;
-			m_date[i][j] = std::make_unique<Base>(Point{ i,j });
+			m_bases[i][j] = std::make_unique<Base>(Point{ i,j });
 		}
 	}
 }
 
 const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const noexcept
 {
-	return m_date;
+	return m_bases;
 }
 
 const uint16_t& Board::getRows() const noexcept
@@ -90,31 +90,31 @@ const bool& Board::addPillar(const Point& point, const PieceColor& color)
 	//verificare daca punctul se afla in board;
 	if (!isInBoard(point)) return false;
 	//verificare ca playerul sa nu poata adauga pillar in bazele inamice;
-	if (color == PieceColor::Red &&
+	if (color == PieceColor::Blue &&
 		(point.x == 0 || point.x == m_columns - 1)) return false;
-	if (color == PieceColor::Black &&
+	if (color == PieceColor::Red &&
 		(point.y == 0 || point.y == m_rows - 1)) return false;
 	//verificare daca pe punctul ales nu este deja pillar;
-	if (m_date[point.y][point.x]->getColor() != PieceColor::None) return false;
+	if (m_bases[point.y][point.x]->getColor() != PieceColor::None) return false;
 	//daca verificarile sunt bune se va adauga pillarul;
-	m_date[point.y][point.x] =
+	m_bases[point.y][point.x] =
 		std::make_unique<Pillar>(point, color);
 	return true;
 }
 
-const bool& Board::addBridges(const Point& point1, const Point& point2, const PieceColor& color)
+const bool& Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	if (!isInBoard(point1) || !isInBoard(point2)) return false;
 	//verificare daca pillari sunt de aceiasi culoare cu playerul current
-	if (m_date[point1.y][point1.x]->getColor() != color ||
-		m_date[point2.y][point2.x]->getColor() != color) return false;
+	if (m_bases[point1.y][point1.x]->getColor() != color ||
+		m_bases[point2.y][point2.x]->getColor() != color) return false;
 	//verificare daca podul creat nu se intersecteaza cu alte poduri;
 	if (!isNotIntersection(point1, point2)) return false;
 	//creare Bridge;
 	m_bridges[TwoPoint{ point1, point2 }] = Bridge(point1, point2, color);
 	//adaug conexiunile dintre cei doi noi vecini;
-	static_cast<Pillar*>(m_date[point1.y][point1.x].get())->addNeighbor(point2);
-	static_cast<Pillar*>(m_date[point2.y][point2.x].get())->addNeighbor(point1);
+	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->addNeighbor(point2);
+	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->addNeighbor(point1);
 	return true;
 }
 
@@ -127,8 +127,8 @@ const bool& Board::removeBridge(const Point& point1, const Point& point2, const 
 	//stergerea podului;
 	m_bridges.erase({ point1,point2 });
 	//stergerea conexiuni de vecinatate dintre cei doi pillari;
-	static_cast<Pillar*>(m_date[point1.y][point1.x].get())->removeNeighbor(point2);
-	static_cast<Pillar*>(m_date[point2.y][point2.x].get())->removeNeighbor(point1);
+	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->removeNeighbor(point2);
+	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->removeNeighbor(point1);
 	return true;
 }
 
@@ -137,11 +137,11 @@ const bool& Board::gameIsEnded(const Point& point1, const Point& point2, const P
 	//Algoritmul Dijkstra
 	//creare comparator pentru prioritate in functie de culoarea playerului;
 	auto comparator = [this,color](const Point& p1, const Point& p2) {
-		if (color == PieceColor::Red) {
+		if (color == PieceColor::Blue) {
 			return std::min(abs(p1.y - m_rows - 1), abs(p1.y - 0)) >
 				std::min(abs(p2.y - m_rows - 1), abs(p2.y - 0));
 		}
-		if (color == PieceColor::Black) {
+		if (color == PieceColor::Red) {
 			return std::min(abs(p1.x - m_columns - 1), abs(p1.x - 0)) >
 				std::min(abs(p2.x - m_columns - 1), abs(p2.x - 0));
 		}
@@ -166,13 +166,13 @@ const bool& Board::gameIsEnded(const Point& point1, const Point& point2, const P
 		Point loc_current = pqueue.top();
 		pqueue.pop();
 		//verificare daca se ajunge la una din baze;
-		if ((loc_current.y == 0 && color == PieceColor::Red) ||
-			(loc_current.x == 0 && color == PieceColor::Black))
+		if ((loc_current.y == 0 && color == PieceColor::Blue) ||
+			(loc_current.x == 0 && color == PieceColor::Red))
 		{
 			base1 = true;
 		}
-		if ((loc_current.y == m_rows - 1 && color == PieceColor::Red) ||
-			(loc_current.x == m_columns - 1 && color == PieceColor::Black))
+		if ((loc_current.y == m_rows - 1 && color == PieceColor::Blue) ||
+			(loc_current.x == m_columns - 1 && color == PieceColor::Red))
 		{
 			base2 = true;
 		}
@@ -181,7 +181,7 @@ const bool& Board::gameIsEnded(const Point& point1, const Point& point2, const P
 			return true;
 		}
 		//parcurgere toti vecini;
-		for (auto neighbor : static_cast<Pillar*>(m_date[loc_current.y][loc_current.x].get())->getNeighbors()) {
+		for (auto neighbor : static_cast<Pillar*>(m_bases[loc_current.y][loc_current.x].get())->getNeighbors()) {
 			//daca vecinul este deja vizitat se trece mai departe;
 			if (matrice_vizitate[neighbor.y][neighbor.x]) continue;
 			//se adauga locatia vecinului in coada de prioritate;
@@ -220,4 +220,43 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 			<< bridge.first.point2.x << ' ' << bridge.first.point2.y;
 	}
 	return output;
+}
+
+std::istream& operator>>(std::istream& input, Board& board)
+{
+	//citire bases
+	uint16_t rows, columns;
+	char base;
+	input >> rows >> columns;
+	board.m_bases.resize(rows);
+	for (uint16_t i = 0; i < rows; i++) {
+		board.m_bases[i].resize(columns);
+		for (uint16_t j = 0; j < columns; j++) {
+			input >> base;
+			if (base == 'N') {
+				board.m_bases[i][j] = nullptr;
+				continue;
+			}
+			if (base == '.') {
+				board.m_bases[i][j] = std::make_unique<Base>(Point{ j,i });
+				continue;
+			}
+			if (base == 'R' || base == 'B') {
+				board.m_bases[i][j] = std::make_unique<Pillar>(Point{ j,i }, charToPieceColor(base));
+			}
+		}
+	}
+	//citire poduri
+	uint16_t nr_bridges;
+	char color;
+	Point point1, point2;
+	input >> nr_bridges;
+	for (uint16_t i = 0; i < nr_bridges; i++) {
+		input >> color >> point1.x >> point1.y >> point2.x >> point2.y;
+		board.m_bridges[TwoPoint{ point1, point2 }] = Bridge{ point1, point2, charToPieceColor(color) };
+		//adaug conexiunile dintre cei doi noi vecini;
+		static_cast<Pillar*>(board.m_bases[point1.y][point1.x].get())->addNeighbor(point2);
+		static_cast<Pillar*>(board.m_bases[point2.y][point2.x].get())->addNeighbor(point1);
+	}
+	return input;
 }

@@ -2,8 +2,8 @@
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
-	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Black}) },
+	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
+	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
 	m_current_player{ m_player1 }
 {}
 
@@ -41,7 +41,7 @@ void Game::nextPlayer()
 	updateState();
 }
 
-const bool& Game::AddPillar(const Point& point)
+const bool& Game::addPillar(const Point& point)
 {
 	//verificare daca playerul a adaugat deja un pillar sa nu mai poata adauga;
 	if (m_current_player->getMoved()) return false;
@@ -54,14 +54,14 @@ const bool& Game::AddPillar(const Point& point)
 	return true;
 }
 
-const bool& Game::AddBridges(const Point& point1, const Point& point2)
+const bool& Game::addBridge(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
 	if (!m_current_player->getMoved()) return false;
 	//verificare daca playerul curent mai are poduri;
 	if (m_current_player->getNumberBridges() == 0) return false;
 	//verific daca se creeaza podul;
-	if(!m_board.addBridges(point1,point2,m_current_player->getColor())) return false;
+	if(!m_board.addBridge(point1,point2,m_current_player->getColor())) return false;
 	//playerului curent i se scade un bridge;
 	m_current_player->updateNumberBridges(-1);
 	updateState(point1, point2);
@@ -112,8 +112,32 @@ const bool& Game::saveGame(const std::string& fisier)
 	return true;
 }
 
-void Game::loadGame(const std::string& fisier)
+const bool& Game::loadGame(const std::string& fisier)
 {
+	std::ifstream input_file{ fisier };
+	// Check if the file is successfully opened
+	if (!input_file.is_open()) {
+		std::cerr << "Unable to open the file." << std::endl;
+		return false;
+	}
+	//citirea pentru cei playeri
+	char color;
+	bool last_player, player_move;
+	uint16_t number_pillars, number_bridges;
+	input_file >> last_player;
+	input_file >> color >> number_pillars >> number_pillars >> player_move;
+	m_player1 = std::make_shared<Player>(number_pillars, number_pillars, charToPieceColor(color));
+	m_player1->setMoved(player_move);
+	input_file >> color >> number_pillars >> number_pillars >> player_move;
+	m_player2 = std::make_shared<Player>(number_pillars, number_pillars, charToPieceColor(color));
+	m_player2->setMoved(player_move);
+	if (!last_player) m_current_player = m_player1;
+	else m_current_player = m_player2;
+	//citire board;
+	input_file >> m_board;
+	//inchidere fisier;
+	input_file.close();
 
+	return true;
 }
 

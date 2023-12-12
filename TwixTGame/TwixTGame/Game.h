@@ -24,13 +24,13 @@ public:
 	const State& getState() const noexcept;
 	const bool& finished() const;
 	void nextPlayer();
-	const bool& AddPillar(const Point& point);
-	const bool& AddBridges(const Point& point1, const Point& point2);
+	const bool& addPillar(const Point& point);
+	const bool& addBridge(const Point& point1, const Point& point2);
 	const bool& removeBridges(const Point& point1,const Point& point2);
 	void updateState();
 	void updateState(const Point& point1, const Point& point2);
 	const bool& saveGame(const std::string& fisier);
-	void loadGame(const std::string& fisier);
+	const bool& loadGame(const std::string& fisier);
 protected:
 	std::shared_ptr<Player> m_player1;
 	std::shared_ptr<Player> m_player2;
