@@ -90,9 +90,6 @@
     <ClInclude Include="Bridge.h">
       <Filter>GameLogic\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>QtGraphics\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>QtGraphics\Headers</Filter>
     </ClInclude>
@@ -119,5 +116,10 @@
     <Text Include="save1.txt">
       <Filter>SaveFile</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Button.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

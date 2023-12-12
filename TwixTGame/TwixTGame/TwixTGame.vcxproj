@@ -112,7 +112,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bridge.h" />
-    <ClInclude Include="Button.h" />
+    <QtMoc Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
