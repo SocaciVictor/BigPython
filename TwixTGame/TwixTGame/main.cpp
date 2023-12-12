@@ -1,9 +1,10 @@
-#include <QtCore/QCoreApplication>
+#include <QtWidgets/QApplication>
 #include "ConsoleGame.h"
+
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication app(argc, argv);
     ConsoleGame game;
     game.run();
-    return a.exec();
+    return app.exec();
 }
