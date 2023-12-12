@@ -13,7 +13,19 @@ void TwixTGame::run()
 }
 
 void TwixTGame::switchScreen()
-{}
+{
+	if (!m_camera.isFullScreen()) {
+		QSize min = m_camera.size();
+		m_camera.showFullScreen();
+		QSize max = m_camera.size();
+		m_camera.scale(qreal(max.height()) / qreal(min.height()), qreal(max.height()) / qreal(min.height()));
+	}
+	else {
+		m_camera.showNormal();
+		m_camera.resetTransform();
+	}
+	m_camera.update();
+}
 
 void TwixTGame::backToMyMenu()
 {}
