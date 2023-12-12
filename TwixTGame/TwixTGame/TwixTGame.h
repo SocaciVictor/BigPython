@@ -15,5 +15,11 @@ private:
 public:
 	TwixTGame();
 	void run();
+public slots:
+	void switchScreen();
+	void backToMyMenu();
+	void play();
+	void exit();
+	void backToMainMenu();
 };
 
