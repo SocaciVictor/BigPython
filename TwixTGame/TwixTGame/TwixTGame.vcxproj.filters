@@ -44,6 +44,9 @@
     <ClCompile Include="TwixTGame.cpp">
       <Filter>QtGraphics\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="AiPlayer.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameLogic">
@@ -111,15 +114,16 @@
     <ClInclude Include="TwixTGame.h">
       <Filter>QtGraphics\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>QtGraphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AiPlayer.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt">
       <Filter>SaveFile</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Button.h">
-      <Filter>QtGraphics\Headers</Filter>
-    </QtMoc>
   </ItemGroup>
 </Project>

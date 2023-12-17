@@ -1,5 +1,5 @@
-#pragma once
-class GameScene
-{
-};
-
+//#pragma once
+//class GameScene
+//{
+//};
+//
