@@ -10,6 +10,7 @@ private:
 
 	void loadPolicy();
 	void savePolicy();
+	
 public:
 	AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color,
 		const std::string& dataFile, Board& board);

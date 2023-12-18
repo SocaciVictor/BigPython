@@ -2,6 +2,13 @@
 #include<iostream>
 #include <unordered_set>
 
+enum class PieceType : std::uint8_t{
+	BluePillar,
+	BlueBridge,
+	RedPillar,
+	RedBridge
+};
+
 enum class PieceColor : std::uint8_t {
 	Blue,
 	Red,
@@ -19,6 +26,11 @@ struct Point {
 	Point(const std::uint16_t& c_x,const std::uint16_t& c_y) : x{ c_x }, y{ c_y } {};
 	bool operator==(const Point& other) const {
 		return ((x == other.x) && (y == other.y));
+	}
+	bool operator<(const Point& other) const { //the minimum point is the one at top left corner
+		if (x == other.x)
+			return (y < other.y);
+		return (x < other.x);
 	}
 };
 

@@ -1,6 +1,20 @@
 #pragma once
 #include"Base.h"
 
+struct Move {
+	PieceType type : 2; //4 types
+	Move(PieceType& type) : type{ type } {}
+};
+struct MovePillar : Move{
+	Point pozition;
+	MovePillar(PieceType& type, Point& pozition) : Move{ type }, pozition{ pozition } {}
+};
+struct MoveBridge : Move {
+	Point startPozition;
+	Point endPozition;
+	MoveBridge(PieceType& type, Point& startPozition, Point& endPozition) : Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {}
+};
+
 class Player
 {
 protected:
