@@ -56,7 +56,7 @@ void ConsoleGame::playerPillarMove()
 
 		//for test{
 		{
-			std::unique_ptr<Move> move = std::make_unique<MovePillar>(PieceType::BluePillar, Point{ x,y });
+			std::unique_ptr<Move> move = std::make_unique<MovePillar>(Point{ x,y });
 			std::cout << "\n"
 				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
 			system("PAUSE");
@@ -84,7 +84,7 @@ void ConsoleGame::playerBridgesMove()
 
 		//for test{
 		{
-			std::unique_ptr<Move> move = std::make_unique<MoveBridge>(PieceType::BlueBridge, Point{ x,y }, Point{ a,b });
+			std::unique_ptr<Move> move = std::make_unique<MoveBridge>(Point{ x,y }, Point{ a,b }, MoveType::Add);
 			std::cout << "\n"
 				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
 			system("PAUSE");

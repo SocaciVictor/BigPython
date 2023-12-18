@@ -1,19 +1,27 @@
 #pragma once
 #include"Base.h"
 
+enum class MoveType {
+	Delete,
+	Add,
+	None
+};
+
 struct Move {
-	PieceType type : 2; //4 types
-	Move(PieceType type) : type{ type } {}
+	PieceType type : 3; //4 types
+	Move(PieceType type = PieceType::None) : type{ type } {}
 	virtual ~Move() = default;
 };
 struct MovePillar : public Move{
 	Point pozition;
-	MovePillar(PieceType type, Point pozition) : Move{ type }, pozition{ pozition } {}
+	MovePillar(Point pozition, PieceType type = PieceType::None) : Move{ type }, pozition{ pozition } {}
 };
 struct MoveBridge : public Move {
 	Point startPozition;
 	Point endPozition;
-	MoveBridge(PieceType type, Point startPozition, Point endPozition) : Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {
+	MoveType moveType : 2;
+	MoveBridge(Point startPozition, Point endPozition,MoveType moveType = MoveType::None, PieceType type = PieceType::None)
+		: Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {
 		if (endPozition < startPozition)
 			std::swap(endPozition, startPozition); //startPosition is always on top and to the left of endPosition
 	}

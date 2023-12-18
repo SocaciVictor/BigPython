@@ -7,7 +7,8 @@ enum class PieceType : std::uint8_t{
 	BluePillar,
 	BlueBridge,
 	RedPillar,
-	RedBridge
+	RedBridge,
+	None
 };
 
 enum class PieceColor : std::uint8_t {

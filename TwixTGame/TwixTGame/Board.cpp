@@ -124,7 +124,8 @@ std::string Board::getHashWithMove(Move* move)
 	}
 	else { //MoveBridge
 		hash += std::to_string(static_cast<MoveBridge*>(move)->startPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->startPozition.y) +
-			std::to_string(static_cast<MoveBridge*>(move)->endPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->endPozition.y);
+			std::to_string(static_cast<MoveBridge*>(move)->endPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->endPozition.y) + 
+			std::to_string(static_cast<int>(static_cast<MoveBridge*>(move)->moveType)); //0 delete bridge, 1 add bridge
 	}
 	return hash;
 }
