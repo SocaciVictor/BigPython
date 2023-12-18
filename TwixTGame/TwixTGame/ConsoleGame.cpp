@@ -53,6 +53,15 @@ void ConsoleGame::playerPillarMove()
 		drawPlayer(m_game.getCurrentPlayer());
 		std::cout << "add pillars on x y pozition: ";
 		std::cin >> x >> y;
+
+		//for test{
+		{
+			std::unique_ptr<Move> move = std::make_unique<MovePillar>(PieceType::BluePillar, Point{ x,y });
+			std::cout << "\n"
+				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
+			system("PAUSE");
+		}
+
 		valid_move = m_game.addPillar(Point{ x, y });
 	} while (!valid_move);
 	m_game.saveGame("save1.txt");
@@ -72,6 +81,15 @@ void ConsoleGame::playerBridgesMove()
 		std::cin >> x;
 		if (x == 99) break;
 		std::cin >> y >> a >> b;
+
+		//for test{
+		{
+			std::unique_ptr<Move> move = std::make_unique<MoveBridge>(PieceType::BlueBridge, Point{ x,y }, Point{ a,b });
+			std::cout << "\n"
+				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
+			system("PAUSE");
+		}
+		
 		valid_move = m_game.addBridge(Point{ x, y }, Point{ a,b });
 		if (!valid_move)
 			valid_move = m_game.removeBridges(Point{ x, y }, Point{ a,b });

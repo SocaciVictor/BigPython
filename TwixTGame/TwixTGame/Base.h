@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include <unordered_set>
+#include <string>
 
 enum class PieceType : std::uint8_t{
 	BluePillar,

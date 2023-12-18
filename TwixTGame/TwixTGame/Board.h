@@ -8,6 +8,7 @@
 #include<unordered_map>
 #include<memory>
 #include<queue>
+#include<set>
 
 class Board
 {
@@ -24,6 +25,7 @@ public:
 	const uint16_t& getRows() const noexcept;
 	const uint16_t& getColumns() const noexcept;
 	const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& getBridges() const noexcept;
+	std::string getHashWithMove(Move* move);
 	const bool& isInBoard(const Point& point);
 	const bool& addPillar(const Point& point, const PieceColor& color);
 	const bool& addBridge(const Point& point1, const Point& point2, const PieceColor& color);

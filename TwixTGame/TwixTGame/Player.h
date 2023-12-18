@@ -3,16 +3,20 @@
 
 struct Move {
 	PieceType type : 2; //4 types
-	Move(PieceType& type) : type{ type } {}
+	Move(PieceType type) : type{ type } {}
+	virtual ~Move() = default;
 };
-struct MovePillar : Move{
+struct MovePillar : public Move{
 	Point pozition;
-	MovePillar(PieceType& type, Point& pozition) : Move{ type }, pozition{ pozition } {}
+	MovePillar(PieceType type, Point pozition) : Move{ type }, pozition{ pozition } {}
 };
-struct MoveBridge : Move {
+struct MoveBridge : public Move {
 	Point startPozition;
 	Point endPozition;
-	MoveBridge(PieceType& type, Point& startPozition, Point& endPozition) : Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {}
+	MoveBridge(PieceType type, Point startPozition, Point endPozition) : Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {
+		if (endPozition < startPozition)
+			std::swap(endPozition, startPozition); //startPosition is always on top and to the left of endPosition
+	}
 };
 
 class Player

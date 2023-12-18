@@ -78,6 +78,57 @@ const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& Board::getBridges() co
 	return m_bridges;
 }
 
+std::string Board::getHashWithMove(Move* move)
+{
+	std::string hash = "";
+	std::set<Point> bridgesPozitions;
+
+	std::unordered_map<Point, PieceType, PointHash> type; //stands for each bridge point type and for checking pillar points
+	PieceType t;
+
+	//set all the bridge poz in order
+	for (const auto& bridge : m_bridges) {
+		bridgesPozitions.insert(bridge.first.point1);
+		bridgesPozitions.insert(bridge.first.point2);
+		if (bridge.second.getColor() == PieceColor::Blue)
+			t = PieceType::BlueBridge;
+		else  //PieceColor == Red
+			t = PieceType::RedBridge;
+		type[bridge.first.point1] = t;
+		type[bridge.first.point2] = t;
+	}
+	//hash contains all the bridges position in order first
+	for (const auto& point : bridgesPozitions) {
+		hash += std::to_string(point.x) + std::to_string(point.y) + std::to_string(static_cast<int>(type[point]));
+	}
+	//then hash contains all the pillars coord and color
+	for (const auto& line : m_bases) {
+		for (const auto& base : line) {
+			//check if base is pillar
+			if (dynamic_cast<Pillar*>(base.get()) == nullptr)
+				continue;
+			//if a base is a pillar pozition and not a bridge position
+			if (type.find(base->getCoordinates()) == type.end()) {
+				if (base->getColor() == PieceColor::Blue)
+					t = PieceType::BluePillar;
+				else //PieceType == Red
+					t = PieceType::RedPillar;
+				hash += std::to_string(base->getCoordinates().x) + std::to_string(base->getCoordinates().y)
+					+ std::to_string(static_cast<int>(t));
+			}
+		}
+	}
+	//lastly hash contains the move
+	if (dynamic_cast<MovePillar*>(move) != nullptr) {
+		hash += std::to_string(static_cast<MovePillar*>(move)->pozition.x) + std::to_string(static_cast<MovePillar*>(move)->pozition.y);
+	}
+	else { //MoveBridge
+		hash += std::to_string(static_cast<MoveBridge*>(move)->startPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->startPozition.y) +
+			std::to_string(static_cast<MoveBridge*>(move)->endPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->endPozition.y);
+	}
+	return hash;
+}
+
 const bool& Board::isInBoard(const Point& point)
 {
 	if (point.x < 0 || point.y < 0 || point.x >= m_columns || point.y >= m_rows) return false;
