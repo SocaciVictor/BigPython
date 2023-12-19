@@ -56,6 +56,9 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 	}
 	//generate posible bridge moves
 	else {
+		//generete end turn move
+		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next));
+
 		switch (m_color) {
 		case PieceColor::Blue:
 			pieceType = PieceType::BlueBridge;

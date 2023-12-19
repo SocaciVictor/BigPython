@@ -128,9 +128,14 @@ std::string Board::getHashWithMove(Move* move)
 		hash += std::to_string(static_cast<MovePillar*>(move)->pozition.x) + std::to_string(static_cast<MovePillar*>(move)->pozition.y);
 	}
 	else { //MoveBridge
-		hash += std::to_string(static_cast<MoveBridge*>(move)->startPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->startPozition.y) +
-			std::to_string(static_cast<MoveBridge*>(move)->endPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->endPozition.y) + 
-			std::to_string(static_cast<int>(static_cast<MoveBridge*>(move)->moveType)); //0 delete bridge, 1 add bridge
+		//if move is a Next move(it placed or removed all the bridges)
+		if (static_cast<MoveBridge*>(move)->moveType == MoveType::Next)
+			hash += std::to_string((int)MoveType::Next);
+		else {
+			hash += std::to_string(static_cast<MoveBridge*>(move)->startPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->startPozition.y) +
+				std::to_string(static_cast<MoveBridge*>(move)->endPozition.x) + std::to_string(static_cast<MoveBridge*>(move)->endPozition.y) +
+				std::to_string(static_cast<int>(static_cast<MoveBridge*>(move)->moveType)); //0 delete bridge, 1 add bridge
+		}
 	}
 	return hash;
 }

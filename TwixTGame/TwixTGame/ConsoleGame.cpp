@@ -84,6 +84,7 @@ void ConsoleGame::playerBridgesMove()
 void ConsoleGame::run()
 {
 	//m_game.loadGame("save1.txt");
+	//TODO make player1 human and player2 bot for testing
 	do {
 		playerPillarMove();
 		playerBridgesMove();
@@ -99,7 +100,8 @@ void ConsoleGame::run()
 	}
 }
 
-void ConsoleGame::train()
+void ConsoleGame::train(std::string redFileData, std::string blueFileData)
 {
-	
+	m_game.setPlayerAi(redFileData, blueFileData);
+	//TODO player1 and player2 play with no ui
 }

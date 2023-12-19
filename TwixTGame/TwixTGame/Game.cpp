@@ -1,16 +1,13 @@
 #include "Game.h"
 #include "AiPlayer.h"
 
-Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges
-	, std::string redDataFile, std::string blueDataFile) :
+Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
-	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
-	m_aiRed{ std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Red, redDataFile, m_board) },
-	m_aiBlue{ std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Blue, blueDataFile, m_board) },
+	m_player1{ std::make_unique<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
+	m_player2{ std::make_unique<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
 	maxNumPillars{ number_pillars },
 	maxNumBridges{ number_bridges },
-	m_current_player{ m_player1 }
+	m_current_player{ m_player1.get()}
 {}
 
 const Board& Game::getBoard() const noexcept
@@ -20,7 +17,13 @@ const Board& Game::getBoard() const noexcept
 
 Player* Game::getCurrentPlayer() const noexcept
 {
-	return m_current_player.get();
+	return m_current_player;
+}
+
+void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
+{
+	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
+	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
 }
 
 const State& Game::getState() const noexcept
@@ -37,11 +40,11 @@ const bool& Game::finished() const
 void Game::nextPlayer()
 {
 	if (finished()) return;
-	if (m_current_player == m_player1) {
-		m_current_player = m_player2;
+	if (m_current_player == m_player1.get()) {
+		m_current_player = m_player2.get();
 	}
 	else {
-		m_current_player = m_player1;
+		m_current_player = m_player1.get();
 	}
 	m_current_player->setMoved(false);
 	updateState();
@@ -90,8 +93,6 @@ void Game::reset()
 	m_board.reset();
 	m_player1->reset(maxNumPillars, maxNumBridges);
 	m_player2->reset(maxNumPillars, maxNumBridges);
-	m_aiBlue->reset(maxNumPillars, maxNumBridges);
-	m_aiRed->reset(maxNumPillars, maxNumBridges);
 }
 
 void Game::updateState()
@@ -114,7 +115,7 @@ const bool& Game::saveGame(const std::string& fisier)
 	}
 	// Write to the file
 	// First line is the currentPlayer
-	if (m_current_player == m_player1)
+	if (m_current_player == m_player1.get())
 		output_file << 0;
 	else
 		output_file << 1;
@@ -141,13 +142,13 @@ const bool& Game::loadGame(const std::string& fisier)
 	uint16_t number_pillars, number_bridges;
 	input_file >> last_player;
 	input_file >> color >> number_pillars >> number_bridges >> player_move;
-	m_player1 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
+	m_player1 = std::make_unique<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player1->setMoved(player_move);
 	input_file >> color >> number_pillars >> number_bridges >> player_move;
-	m_player2 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
+	m_player2 = std::make_unique<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player2->setMoved(player_move);
-	if (!last_player) m_current_player = m_player1;
-	else m_current_player = m_player2;
+	if (!last_player) m_current_player = m_player1.get();
+	else m_current_player = m_player2.get();
 	//citire board;
 	input_file >> m_board;
 	//inchidere fisier;

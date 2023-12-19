@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <fstream>
 #include <string>
+#include <string_view>
 
 enum class State : std::uint8_t
 {
@@ -19,11 +20,11 @@ protected:
 	uint16_t maxNumPillars;
 	uint16_t maxNumBridges;
 public:
-	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges
-		, std::string redDataFile, std::string blueDataFile);
+	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges);
 	Game() = default;
 	const Board& getBoard() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
+	void setPlayerAi(std::string redFileData, std::string blueFileData);
 	const State& getState() const noexcept;
 	const bool& finished() const;
 	void nextPlayer();
@@ -37,11 +38,9 @@ public:
 	const bool& loadGame(const std::string& fisier);
 	
 protected:
-	std::unique_ptr<Player> m_aiRed;
-	std::unique_ptr<Player> m_aiBlue;
-
-	std::shared_ptr<Player> m_player1;
-	std::shared_ptr<Player> m_player2;
-	std::shared_ptr<Player> m_current_player;
+	std::unique_ptr<Player> m_player1;//blue
+	std::unique_ptr<Player> m_player2;//red
+	//observer
+	Player* m_current_player;
 };
 

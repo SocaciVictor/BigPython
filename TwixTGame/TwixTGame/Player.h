@@ -4,6 +4,7 @@
 enum class MoveType {
 	Delete,
 	Add,
+	Next, //end turn
 	None
 };
 
