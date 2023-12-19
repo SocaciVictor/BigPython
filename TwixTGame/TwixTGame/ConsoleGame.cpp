@@ -51,17 +51,21 @@ void ConsoleGame::playerPillarMove()
 		if (!valid_move)
 			std::cout << "Invalid moved!\n";
 		drawPlayer(m_game.getCurrentPlayer());
-		std::cout << "add pillars on x y pozition: ";
-		std::cin >> x >> y;
-
 		//for test{
 		{
-			std::unique_ptr<Move> move = std::make_unique<MovePillar>(Point{ x,y });
-			std::cout << "\n"
-				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
-			system("PAUSE");
+			std::unique_ptr<Move> nextMove;
+			if (m_game.getCurrentPlayer()->getColor() == PieceColor::Red) {
+				nextMove = m_game.m_aiRed->getNextMove();
+			}
+			else {
+				nextMove = m_game.m_aiBlue->getNextMove();
+			}
+			MovePillar* ptr = dynamic_cast<MovePillar*>(nextMove.get());
+			if (ptr)
+				std::cout << ptr->pozition.x << " " << ptr->pozition.y << " " << (int)ptr->type << "\n";
 		}
-
+		std::cout << "add pillars on x y pozition: ";
+		std::cin >> x >> y;
 		valid_move = m_game.addPillar(Point{ x, y });
 	} while (!valid_move);
 	m_game.saveGame("save1.txt");

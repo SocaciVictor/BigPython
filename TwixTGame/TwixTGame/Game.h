@@ -31,6 +31,10 @@ public:
 	void updateState(const Point& point1, const Point& point2);
 	const bool& saveGame(const std::string& fisier);
 	const bool& loadGame(const std::string& fisier);
+
+	//for testing
+	std::unique_ptr<Player> m_aiRed;
+	std::unique_ptr<Player> m_aiBlue;
 protected:
 	std::shared_ptr<Player> m_player1;
 	std::shared_ptr<Player> m_player2;

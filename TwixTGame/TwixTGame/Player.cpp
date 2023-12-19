@@ -4,6 +4,12 @@ Player::Player(const std::uint16_t& number_pillars, const std::uint16_t& number_
 	m_number_pillars{ number_pillars }, m_number_bridges{ number_bridges }, m_color{ color }, m_moved{ false }
 {}
 
+//only used by AiPlayer
+std::unique_ptr<Move> Player::getNextMove()
+{
+	return std::unique_ptr<Move>();
+}
+
 const PieceColor& Player::getColor() const noexcept
 {
 	return m_color;

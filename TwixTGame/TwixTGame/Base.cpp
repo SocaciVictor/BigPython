@@ -3,8 +3,8 @@
 const char& pieceColorToChar(const PieceColor& color)
 {
 	switch (color) {
-	case PieceColor::Blue: return 'R';
-	case PieceColor::Red: return 'B';
+	case PieceColor::Blue: return 'B';
+	case PieceColor::Red: return 'R';
 	case PieceColor::None: return 'N';
 	default: return '?';
 	}
