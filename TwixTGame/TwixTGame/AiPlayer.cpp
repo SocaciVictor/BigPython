@@ -130,6 +130,7 @@ std::unique_ptr<Move> AiPlayer::getNextMove()
 
 	uint64_t moveIndex{ 0 };
 	std::string bestStateMoveHash{ "" };
+	//to change bernDist chance
 	std::bernoulli_distribution bernDist(1.0f); //exploration
 
 	//randomly picked move

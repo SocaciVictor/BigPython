@@ -1,16 +1,17 @@
 #include "Game.h"
 #include "AiPlayer.h"
 
-Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
+Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges
+	, std::string redDataFile, std::string blueDataFile) :
 	m_board{ rows,columns },
 	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
 	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
+	m_aiRed{ std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Red, redDataFile, m_board) },
+	m_aiBlue{ std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Blue, blueDataFile, m_board) },
+	maxNumPillars{ number_pillars },
+	maxNumBridges{ number_bridges },
 	m_current_player{ m_player1 }
-{
-	//for testing
-	m_aiRed = std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Red, "RedData", m_board);
-	m_aiBlue = std::make_unique<AiPlayer>(number_pillars, number_bridges, PieceColor::Blue, "BlueData", m_board);
-}
+{}
 
 const Board& Game::getBoard() const noexcept
 {
@@ -82,6 +83,15 @@ const bool& Game::removeBridges(const Point& point1, const Point& point2)
 	//playerului curent i se adauga un bridge;
 	m_current_player->updateNumberBridges(1);
 	return true;
+}
+
+void Game::reset()
+{
+	m_board.reset();
+	m_player1->reset(maxNumPillars, maxNumBridges);
+	m_player2->reset(maxNumPillars, maxNumBridges);
+	m_aiBlue->reset(maxNumPillars, maxNumBridges);
+	m_aiRed->reset(maxNumPillars, maxNumBridges);
 }
 
 void Game::updateState()

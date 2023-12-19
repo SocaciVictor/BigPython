@@ -45,6 +45,13 @@ void Player::setMoved(const bool& moved)
 	m_moved = moved;
 }
 
+void Player::reset(uint16_t& maxNumPillars, uint16_t& maxNumBridge)
+{
+	m_number_pillars = maxNumPillars;
+	m_number_bridges = maxNumBridge;
+	m_moved = false;
+}
+
 std::ostream& operator<<(std::ostream& output, const Player& player)
 {
 	output << pieceColorToChar(player.getColor()) << " " << player.getNumberPillars() << " "

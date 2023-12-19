@@ -16,8 +16,11 @@ class Game
 protected:
 	Board m_board;
 	State m_state{ State::None };
+	uint16_t maxNumPillars;
+	uint16_t maxNumBridges;
 public:
-	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges);
+	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges
+		, std::string redDataFile, std::string blueDataFile);
 	Game() = default;
 	const Board& getBoard() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
@@ -27,15 +30,16 @@ public:
 	const bool& addPillar(const Point& point);
 	const bool& addBridge(const Point& point1, const Point& point2);
 	const bool& removeBridges(const Point& point1,const Point& point2);
+	void reset();
 	void updateState();
 	void updateState(const Point& point1, const Point& point2);
 	const bool& saveGame(const std::string& fisier);
 	const bool& loadGame(const std::string& fisier);
-
-	//for testing
+	
+protected:
 	std::unique_ptr<Player> m_aiRed;
 	std::unique_ptr<Player> m_aiBlue;
-protected:
+
 	std::shared_ptr<Player> m_player1;
 	std::shared_ptr<Player> m_player2;
 	std::shared_ptr<Player> m_current_player;

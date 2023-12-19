@@ -8,7 +8,7 @@ enum class MoveType {
 };
 
 struct Move {
-	PieceType type : 3; //4 types
+	PieceType type : 3; //5 types
 	Move(PieceType type = PieceType::None) : type{ type } {}
 	virtual ~Move() = default;
 };
@@ -45,6 +45,7 @@ public:
 	void updateNumberBridges(const int16_t& addend);
 	const bool& getMoved() const noexcept;
 	void setMoved(const bool& moved);
+	void reset(uint16_t& maxNumPillars, uint16_t& maxNumBridge);
 	friend std::ostream& operator<<(std::ostream& output, const Player& player);
 };
 

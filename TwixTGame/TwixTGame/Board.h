@@ -17,6 +17,8 @@ protected:
 	std::uint16_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_bases;
 	std::unordered_map<TwoPoint, Bridge, TwoPointHash> m_bridges;
+
+	void initBoard();
 public:
 	Board(const std::uint16_t& rows, const std::uint16_t& columns);
 	Board() = default;
@@ -31,6 +33,7 @@ public:
 	const bool& addBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	const bool& removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
 	const bool& gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
+	void reset();
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
 	friend std::istream& operator>>(std::istream& input, Board& board);
 };

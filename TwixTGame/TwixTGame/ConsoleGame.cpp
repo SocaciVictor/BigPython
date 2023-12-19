@@ -71,6 +71,7 @@ void ConsoleGame::playerBridgesMove()
 		std::cout << "add Bridges or remove on x y, a b pozition or add 99 for next player: ";
 		std::cin >> x;
 		if (x == 99) break;
+		
 		std::cin >> y >> a >> b;
 		
 		valid_move = m_game.addBridge(Point{ x, y }, Point{ a,b });
@@ -96,4 +97,9 @@ void ConsoleGame::run()
 		std::cout << std::format("\n Player {}, a castigat! ",
 			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 	}
+}
+
+void ConsoleGame::train()
+{
+	
 }

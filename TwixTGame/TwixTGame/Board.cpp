@@ -42,9 +42,7 @@ const bool& Board::isNotIntersection(const Point& p1, const Point& p2)
 	return true;
 }
 
-//Constructor Board;
-Board::Board(const std::uint16_t& rows, const  std::uint16_t& columns) :
-	 m_rows{ rows }, m_columns{ columns }
+void Board::initBoard()
 {
 	//Creare Tabla de joc;
 	m_bases.resize(m_rows);
@@ -56,6 +54,13 @@ Board::Board(const std::uint16_t& rows, const  std::uint16_t& columns) :
 			m_bases[i][j] = std::make_unique<Base>(Point{ i,j });
 		}
 	}
+}
+
+//Constructor Board;
+Board::Board(const std::uint16_t& rows, const  std::uint16_t& columns) :
+	 m_rows{ rows }, m_columns{ columns }
+{
+	initBoard();
 }
 
 const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const noexcept
@@ -242,6 +247,12 @@ const bool& Board::gameIsEnded(const Point& point1, const Point& point2, const P
 		}
 	}
 	return false;
+}
+
+void Board::reset()
+{
+	m_bridges.clear();
+	initBoard();
 }
 
 std::ostream& operator<<(std::ostream& output, const Board& board)
