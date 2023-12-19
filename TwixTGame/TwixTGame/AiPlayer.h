@@ -1,13 +1,12 @@
 #pragma once
 #include "Player.h"
 #include "Board.h"
-#include <limits>
 #include <random>
 
 class AiPlayer : public Player
 {
 private:
-	std::string m_dataFile{ "" };
+	std::string m_dataFile;
 	Board& m_board;
 	std::unordered_map<std::string, float> m_stateMoveCosts;
 	std::vector<std::string> m_previousStateMoves;
@@ -28,5 +27,6 @@ public:
 		const std::string& dataFile, Board& board);
 	~AiPlayer();
 	std::unique_ptr<Move> getNextMove() override;
+	void feedReward(float target);
 };
 

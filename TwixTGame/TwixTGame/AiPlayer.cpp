@@ -1,11 +1,31 @@
 #include "AiPlayer.h"
+#include <stdexcept>
+#include <limits>
+#include <fstream>
 
 void AiPlayer::loadPolicy()
 {
+	std::ifstream input{ m_dataFile };
+	if (input.bad())
+		throw std::runtime_error("Error input file");
+
+	std::string hash;
+	float value;
+	while (!input.eof()) {
+		input >> hash >> value;
+		m_stateMoveCosts.insert(std::make_pair(hash, value));
+	}
 }
 
 void AiPlayer::savePolicy()
 {
+	std::ofstream output{ m_dataFile };
+	if (output.bad())
+		throw std::runtime_error("Error output file");
+	for (const auto& moveState : m_stateMoveCosts) {
+		if (moveState.second != initialEstimation)
+			output << moveState.first << ' ' << moveState.second << "\n";
+	}
 }
 
 std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
@@ -121,8 +141,24 @@ std::unique_ptr<Move> AiPlayer::getNextMove()
 	}
 	//select best action available
 	else {
-	
+		float bestMoveEstimation = -std::numeric_limits<float>::infinity();
+		for (uint64_t i = 0; i < possibleMoves.size(); ++i) {
+			std::string stateMoveHash = m_board.getHashWithMove(possibleMoves[i].get());
+
+			//map(std::pair<std::string, float>, bool)
+			//float part is the current move value map.first->second
+			auto map = m_stateMoveCosts.insert(std::make_pair(stateMoveHash, initialEstimation));
+
+			if (map.first->second > bestMoveEstimation) {
+				moveIndex = i;
+				bestStateMoveHash = stateMoveHash;
+				bestMoveEstimation = map.first->second;
+			}
+		}
 	}
+	//contains all the moves so far
+	m_previousStateMoves.emplace_back(bestStateMoveHash);
+
 	//return move
 	//pillar move
 	MovePillar* ptr = dynamic_cast<MovePillar*>(possibleMoves[moveIndex].get());
@@ -131,6 +167,16 @@ std::unique_ptr<Move> AiPlayer::getNextMove()
 	//bridge move
 	MoveBridge* ptrBridge = static_cast<MoveBridge*>(possibleMoves[moveIndex].get());
 	return std::make_unique<MoveBridge>(ptrBridge->startPozition, ptrBridge->endPozition, (MoveType)ptrBridge->moveType, (PieceType)ptrBridge->type);
-		
 
+}
+
+void AiPlayer::feedReward(float target)
+{
+	for (auto it = m_previousStateMoves.rbegin(); it != m_previousStateMoves.rend(); ++it) {
+		const auto& stateMove = *it;
+		float& estimation = m_stateMoveCosts[stateMove];
+		estimation = estimation + learningRate * (target - estimation);
+		target = estimation;
+	}
+	m_previousStateMoves.clear();
 }
