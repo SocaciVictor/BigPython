@@ -21,9 +21,9 @@ struct MoveBridge : public Move {
 	Point endPozition;
 	MoveType moveType : 2;
 	MoveBridge(Point startPozition, Point endPozition,MoveType moveType = MoveType::None, PieceType type = PieceType::None)
-		: Move{ type }, startPozition{ startPozition }, endPozition{ endPozition } {
+		: Move{ type }, startPozition{ startPozition }, endPozition{ endPozition }, moveType{ moveType } {
 		if (endPozition < startPozition)
-			std::swap(endPozition, startPozition); //startPosition is always on top and to the left of endPosition
+			std::swap(this->endPozition, this->startPozition); //startPosition is always on top and to the left of endPosition
 	}
 };
 

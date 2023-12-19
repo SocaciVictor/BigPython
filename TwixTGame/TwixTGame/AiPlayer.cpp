@@ -46,7 +46,9 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		}
 		//generate all the delete moves
 		for (const auto& bridge : m_board.getBridges()) {
-			moves.emplace_back(std::make_unique<MoveBridge>(bridge.first.point1, bridge.first.point2, MoveType::Delete, pieceType));
+			//check if bridge belongs to player
+			if(bridge.second.getColor() == m_color)
+				moves.emplace_back(std::make_unique<MoveBridge>(bridge.first.point1, bridge.first.point2, MoveType::Delete, pieceType));
 		}
 		//generate all the additive moves
 		uint8_t dx[] = { 1, 2, 2, 1, -1, -2, -2, -1 };
@@ -56,6 +58,9 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 			for (const auto& base : line) {
 				if (base) {
 					if (dynamic_cast<Pillar*>(base.get()) != nullptr) {
+						//check if pillar belongs to player
+						if (static_cast<Pillar*>(base.get())->getColor() != m_color)
+							continue;
 						x = base->getCoordinates().x;
 						y = base->getCoordinates().y;
 						for (uint8_t i = 0; i < 8; ++i) {
@@ -66,6 +71,9 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 								continue;
 							//check if found base is pillar
 							if (dynamic_cast<Pillar*>(m_board.getData()[nextY][nextX].get()) != nullptr) {
+								//check if found base belongs to player
+								if (static_cast<Pillar*>(m_board.getData()[nextY][nextX].get())->getColor() != m_color)
+									continue;
 								//check for inersections
 								if (m_board.isNotIntersection(Point{ x,y }, Point{ nextX, nextY }))
 									moves.emplace_back(std::make_unique<MoveBridge>(Point{ x,y }, Point{ nextX, nextY }, MoveType::Add, pieceType));
@@ -95,6 +103,11 @@ AiPlayer::~AiPlayer()
 std::unique_ptr<Move> AiPlayer::getNextMove()
 {
 	std::vector<std::unique_ptr<Move>> possibleMoves{ generateMoveCollection() };
+
+	//this will only be valid for bridges
+	if (possibleMoves.empty())
+		return nullptr;
+
 	uint64_t moveIndex{ 0 };
 	std::string bestStateMoveHash{ "" };
 	std::bernoulli_distribution bernDist(1.0f); //exploration
@@ -110,6 +123,7 @@ std::unique_ptr<Move> AiPlayer::getNextMove()
 	else {
 	
 	}
+	//return move
 	//pillar move
 	MovePillar* ptr = dynamic_cast<MovePillar*>(possibleMoves[moveIndex].get());
 	if (ptr) 

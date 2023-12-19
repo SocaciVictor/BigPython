@@ -52,7 +52,7 @@ void ConsoleGame::playerPillarMove()
 			std::cout << "Invalid moved!\n";
 		drawPlayer(m_game.getCurrentPlayer());
 		//for test{
-		{
+		/*{
 			std::unique_ptr<Move> nextMove;
 			if (m_game.getCurrentPlayer()->getColor() == PieceColor::Red) {
 				nextMove = m_game.m_aiRed->getNextMove();
@@ -63,7 +63,7 @@ void ConsoleGame::playerPillarMove()
 			MovePillar* ptr = dynamic_cast<MovePillar*>(nextMove.get());
 			if (ptr)
 				std::cout << ptr->pozition.x << " " << ptr->pozition.y << " " << (int)ptr->type << "\n";
-		}
+		}*/
 		std::cout << "add pillars on x y pozition: ";
 		std::cin >> x >> y;
 		valid_move = m_game.addPillar(Point{ x, y });
@@ -81,18 +81,27 @@ void ConsoleGame::playerBridgesMove()
 		if (!valid_move)
 			std::cout << "Invalid moved!\n";
 		drawPlayer(m_game.getCurrentPlayer());
+		//for test{
+		{
+			m_game.m_aiRed->setMoved(true);
+			m_game.m_aiBlue->setMoved(true);
+			std::unique_ptr<Move> nextMove;
+			if (m_game.getCurrentPlayer()->getColor() == PieceColor::Red) {
+				nextMove = m_game.m_aiRed->getNextMove();
+			}
+			else {
+				nextMove = m_game.m_aiBlue->getNextMove();
+			}
+			MoveBridge* ptr = dynamic_cast<MoveBridge*>(nextMove.get());
+			if (ptr)
+				std::cout << ptr->startPozition.x << ptr->startPozition.y <<
+				" " << ptr->endPozition.x << ptr->endPozition.y << " " << (int)ptr->moveType << " " << (int)ptr->type << "\n";
+		}
+
 		std::cout << "add Bridges or remove on x y, a b pozition or add 99 for next player: ";
 		std::cin >> x;
 		if (x == 99) break;
 		std::cin >> y >> a >> b;
-
-		//for test{
-		{
-			std::unique_ptr<Move> move = std::make_unique<MoveBridge>(Point{ x,y }, Point{ a,b }, MoveType::Add);
-			std::cout << "\n"
-				<< const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
-			system("PAUSE");
-		}
 		
 		valid_move = m_game.addBridge(Point{ x, y }, Point{ a,b });
 		if (!valid_move)
