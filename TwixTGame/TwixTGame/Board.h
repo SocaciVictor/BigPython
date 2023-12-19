@@ -17,7 +17,6 @@ protected:
 	std::uint16_t m_columns;
 	std::vector<std::vector<std::unique_ptr<Base>>> m_bases;
 	std::unordered_map<TwoPoint, Bridge, TwoPointHash> m_bridges;
-	const bool& isNotIntersection(const Point& p1, const Point& p2);
 public:
 	Board(const std::uint16_t& rows, const std::uint16_t& columns);
 	Board() = default;
@@ -26,6 +25,7 @@ public:
 	const uint16_t& getColumns() const noexcept;
 	const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& getBridges() const noexcept;
 	std::string getHashWithMove(Move* move);
+	const bool& isNotIntersection(const Point& p1, const Point& p2);
 	const bool& isInBoard(const Point& point);
 	const bool& addPillar(const Point& point, const PieceColor& color);
 	const bool& addBridge(const Point& point1, const Point& point2, const PieceColor& color);
