@@ -5,7 +5,7 @@ Player::Player(const std::uint16_t& number_pillars, const std::uint16_t& number_
 {}
 
 //only used by AiPlayer
-std::unique_ptr<Move> Player::getNextMove()
+std::unique_ptr<Move> Player::getNextMove(bool randomMoves)
 {
 	return std::unique_ptr<Move>();
 }

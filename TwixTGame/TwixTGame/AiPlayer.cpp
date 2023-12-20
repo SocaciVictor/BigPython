@@ -74,11 +74,11 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next, pieceType));
 
 		//generate all the delete moves
-		for (const auto& bridge : m_board.getBridges()) {
-			//check if bridge belongs to player
-			if(bridge.second.getColor() == m_color)
-				moves.emplace_back(std::make_unique<MoveBridge>(bridge.first.point1, bridge.first.point2, MoveType::Delete, pieceType));
-		}
+		//for (const auto& bridge : m_board.getBridges()) {
+		//	//check if bridge belongs to player
+		//	if(bridge.second.getColor() == m_color)
+		//		moves.emplace_back(std::make_unique<MoveBridge>(bridge.first.point1, bridge.first.point2, MoveType::Delete, pieceType));
+		//}
 		//generate all the additive moves
 		uint8_t dx[] = { 1, 2, 2, 1, -1, -2, -2, -1 };
 		uint8_t dy[] = { -2, -1, 1, 2, 2, 1, -1, -2 };
@@ -129,21 +129,21 @@ AiPlayer::~AiPlayer()
 }
 
 //caller responsible for ownership
-std::unique_ptr<Move> AiPlayer::getNextMove()
+std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 {
 	std::vector<std::unique_ptr<Move>> possibleMoves{ generateMoveCollection() };
 
-	//this will only be valid for bridges
+	//only enters when no possible moves => draw
 	if (possibleMoves.empty())
 		return nullptr;
 
 	uint64_t moveIndex{ 0 };
 	std::string bestStateMoveHash{ "" };
 	//to change bernDist chance
-	std::bernoulli_distribution bernDist(1.0f); //exploration
+	std::bernoulli_distribution bernDist(explorationRate); //exploration
 
 	//randomly picked move
-	if (bernDist(randomEngine)) {
+	if (bernDist(randomEngine) && randomMoves) {
 		std::uniform_int_distribution<uint64_t> intDist(0, (uint64_t)possibleMoves.size() - 1);
 		moveIndex = intDist(randomEngine);
 		bestStateMoveHash = m_board.getHashWithMove(possibleMoves[moveIndex].get());
@@ -189,4 +189,13 @@ void AiPlayer::feedReward(float target)
 		target = estimation;
 	}
 	m_previousStateMoves.clear();
+}
+
+uint64_t AiPlayer::getStateSize() const noexcept
+{
+	uint64_t count = 0;
+	for (const auto& value : m_stateMoveCosts)
+		if (value.second != initialEstimation)
+			count++;
+	return count;
 }

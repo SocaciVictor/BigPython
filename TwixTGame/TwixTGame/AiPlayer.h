@@ -26,7 +26,8 @@ public:
 	AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color,
 		const std::string& dataFile, Board& board);
 	~AiPlayer();
-	std::unique_ptr<Move> getNextMove() override;
+	std::unique_ptr<Move> getNextMove(bool randomMoves = true) override; //if false will give only best action availble no exploration
 	void feedReward(float target);
+	uint64_t getStateSize() const noexcept; //return the count of values that are not equal to initialEstimation
 };
 

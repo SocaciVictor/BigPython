@@ -1,10 +1,11 @@
 #include "Game.h"
 #include "AiPlayer.h"
+#include <random>
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Blue, "BlueData", m_board)},
-	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red,"RedData",m_board) },
+	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue)},
+	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red, "RedData",m_board) },
 	maxNumPillars{ number_pillars },
 	maxNumBridges{ number_bridges },
 	m_current_player{ m_player1.get()}
@@ -24,6 +25,7 @@ void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
 {
 	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
 	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
+	m_current_player = m_player1.get();
 }
 
 //function assumes move is a valid move
@@ -37,7 +39,7 @@ bool Game::addMove(Move* move)
 		addPillar(movePillar->pozition);
 	}
 	//addBridge
-	else {
+	if(moveBridge) {
 		switch (moveBridge->moveType) {
 			case MoveType::Add:
 				addBridge(moveBridge->startPozition, moveBridge->endPozition);
@@ -58,6 +60,11 @@ const State& Game::getState() const noexcept
 	return m_state;
 }
 
+void Game::setState(State&& state)
+{
+	m_state = std::move(state);
+}
+
 const bool& Game::finished() const 
 {
 	if (m_state != State::None) return true;
@@ -75,6 +82,18 @@ void Game::nextPlayer()
 		m_current_player = m_player1.get();
 	}
 	updateState();
+}
+
+//changes to other player without checking gameState and updating the state
+//used for AiPlayer
+void Game::switchPlayer()
+{
+	if (m_current_player == m_player1.get()) {
+		m_current_player = m_player2.get();
+	}
+	else {
+		m_current_player = m_player1.get();
+	}
 }
 
 const bool& Game::addPillar(const Point& point)
@@ -120,6 +139,20 @@ void Game::reset()
 	m_board.reset();
 	m_player1->reset(maxNumPillars, maxNumBridges);
 	m_player2->reset(maxNumPillars, maxNumBridges);
+
+	//default starting player
+	m_current_player = m_player1.get();
+
+	//if both players are ai starting player is random
+	if (dynamic_cast<AiPlayer*>(m_player1.get()) && dynamic_cast<AiPlayer*>(m_player2.get())) {
+		static std::random_device randomDevice;
+		static std::mt19937 randomEngine = std::mt19937{ randomDevice() };
+		std::bernoulli_distribution dis(0.5f);
+		//50% chance that second player start
+		if (dis(randomEngine))
+			m_current_player = m_player2.get();
+	}
+	
 	m_state = State::None;
 }
 

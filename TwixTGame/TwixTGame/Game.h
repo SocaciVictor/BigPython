@@ -27,8 +27,10 @@ public:
 	void setPlayerAi(std::string redFileData, std::string blueFileData);
 	bool addMove(Move* move); //return true when a move is an end turn move, false otherwise
 	const State& getState() const noexcept;
+	void setState(State&& state);
 	const bool& finished() const;
 	void nextPlayer();
+	void switchPlayer(); //changes to other player without checking gameState and updating the state
 	const bool& addPillar(const Point& point);
 	const bool& addBridge(const Point& point1, const Point& point2);
 	const bool& removeBridges(const Point& point1,const Point& point2);

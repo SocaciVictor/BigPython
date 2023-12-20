@@ -11,6 +11,7 @@ private:
 	Game m_game{ 5,5,50,50};
 
 	void drawAiMove(Move* move);
+	void wipeAiFiles(std::string redFileData, std::string blueFileData);
 public:
 	void drawBoard(const Board& board);
 	void drawPlayer(const Player* player);

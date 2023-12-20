@@ -4,11 +4,15 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    ConsoleGame gameTrain;
     ConsoleGame game;
-    game.run();
+   
 
+    gameTrain.train("RedData", "BlueData");
+    game.run();
+    
     //uncomment all the headers and sources from QtGraphics for this to work
     /*TwixTGame game;
     game.run();*/
-    return app.exec();
+    //return app.exec();
 }
