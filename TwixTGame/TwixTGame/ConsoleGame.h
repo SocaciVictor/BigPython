@@ -8,7 +8,9 @@
 class ConsoleGame
 {
 private:
-	Game m_game{ 24,24,50,50};
+	Game m_game{ 5,5,50,50};
+
+	void drawAiMove(Move* move);
 public:
 	void drawBoard(const Board& board);
 	void drawPlayer(const Player* player);

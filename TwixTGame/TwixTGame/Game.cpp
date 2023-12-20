@@ -3,8 +3,8 @@
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_unique<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
-	m_player2{ std::make_unique<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
+	m_player1{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Blue, "BlueData", m_board)},
+	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red,"RedData",m_board) },
 	maxNumPillars{ number_pillars },
 	maxNumBridges{ number_bridges },
 	m_current_player{ m_player1.get()}
@@ -40,7 +40,7 @@ bool Game::addMove(Move* move)
 	else {
 		switch (moveBridge->moveType) {
 			case MoveType::Add:
-				addBridge(moveBridge->startPozition, moveBridge->startPozition);
+				addBridge(moveBridge->startPozition, moveBridge->endPozition);
 				break;
 			case MoveType::Delete:
 				removeBridges(moveBridge->startPozition, moveBridge->endPozition);
@@ -67,13 +67,13 @@ const bool& Game::finished() const
 void Game::nextPlayer()
 {
 	if (finished()) return;
+	m_current_player->setMoved(false);
 	if (m_current_player == m_player1.get()) {
 		m_current_player = m_player2.get();
 	}
 	else {
 		m_current_player = m_player1.get();
 	}
-	m_current_player->setMoved(false);
 	updateState();
 }
 
@@ -120,11 +120,25 @@ void Game::reset()
 	m_board.reset();
 	m_player1->reset(maxNumPillars, maxNumBridges);
 	m_player2->reset(maxNumPillars, maxNumBridges);
+	m_state = State::None;
 }
 
 void Game::updateState()
 {
 	if (m_player1->getNumberPillars() == 0 && m_player2->getNumberPillars() == 0) m_state = State::Draw;
+	//check if the board is full with pillars
+	for (const auto& line : m_board.getData()) {
+		for (const auto& base : line) {
+			//ignore corners
+			if (!base)
+				continue;
+
+			//check if base is a base not a pillar
+			if (base->getColor() == PieceColor::None)
+				return;
+		}
+	}
+	m_state = State::Draw;
 }
 
 void Game::updateState(const Point& point1, const Point& point2)

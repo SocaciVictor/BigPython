@@ -15,6 +15,11 @@ const PieceColor& Player::getColor() const noexcept
 	return m_color;
 }
 
+void Player::setColor(PieceColor& color)
+{
+	m_color = color;
+}
+
 const uint16_t& Player::getNumberPillars() const noexcept
 {
 	return m_number_pillars;
@@ -52,6 +57,7 @@ void Player::reset(uint16_t& maxNumPillars, uint16_t& maxNumBridge)
 	m_moved = false;
 }
 
+//TODO make friend function getting acces to private members of player
 std::ostream& operator<<(std::ostream& output, const Player& player)
 {
 	output << pieceColorToChar(player.getColor()) << " " << player.getNumberPillars() << " "

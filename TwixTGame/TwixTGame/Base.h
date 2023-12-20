@@ -30,9 +30,9 @@ struct Point {
 		return ((x == other.x) && (y == other.y));
 	}
 	bool operator<(const Point& other) const { //the minimum point is the one at top left corner
-		if (x == other.x)
-			return (y < other.y);
-		return (x < other.x);
+		if (y == other.y)
+			return (x < other.x);
+		return (y < other.y);
 	}
 	friend std::ostream& operator<<(std::ostream& out, const Point& point) {
 		out << "(" << point.x << ", " << point.y << ")";

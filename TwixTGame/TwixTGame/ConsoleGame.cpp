@@ -1,6 +1,44 @@
 #include "ConsoleGame.h"
 
 
+void ConsoleGame::drawAiMove(Move* move)
+{
+	drawBoard(m_game.getBoard());
+	drawPlayer(m_game.getCurrentPlayer());
+	std::cout << "\nMoved ";
+	MoveBridge* ptr = dynamic_cast<MoveBridge*>(move);
+
+	//if move is end turn
+	if (ptr != nullptr && ptr->moveType == MoveType::Next) {
+		std::cout << "End Turn\n";
+		system("PAUSE");
+		system("CLS");
+		return;
+	}
+
+	std::string text{ "" };
+	switch (move->type) {
+	case PieceType::BluePillar:
+		text = "Blue Pillar";
+		break;
+	case PieceType::BlueBridge:
+		text = "Blue Bridge";
+		break;
+	case PieceType::RedPillar:
+		text = "Red Pillar";
+		break;
+	case PieceType::RedBridge:
+		text = "Red Bridge";
+		break;
+	default:
+		break;
+	}
+	std::cout << text << " ";
+	move->print();
+	system("PAUSE");
+	system("CLS");
+}
+
 void ConsoleGame::drawBoard(const Board& board)
 {
 	std::cout << "   ";
@@ -84,27 +122,41 @@ void ConsoleGame::playerBridgesMove()
 
 void ConsoleGame::run()
 {
-	//m_game.loadGame("save1.txt");
-	//TODO make player1 human and player2 bot for testing
-	do {
-		if (dynamic_cast<AiPlayer*>(m_game.getCurrentPlayer())) {
-			std::unique_ptr<Move> move;
-			bool isEndTurn;
+	while (1) {
+		//m_game.loadGame("save1.txt");
+		do {
+			//moves by aiPlayer
+			if (dynamic_cast<AiPlayer*>(m_game.getCurrentPlayer())) {
+				std::unique_ptr<Move> move;
+				bool isEndTurn;
+				do {
+					move = m_game.getCurrentPlayer()->getNextMove();
+					std::cout << "Hash before applied move: " << const_cast<Board&>(m_game.getBoard()).getHashWithMove(move.get()) << "\n";
+					//isEndTurn is true when a end turn move is made
+					isEndTurn = m_game.addMove(move.get());
+					drawAiMove(move.get());
+				} while (!isEndTurn && !m_game.finished());
+			}
+			//moves by human player
+			else {
+				playerPillarMove();
+				playerBridgesMove();
+			}
+			m_game.nextPlayer();
+		} while (!m_game.finished());
+		std::system("cls");
+		drawBoard(m_game.getBoard());
+		if (m_game.getState() == State::Draw) {
+			std::cout << "Jocul sa terminat cu remiza. \n";
 		}
 		else {
-			playerPillarMove();
-			playerBridgesMove();
+			std::cout << std::format("\n Player {}, a castigat! ",
+				pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
 		}
-		m_game.nextPlayer();
-	} while (!m_game.finished());
-	std::system("cls");
-	drawBoard(m_game.getBoard());
-	if (m_game.getState() == State::Draw) {
-		std::cout << "Jocul sa terminat cu remiza. \n";
-	}else{
-		std::cout << std::format("\n Player {}, a castigat! ",
-			pieceColorToChar(m_game.getCurrentPlayer()->getColor()));
+		system("PAUSE");
+		m_game.reset();
 	}
+	
 }
 
 void ConsoleGame::train(std::string redFileData, std::string blueFileData)

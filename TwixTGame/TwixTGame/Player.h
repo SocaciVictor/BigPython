@@ -24,7 +24,7 @@ struct MovePillar : public Move{
 struct MoveBridge : public Move {
 	Point startPozition;
 	Point endPozition;
-	MoveType moveType : 2;
+	MoveType moveType : 3;
 	MoveBridge(Point startPozition, Point endPozition,MoveType moveType = MoveType::None, PieceType type = PieceType::None)
 		: Move{ type }, startPozition{ startPozition }, endPozition{ endPozition }, moveType{ moveType } {
 		if (endPozition < startPozition)
@@ -59,6 +59,7 @@ public:
 	virtual ~Player() = default;
 	virtual std::unique_ptr<Move> getNextMove();
 	const PieceColor& getColor() const noexcept;
+	void setColor(PieceColor& color);
 	const uint16_t& getNumberPillars() const noexcept;
 	const uint16_t& getNumberBridges() const noexcept;
 	void updateNumberPillars(const int16_t& addend);

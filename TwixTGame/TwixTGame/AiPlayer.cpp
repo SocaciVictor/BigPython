@@ -42,11 +42,17 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 			pieceType = PieceType::RedPillar;
 			break;
 		}
-		for (const auto& line : m_board.getData()) {
-			for (const auto& base : line) {
+ 		for (const auto& line : m_board.getData()) {
+ 			for (const auto& base : line) {
 				if (base) {
 					//if base is not occupied by pillar
-					if (dynamic_cast<Pillar*>(base.get()) == nullptr) {
+					if (base->getColor() == PieceColor::None) {
+						//is not in enemy base
+						if (m_color == PieceColor::Blue &&
+							(base->getCoordinates().x == 0 || base->getCoordinates().x == m_board.getColumns() - 1)) continue;
+						if (m_color == PieceColor::Red &&
+							(base->getCoordinates().y == 0 || base->getCoordinates().y == m_board.getRows() - 1)) continue;
+
 						moves.emplace_back(std::make_unique<MovePillar>(base->getCoordinates(), pieceType));
 					}
 				}
@@ -56,9 +62,6 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 	}
 	//generate posible bridge moves
 	else {
-		//generete end turn move
-		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next));
-
 		switch (m_color) {
 		case PieceColor::Blue:
 			pieceType = PieceType::BlueBridge;
@@ -67,6 +70,9 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 			pieceType = PieceType::RedBridge;
 			break;
 		}
+		//generete end turn move
+		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next, pieceType));
+
 		//generate all the delete moves
 		for (const auto& bridge : m_board.getBridges()) {
 			//check if bridge belongs to player
@@ -80,7 +86,7 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		for (const auto& line : m_board.getData()) {
 			for (const auto& base : line) {
 				if (base) {
-					if (dynamic_cast<Pillar*>(base.get()) != nullptr) {
+					if (base->getColor() != PieceColor::None) {
 						//check if pillar belongs to player
 						if (static_cast<Pillar*>(base.get())->getColor() != m_color)
 							continue;

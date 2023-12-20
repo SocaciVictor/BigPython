@@ -51,7 +51,7 @@ void Board::initBoard()
 		for (std::uint16_t j = 0; j < m_columns; j++) {
 			//verificare sa nu se creeze si in colturile tablei;
 			if ((j == 0 || j == m_columns - 1) && (i == 0 || i == m_rows - 1)) continue;
-			m_bases[i][j] = std::make_unique<Base>(Point{ i,j });
+			m_bases[i][j] = std::make_unique<Base>(Point{ j,i });
 		}
 	}
 }
