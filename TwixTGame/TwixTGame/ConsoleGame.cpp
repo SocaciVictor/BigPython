@@ -134,6 +134,16 @@ void ConsoleGame::playerBridgesMove()
 
 void ConsoleGame::run()
 {
+	//if there are aiplayers load policy
+	AiPlayer* p1 = dynamic_cast<AiPlayer*>(m_game.getCurrentPlayer());
+	m_game.switchPlayer();
+	AiPlayer* p2 = dynamic_cast<AiPlayer*>(m_game.getCurrentPlayer());
+	m_game.switchPlayer();
+	if (p1)
+		p1->loadPolicy();
+	if (p2)
+		p2->loadPolicy();
+
 	//m_game.loadGame("save1.txt");
 	do {
 		//moves by aiPlayer
@@ -141,7 +151,7 @@ void ConsoleGame::run()
 			std::unique_ptr<Move> move;
 			bool isEndTurn;
 			do {
-				move = m_game.getCurrentPlayer()->getNextMove(false);//get only best action available
+				move = m_game.getCurrentPlayer()->getNextMove(false);//best action available
 				//case for 0 possible moves, is considered a draw
 				if (!move) {
 					m_game.setState(State::Draw);
@@ -199,7 +209,7 @@ void ConsoleGame::train(std::string redFileData, std::string blueFileData)
 				wipeAiFiles(redFileData, blueFileData);
 				std::cout << "Files wiped!\n";
 				system("PAUSE");
-				continue;
+				return;
 			}
 		default:
 			break;
@@ -250,9 +260,9 @@ void ConsoleGame::train(std::string redFileData, std::string blueFileData)
 		//feed reward for each ai
 		switch (m_game.getState()) {
 		case State::Draw:
-			static_cast<AiPlayer*>(m_game.getCurrentPlayer())->feedReward(0.5f);
+			static_cast<AiPlayer*>(m_game.getCurrentPlayer())->feedReward(0.1f);
 			m_game.switchPlayer();
-			static_cast<AiPlayer*>(m_game.getCurrentPlayer())->feedReward(0.5f);
+			static_cast<AiPlayer*>(m_game.getCurrentPlayer())->feedReward(0.1f);
 			break;
 		case State::Win:
 			static_cast<AiPlayer*>(m_game.getCurrentPlayer())->feedReward(1.0f);
@@ -286,5 +296,9 @@ void ConsoleGame::train(std::string redFileData, std::string blueFileData)
 		<< std::max(stateSize, static_cast<AiPlayer*>(m_game.getCurrentPlayer())->getStateSize()) <<"\n";
 	//set player to initial state
 	m_game.switchPlayer();
+
+	static_cast<AiPlayer*>(m_game.getCurrentPlayer())->savePolicy();
+	m_game.switchPlayer();
+	static_cast<AiPlayer*>(m_game.getCurrentPlayer())->savePolicy();
 	system("PAUSE");
 }

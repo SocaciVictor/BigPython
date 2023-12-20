@@ -4,7 +4,7 @@
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue)},
+	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue) },
 	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red, "RedData",m_board) },
 	maxNumPillars{ number_pillars },
 	maxNumBridges{ number_bridges },
@@ -26,6 +26,8 @@ void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
 	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
 	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
 	m_current_player = m_player1.get();
+	static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
+	static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
 }
 
 //function assumes move is a valid move

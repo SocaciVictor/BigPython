@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <limits>
 #include <fstream>
+#include <unordered_set>
 
 void AiPlayer::loadPolicy()
 {
@@ -15,17 +16,21 @@ void AiPlayer::loadPolicy()
 		input >> hash >> value;
 		m_stateMoveCosts.insert(std::make_pair(hash, value));
 	}
+	input.close();
 }
 
 void AiPlayer::savePolicy()
 {
-	std::ofstream output{ m_dataFile };
+	std::ofstream output{ m_dataFile , std::ios::trunc};
 	if (output.bad())
 		throw std::runtime_error("Error output file");
 	for (const auto& moveState : m_stateMoveCosts) {
-		if (moveState.second != initialEstimation)
-			output << moveState.first << ' ' << moveState.second << "\n";
+		if (moveState.second != initialEstimation) {
+			if (!moveState.first.empty())
+				output << moveState.first << ' ' << moveState.second << "\n";
+		}
 	}
+	output.close();
 }
 
 std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
@@ -70,8 +75,7 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 			pieceType = PieceType::RedBridge;
 			break;
 		}
-		//generete end turn move
-		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next, pieceType));
+		
 
 		//generate all the delete moves
 		//for (const auto& bridge : m_board.getBridges()) {
@@ -83,6 +87,7 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		uint8_t dx[] = { 1, 2, 2, 1, -1, -2, -2, -1 };
 		uint8_t dy[] = { -2, -1, 1, 2, 2, 1, -1, -2 };
 		uint8_t x, y, nextX, nextY;
+		std::unordered_set<TwoPoint, TwoPointHash> bridgePoints;
 		for (const auto& line : m_board.getData()) {
 			for (const auto& base : line) {
 				if (base) {
@@ -103,15 +108,27 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 								//check if found base belongs to player
 								if (static_cast<Pillar*>(m_board.getData()[nextY][nextX].get())->getColor() != m_color)
 									continue;
+								//check if the bridge was checked
+								Point start{ Point{x,y} };
+								Point end{ Point{nextX,nextY} };
+								if (end < start)
+									std::swap(start, end);
+								if (bridgePoints.find(TwoPoint{ start,end }) != bridgePoints.end())
+									continue;
 								//check for inersections
-								if (m_board.isNotIntersection(Point{ x,y }, Point{ nextX, nextY }))
+								if (m_board.isNotIntersection(Point{ x,y }, Point{ nextX, nextY })) {
 									moves.emplace_back(std::make_unique<MoveBridge>(Point{ x,y }, Point{ nextX, nextY }, MoveType::Add, pieceType));
+									bridgePoints.insert(TwoPoint{ start, end });
+								}
+									
 							}
 						}
 					}
 				}
 			}
 		}
+		//generete end turn move
+		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next, pieceType));
 	}
 	return moves;
 }
@@ -120,22 +137,29 @@ AiPlayer::AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& num
 	const std::string& dataFile, Board& board)
 	: Player{ number_pillars, number_bridges, color }, m_dataFile{ dataFile }, m_board{board}
 {
-	loadPolicy();
+	//loadPolicy();
 }
 
 AiPlayer::~AiPlayer()
 {
-	savePolicy();
+	//savePolicy();
 }
 
 //caller responsible for ownership
 std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 {
 	std::vector<std::unique_ptr<Move>> possibleMoves{ generateMoveCollection() };
-
+	
 	//only enters when no possible moves => draw
 	if (possibleMoves.empty())
 		return nullptr;
+
+	//if a bridge can be placed it should be placed
+	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(possibleMoves.front().get());
+	if (moveBridge) {
+		if (possibleMoves.size() > 1)
+			possibleMoves.pop_back();
+	}
 
 	uint64_t moveIndex{ 0 };
 	std::string bestStateMoveHash{ "" };
