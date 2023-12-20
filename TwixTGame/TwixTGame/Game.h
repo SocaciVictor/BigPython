@@ -25,6 +25,7 @@ public:
 	const Board& getBoard() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
 	void setPlayerAi(std::string redFileData, std::string blueFileData);
+	bool addMove(Move* move); //return true when a move is an end turn move, false otherwise
 	const State& getState() const noexcept;
 	const bool& finished() const;
 	void nextPlayer();

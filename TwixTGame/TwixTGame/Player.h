@@ -12,10 +12,14 @@ struct Move {
 	PieceType type : 3; //5 types
 	Move(PieceType type = PieceType::None) : type{ type } {}
 	virtual ~Move() = default;
+	virtual void print() = 0;
 };
 struct MovePillar : public Move{
 	Point pozition;
 	MovePillar(Point pozition, PieceType type = PieceType::None) : Move{ type }, pozition{ pozition } {}
+	void print() {
+		std::cout << pozition << "\n";
+	}
 };
 struct MoveBridge : public Move {
 	Point startPozition;
@@ -25,6 +29,21 @@ struct MoveBridge : public Move {
 		: Move{ type }, startPozition{ startPozition }, endPozition{ endPozition }, moveType{ moveType } {
 		if (endPozition < startPozition)
 			std::swap(this->endPozition, this->startPozition); //startPosition is always on top and to the left of endPosition
+	}
+	void print() {
+		std::cout << startPozition << " " << endPozition << " ";
+		switch (moveType) {
+		case MoveType::Add:
+			std::cout << "Add";
+			break;
+		case MoveType::Delete:
+			std::cout << "Delete";
+			break;
+		case MoveType::Next:
+			std::cout << "End Turn";
+			break;
+		}
+		std::cout << "\n";
 	}
 };
 
@@ -50,3 +69,4 @@ public:
 	friend std::ostream& operator<<(std::ostream& output, const Player& player);
 };
 
+	

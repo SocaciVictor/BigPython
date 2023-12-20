@@ -26,6 +26,33 @@ void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
 	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
 }
 
+//function assumes move is a valid move
+//return true when a move is an end turn move, false otherwise
+bool Game::addMove(Move* move)
+{
+	MovePillar* movePillar = dynamic_cast<MovePillar*>(move);
+	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(move);
+	//addPillar
+	if (movePillar) {
+		addPillar(movePillar->pozition);
+	}
+	//addBridge
+	else {
+		switch (moveBridge->moveType) {
+			case MoveType::Add:
+				addBridge(moveBridge->startPozition, moveBridge->startPozition);
+				break;
+			case MoveType::Delete:
+				removeBridges(moveBridge->startPozition, moveBridge->endPozition);
+				break;
+			case MoveType::Next:
+				return true;
+				break;
+		}
+	}
+	return false;
+}
+
 const State& Game::getState() const noexcept
 {
 	return m_state;

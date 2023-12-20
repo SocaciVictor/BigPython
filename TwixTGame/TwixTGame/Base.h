@@ -34,6 +34,10 @@ struct Point {
 			return (y < other.y);
 		return (x < other.x);
 	}
+	friend std::ostream& operator<<(std::ostream& out, const Point& point) {
+		out << "(" << point.x << ", " << point.y << ")";
+		return out;
+	}
 };
 
 struct PointHash {

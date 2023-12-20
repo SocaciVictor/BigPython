@@ -1,5 +1,6 @@
 #include "ConsoleGame.h"
 
+
 void ConsoleGame::drawBoard(const Board& board)
 {
 	std::cout << "   ";
@@ -86,8 +87,14 @@ void ConsoleGame::run()
 	//m_game.loadGame("save1.txt");
 	//TODO make player1 human and player2 bot for testing
 	do {
-		playerPillarMove();
-		playerBridgesMove();
+		if (dynamic_cast<AiPlayer*>(m_game.getCurrentPlayer())) {
+			std::unique_ptr<Move> move;
+			bool isEndTurn;
+		}
+		else {
+			playerPillarMove();
+			playerBridgesMove();
+		}
 		m_game.nextPlayer();
 	} while (!m_game.finished());
 	std::system("cls");

@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <ranges>
 #include <fstream>
+#include "AiPlayer.h"
 
 class ConsoleGame
 {
