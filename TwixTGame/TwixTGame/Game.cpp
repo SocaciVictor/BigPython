@@ -38,13 +38,17 @@ bool Game::addMove(Move* move)
 	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(move);
 	//addPillar
 	if (movePillar) {
-		addPillar(movePillar->pozition);
+		m_board.addPillar(movePillar->pozition, m_current_player->getColor(), false);//no checks for pillar
+		m_current_player->updateNumberPillars(-1);
+		m_current_player->setMoved(true);
 	}
 	//addBridge
 	if(moveBridge) {
 		switch (moveBridge->moveType) {
 			case MoveType::Add:
-				addBridge(moveBridge->startPozition, moveBridge->endPozition);
+				m_board.addBridge(moveBridge->startPozition, moveBridge->endPozition, m_current_player->getColor(), false);
+				m_current_player->updateNumberBridges(-1);
+				updateState(moveBridge->startPozition, moveBridge->endPozition);
 				break;
 			case MoveType::Delete:
 				removeBridges(moveBridge->startPozition, moveBridge->endPozition);

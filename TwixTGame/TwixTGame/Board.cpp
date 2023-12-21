@@ -164,6 +164,12 @@ const bool& Board::addPillar(const Point& point, const PieceColor& color)
 	return true;
 }
 
+void Board::addPillar(const Point& point, const PieceColor& color, bool check)
+{
+	m_bases[point.y][point.x] =
+		std::make_unique<Pillar>(point, color);
+}
+
 const bool& Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	if (!isInBoard(point1) || !isInBoard(point2)) return false;
@@ -178,6 +184,13 @@ const bool& Board::addBridge(const Point& point1, const Point& point2, const Pie
 	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->addNeighbor(point2);
 	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->addNeighbor(point1);
 	return true;
+}
+
+void Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color, bool check)
+{
+	m_bridges[TwoPoint{ point1, point2 }] = Bridge(point1, point2, color);
+	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->addNeighbor(point2);
+	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->addNeighbor(point1);
 }
 
 const bool& Board::removeBridge(const Point& point1, const Point& point2, const PieceColor& color)
