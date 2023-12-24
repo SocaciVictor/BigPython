@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "AiPlayer.h"
 #include <random>
+#include <chrono>
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
@@ -26,8 +27,16 @@ void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
 	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
 	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
 	m_current_player = m_player1.get();
+	
+	
+	auto start = std::chrono::high_resolution_clock::now();
 	static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
 	static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> duration = end - start;
+	std::cout << "Time spent loading files: " << duration << "\n";
+	system("PAUSE");
 }
 
 //function assumes move is a valid move
@@ -71,7 +80,7 @@ void Game::setState(State&& state)
 	m_state = std::move(state);
 }
 
-const bool& Game::finished() const 
+bool Game::finished() const 
 {
 	if (m_state != State::None) return true;
 	return false;
@@ -102,7 +111,7 @@ void Game::switchPlayer()
 	}
 }
 
-const bool& Game::addPillar(const Point& point)
+bool Game::addPillar(const Point& point)
 {
 	//verificare daca playerul a adaugat deja un pillar sa nu mai poata adauga;
 	if (m_current_player->getMoved()) return false;
@@ -115,7 +124,7 @@ const bool& Game::addPillar(const Point& point)
 	return true;
 }
 
-const bool& Game::addBridge(const Point& point1, const Point& point2)
+bool Game::addBridge(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
 	if (!m_current_player->getMoved()) return false;
@@ -129,7 +138,7 @@ const bool& Game::addBridge(const Point& point1, const Point& point2)
 	return true;
 }
 
-const bool& Game::removeBridges(const Point& point1, const Point& point2)
+bool Game::removeBridges(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
 	if (!m_current_player->getMoved()) return false;
@@ -185,7 +194,7 @@ void Game::updateState(const Point& point1, const Point& point2)
 	if(m_board.gameIsEnded(point1,point2,m_current_player->getColor())) m_state = State::Win;
 }
 
-const bool& Game::saveGame(const std::string& fisier)
+bool Game::saveGame(const std::string& fisier)
 {
 	std::ofstream output_file{fisier};
 	// Check if the file is successfully opened
@@ -208,7 +217,7 @@ const bool& Game::saveGame(const std::string& fisier)
 	return true;
 }
 
-const bool& Game::loadGame(const std::string& fisier)
+bool Game::loadGame(const std::string& fisier)
 {
 	std::ifstream input_file{ fisier };
 	// Check if the file is successfully opened

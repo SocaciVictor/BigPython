@@ -14,7 +14,9 @@ void AiPlayer::loadPolicy()
 	float value;
 	while (!input.eof()) {
 		input >> hash >> value;
-		m_stateMoveCosts.insert(std::make_pair(hash, value));
+		char* str;
+		alocateCharPtr(str, hash);
+		m_stateMoveCosts.insert(std::make_pair(str, value));
 	}
 	input.close();
 }
@@ -26,16 +28,16 @@ void AiPlayer::savePolicy()
 		throw std::runtime_error("Error output file");
 	for (const auto& moveState : m_stateMoveCosts) {
 		if (moveState.second != initialEstimation) {
-			if (!moveState.first.empty())
+			//if the hash is not empty
+			if (*moveState.first)
 				output << moveState.first << ' ' << moveState.second << "\n";
 		}
 	}
 	output.close();
 }
 
-std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
+void AiPlayer::generateMoveCollection(std::vector<std::unique_ptr<Move>>& moves)
 {
-	std::vector<std::unique_ptr<Move>> moves;
 	PieceType pieceType;
 	//generate all posible pillar moves
 	if (!m_moved) {
@@ -84,8 +86,8 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		//		moves.emplace_back(std::make_unique<MoveBridge>(bridge.first.point1, bridge.first.point2, MoveType::Delete, pieceType));
 		//}
 		//generate all the additive moves
-		uint8_t dx[] = { 1, 2, 2, 1, -1, -2, -2, -1 };
-		uint8_t dy[] = { -2, -1, 1, 2, 2, 1, -1, -2 };
+		int8_t dx[] = { 1, 2, 2, 1, -1, -2, -2, -1 };
+		int8_t dy[] = { -2, -1, 1, 2, 2, 1, -1, -2 };
 		uint8_t x, y, nextX, nextY;
 		std::unordered_set<TwoPoint, TwoPointHash> bridgePoints;
 		for (const auto& line : m_board.getData()) {
@@ -95,8 +97,8 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 						//check if pillar belongs to player
 						if (static_cast<Pillar*>(base.get())->getColor() != m_color)
 							continue;
-						x = base->getCoordinates().x;
-						y = base->getCoordinates().y;
+						x = (uint8_t)base->getCoordinates().x;
+						y = (uint8_t)base->getCoordinates().y;
 						for (uint8_t i = 0; i < 8; ++i) {
 							nextX = x + dx[i];
 							nextY = y + dy[i];
@@ -130,7 +132,18 @@ std::vector<std::unique_ptr<Move>> AiPlayer::generateMoveCollection()
 		//generete end turn move
 		moves.emplace_back(std::make_unique<MoveBridge>(Point{ 0,0 }, Point{ 0, 0 }, MoveType::Next, pieceType));
 	}
-	return moves;
+	
+}
+
+void AiPlayer::alocateCharPtr(char*& dest, std::string& source)
+{
+	dest = new char[source.length() + 1];
+	if (dest) {
+		strcpy_s(dest, sizeof(char) * (source.length() + 1), source.c_str());
+	}
+	else {
+		std::runtime_error error("Memory allocation failed");
+	}
 }
 
 AiPlayer::AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color,
@@ -143,12 +156,15 @@ AiPlayer::AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& num
 AiPlayer::~AiPlayer()
 {
 	//savePolicy();
+	for (const auto& it : m_stateMoveCosts)
+		delete[] it.first;
 }
 
 //caller responsible for ownership
 std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 {
-	std::vector<std::unique_ptr<Move>> possibleMoves{ generateMoveCollection() };
+	std::vector<std::unique_ptr<Move>> possibleMoves;
+	generateMoveCollection(possibleMoves);
 	
 	//only enters when no possible moves => draw
 	if (possibleMoves.empty())
@@ -160,7 +176,7 @@ std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 		if (possibleMoves.size() > 1)
 			possibleMoves.pop_back();
 	}
-
+	char* str = nullptr;
 	uint64_t moveIndex{ 0 };
 	std::string bestStateMoveHash{ "" };
 	//to change bernDist chance
@@ -171,7 +187,12 @@ std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 		std::uniform_int_distribution<uint64_t> intDist(0, (uint64_t)possibleMoves.size() - 1);
 		moveIndex = intDist(randomEngine);
 		bestStateMoveHash = m_board.getHashWithMove(possibleMoves[moveIndex].get());
-		m_stateMoveCosts.insert(std::make_pair( bestStateMoveHash, initialEstimation ));
+
+		alocateCharPtr(str, bestStateMoveHash);
+		//if hash already exists in map dealocate curent str
+		auto map = m_stateMoveCosts.insert(std::make_pair(str, initialEstimation ));
+		if (!map.second)
+			delete[] str;
 	}
 	//select best action available
 	else {
@@ -179,9 +200,12 @@ std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 		for (uint64_t i = 0; i < possibleMoves.size(); ++i) {
 			std::string stateMoveHash = m_board.getHashWithMove(possibleMoves[i].get());
 
+			alocateCharPtr(str, stateMoveHash);
 			//map(std::pair<std::string, float>, bool)
 			//float part is the current move value map.first->second
-			auto map = m_stateMoveCosts.insert(std::make_pair(stateMoveHash, initialEstimation));
+			auto map = m_stateMoveCosts.insert(std::make_pair(str, initialEstimation));
+			if (!map.second)
+				delete[] str;
 
 			if (map.first->second > bestMoveEstimation) {
 				moveIndex = i;
@@ -207,8 +231,8 @@ std::unique_ptr<Move> AiPlayer::getNextMove(bool randomMoves)
 void AiPlayer::feedReward(float target)
 {
 	for (auto it = m_previousStateMoves.rbegin(); it != m_previousStateMoves.rend(); ++it) {
-		const auto& stateMove = *it;
-		float& estimation = m_stateMoveCosts[stateMove];
+		const char* stateMove = it->c_str();
+		float& estimation = m_stateMoveCosts[const_cast<char*>(stateMove)];
 		estimation = estimation + learningRate * (target - estimation);
 		target = estimation;
 	}

@@ -27,14 +27,14 @@ public:
 	const uint16_t& getColumns() const noexcept;
 	const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& getBridges() const noexcept;
 	std::string getHashWithMove(Move* move);
-	const bool& isNotIntersection(const Point& p1, const Point& p2);
-	const bool& isInBoard(const Point& point);
-	const bool& addPillar(const Point& point, const PieceColor& color);
+	bool isNotIntersection(const Point& p1, const Point& p2);
+	bool isInBoard(const Point& point);
+	bool addPillar(const Point& point, const PieceColor& color);
 	void addPillar(const Point& point, const PieceColor& color, bool check); //false for no checks
-	const bool& addBridge(const Point& point1, const Point& point2, const PieceColor& color);
+	bool addBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	void addBridge(const Point& point1, const Point& point2, const PieceColor& color, bool check);//false for no checks
-	const bool& removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
-	const bool& gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
+	bool removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
+	bool gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
 	void reset();
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
 	friend std::istream& operator>>(std::istream& input, Board& board);

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <exception>
 Player::Player(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color) :
 	m_number_pillars{ number_pillars }, m_number_bridges{ number_bridges }, m_color{ color }, m_moved{ false }
 {}
@@ -7,6 +7,10 @@ Player::Player(const std::uint16_t& number_pillars, const std::uint16_t& number_
 //only used by AiPlayer
 std::unique_ptr<Move> Player::getNextMove(bool randomMoves)
 {
+	if (randomMoves) {
+		throw std::runtime_error("Cannot be used by Player");
+	}
+		
 	return std::unique_ptr<Move>();
 }
 
@@ -40,12 +44,12 @@ void Player::updateNumberBridges(const int16_t& addend)
 	m_number_bridges += addend;
 }
 
-const bool& Player::getMoved() const noexcept
+bool Player::getMoved() const noexcept
 {
 	return m_moved;
 }
 
-void Player::setMoved(const bool& moved)
+void Player::setMoved(bool moved)
 {
 	m_moved = moved;
 }

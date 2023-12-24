@@ -28,17 +28,17 @@ public:
 	bool addMove(Move* move); //return true when a move is an end turn move, false otherwise
 	const State& getState() const noexcept;
 	void setState(State&& state);
-	const bool& finished() const;
+	bool finished() const;
 	void nextPlayer();
 	void switchPlayer(); //changes to other player without checking gameState and updating the state
-	const bool& addPillar(const Point& point);
-	const bool& addBridge(const Point& point1, const Point& point2);
-	const bool& removeBridges(const Point& point1,const Point& point2);
+	bool addPillar(const Point& point);
+	bool addBridge(const Point& point1, const Point& point2);
+	bool removeBridges(const Point& point1,const Point& point2);
 	void reset();
 	void updateState();
 	void updateState(const Point& point1, const Point& point2);
-	const bool& saveGame(const std::string& fisier);
-	const bool& loadGame(const std::string& fisier);
+	bool saveGame(const std::string& fisier);
+	bool loadGame(const std::string& fisier);
 	
 protected:
 	std::unique_ptr<Player> m_player1;//blue

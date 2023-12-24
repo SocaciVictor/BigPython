@@ -64,8 +64,8 @@ public:
 	const uint16_t& getNumberBridges() const noexcept;
 	void updateNumberPillars(const int16_t& addend);
 	void updateNumberBridges(const int16_t& addend);
-	const bool& getMoved() const noexcept;
-	void setMoved(const bool& moved);
+	bool getMoved() const noexcept;
+	void setMoved(bool moved);
 	void reset(uint16_t& maxNumPillars, uint16_t& maxNumBridge);
 	friend std::ostream& operator<<(std::ostream& output, const Player& player);
 };

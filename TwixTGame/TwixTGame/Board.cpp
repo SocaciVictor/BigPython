@@ -1,7 +1,7 @@
 #include "Board.h"
 
 
-const bool& Board::isNotIntersection(const Point& p1, const Point& p2)
+bool Board::isNotIntersection(const Point& p1, const Point& p2)
 {
 	//calculam directiile
 	int16_t dx = p1.x - p2.x;
@@ -85,6 +85,8 @@ const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& Board::getBridges() co
 
 std::string Board::getHashWithMove(Move* move)
 {
+	if (!move)
+		std::runtime_error("Empty move!!");
 	std::string hash = "";
 	std::set<Point> bridgesPozitions;
 
@@ -140,14 +142,14 @@ std::string Board::getHashWithMove(Move* move)
 	return hash;
 }
 
-const bool& Board::isInBoard(const Point& point)
+bool Board::isInBoard(const Point& point)
 {
 	if (point.x < 0 || point.y < 0 || point.x >= m_columns || point.y >= m_rows) return false;
 	if ((point.x == 0 || point.x == m_columns - 1) && (point.y == 0 || point.y == m_rows - 1)) return false;
 	return true;
 }
 
-const bool& Board::addPillar(const Point& point, const PieceColor& color)
+bool Board::addPillar(const Point& point, const PieceColor& color)
 {
 	//verificare daca punctul se afla in board;
 	if (!isInBoard(point)) return false;
@@ -166,11 +168,14 @@ const bool& Board::addPillar(const Point& point, const PieceColor& color)
 
 void Board::addPillar(const Point& point, const PieceColor& color, bool check)
 {
-	m_bases[point.y][point.x] =
-		std::make_unique<Pillar>(point, color);
+	if (!check) {
+		m_bases[point.y][point.x] =
+			std::make_unique<Pillar>(point, color);
+	}
+	
 }
 
-const bool& Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color)
+bool Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	if (!isInBoard(point1) || !isInBoard(point2)) return false;
 	//verificare daca pillari sunt de aceiasi culoare cu playerul current
@@ -188,12 +193,15 @@ const bool& Board::addBridge(const Point& point1, const Point& point2, const Pie
 
 void Board::addBridge(const Point& point1, const Point& point2, const PieceColor& color, bool check)
 {
-	m_bridges[TwoPoint{ point1, point2 }] = Bridge(point1, point2, color);
-	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->addNeighbor(point2);
-	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->addNeighbor(point1);
+	if (!check) {
+		m_bridges[TwoPoint{ point1, point2 }] = Bridge(point1, point2, color);
+		static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->addNeighbor(point2);
+		static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->addNeighbor(point1);
+	}
+	
 }
 
-const bool& Board::removeBridge(const Point& point1, const Point& point2, const PieceColor& color)
+bool Board::removeBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	//verificam daca podul pe care vrem sa il stergem exista;
 	if (m_bridges.find({ point1,point2 }) == m_bridges.end()) return false;
@@ -207,7 +215,7 @@ const bool& Board::removeBridge(const Point& point1, const Point& point2, const 
 	return true;
 }
 
-const bool& Board::gameIsEnded(const Point& point1, const Point& point2, const PieceColor& color)
+bool Board::gameIsEnded(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	//Algoritmul Dijkstra
 	//creare comparator pentru prioritate in functie de culoarea playerului;

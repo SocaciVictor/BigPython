@@ -277,7 +277,7 @@ void ConsoleGame::train(std::string redFileData, std::string blueFileData)
 	}
 	//end timer
 	auto end = std::chrono::high_resolution_clock::now();
-
+	
 	//wait for watch thread to join
 	watchCount = false;
 	watchThread.join();

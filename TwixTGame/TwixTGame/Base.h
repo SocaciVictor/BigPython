@@ -17,9 +17,9 @@ enum class PieceColor : std::uint8_t {
 	None
 };
 
-const char& pieceColorToChar(const PieceColor& color);
+char pieceColorToChar(const PieceColor& color);
 
-const PieceColor& charToPieceColor(const char& character);
+PieceColor charToPieceColor(const char& character);
 
 struct Point {
 	std::uint16_t x;
@@ -74,7 +74,7 @@ protected:
 public:
 	Base(const Point& coordinates);
 	const Point& getCoordinates() const noexcept;
-	virtual const PieceColor& getColor() const noexcept;
+	virtual PieceColor getColor() const noexcept;
 };
 
 //Clasa Pillar
@@ -88,7 +88,7 @@ public:
 	void addNeighbor(const Point& neighbor);
 	void removeNeighbor(const Point& neighbor);
 	const std::unordered_set<Point, PointHash>& getNeighbors() const noexcept;
-	const PieceColor& getColor() const noexcept override;
+	PieceColor getColor() const noexcept override;
 };
 
 
