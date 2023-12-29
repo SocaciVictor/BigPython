@@ -1,16 +1,16 @@
 #include "Base.h"
 
-const char& pieceColorToChar(const PieceColor& color)
+char pieceColorToChar(const PieceColor& color)
 {
 	switch (color) {
-	case PieceColor::Blue: return 'R';
-	case PieceColor::Red: return 'B';
+	case PieceColor::Blue: return 'B';
+	case PieceColor::Red: return 'R';
 	case PieceColor::None: return 'N';
 	default: return '?';
 	}
 }
 
-const PieceColor& charToPieceColor(const char& character)
+PieceColor charToPieceColor(const char& character)
 {
 	switch (character) {
 	case 'B': return PieceColor::Blue;
@@ -28,7 +28,7 @@ const Point& Base::getCoordinates() const noexcept
 	return m_coordinates;
 }
 
-const PieceColor& Base::getColor() const noexcept
+PieceColor Base::getColor() const noexcept
 {
 	return PieceColor::None;
 }
@@ -53,7 +53,7 @@ const std::unordered_set<Point, PointHash>& Pillar::getNeighbors() const noexcep
 	return m_neighbors;
 }
 
-const PieceColor& Pillar::getColor() const noexcept
+PieceColor Pillar::getColor() const noexcept
 {
 	return m_color;
 }

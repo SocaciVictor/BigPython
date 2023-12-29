@@ -1,10 +1,15 @@
 #include "Game.h"
+#include "AiPlayer.h"
+#include <random>
+#include <chrono>
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
-	m_player1{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Blue}) },
-	m_player2{ std::make_shared<Player>(Player{number_pillars,number_bridges,PieceColor::Red}) },
-	m_current_player{ m_player1 }
+	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue) },
+	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red, "RedData",m_board) },
+	maxNumPillars{ number_pillars },
+	maxNumBridges{ number_bridges },
+	m_current_player{ m_player1.get()}
 {}
 
 const Board& Game::getBoard() const noexcept
@@ -14,7 +19,55 @@ const Board& Game::getBoard() const noexcept
 
 Player* Game::getCurrentPlayer() const noexcept
 {
-	return m_current_player.get();
+	return m_current_player;
+}
+
+void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
+{
+	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
+	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
+	m_current_player = m_player1.get();
+	
+	
+	auto start = std::chrono::high_resolution_clock::now();
+	static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
+	static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> duration = end - start;
+	std::cout << "Time spent loading files: " << duration << "\n";
+	system("PAUSE");
+}
+
+//function assumes move is a valid move
+//return true when a move is an end turn move, false otherwise
+bool Game::addMove(Move* move)
+{
+	MovePillar* movePillar = dynamic_cast<MovePillar*>(move);
+	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(move);
+	//addPillar
+	if (movePillar) {
+		m_board.addPillar(movePillar->pozition, m_current_player->getColor(), false);//no checks for pillar
+		m_current_player->updateNumberPillars(-1);
+		m_current_player->setMoved(true);
+	}
+	//addBridge
+	if(moveBridge) {
+		switch (moveBridge->moveType) {
+			case MoveType::Add:
+				m_board.addBridge(moveBridge->startPozition, moveBridge->endPozition, m_current_player->getColor(), false);
+				m_current_player->updateNumberBridges(-1);
+				updateState(moveBridge->startPozition, moveBridge->endPozition);
+				break;
+			case MoveType::Delete:
+				removeBridges(moveBridge->startPozition, moveBridge->endPozition);
+				break;
+			case MoveType::Next:
+				return true;
+				break;
+		}
+	}
+	return false;
 }
 
 const State& Game::getState() const noexcept
@@ -22,7 +75,12 @@ const State& Game::getState() const noexcept
 	return m_state;
 }
 
-const bool& Game::finished() const 
+void Game::setState(State&& state)
+{
+	m_state = std::move(state);
+}
+
+bool Game::finished() const 
 {
 	if (m_state != State::None) return true;
 	return false;
@@ -31,17 +89,29 @@ const bool& Game::finished() const
 void Game::nextPlayer()
 {
 	if (finished()) return;
-	if (m_current_player == m_player1) {
-		m_current_player = m_player2;
+	m_current_player->setMoved(false);
+	if (m_current_player == m_player1.get()) {
+		m_current_player = m_player2.get();
 	}
 	else {
-		m_current_player = m_player1;
+		m_current_player = m_player1.get();
 	}
-	m_current_player->setMoved(false);
 	updateState();
 }
 
-const bool& Game::addPillar(const Point& point)
+//changes to other player without checking gameState and updating the state
+//used for AiPlayer
+void Game::switchPlayer()
+{
+	if (m_current_player == m_player1.get()) {
+		m_current_player = m_player2.get();
+	}
+	else {
+		m_current_player = m_player1.get();
+	}
+}
+
+bool Game::addPillar(const Point& point)
 {
 	//verificare daca playerul a adaugat deja un pillar sa nu mai poata adauga;
 	if (m_current_player->getMoved()) return false;
@@ -54,7 +124,7 @@ const bool& Game::addPillar(const Point& point)
 	return true;
 }
 
-const bool& Game::addBridge(const Point& point1, const Point& point2)
+bool Game::addBridge(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
 	if (!m_current_player->getMoved()) return false;
@@ -68,7 +138,7 @@ const bool& Game::addBridge(const Point& point1, const Point& point2)
 	return true;
 }
 
-const bool& Game::removeBridges(const Point& point1, const Point& point2)
+bool Game::removeBridges(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
 	if (!m_current_player->getMoved()) return false;
@@ -79,9 +149,44 @@ const bool& Game::removeBridges(const Point& point1, const Point& point2)
 	return true;
 }
 
+void Game::reset()
+{
+	m_board.reset();
+	m_player1->reset(maxNumPillars, maxNumBridges);
+	m_player2->reset(maxNumPillars, maxNumBridges);
+
+	//default starting player
+	m_current_player = m_player1.get();
+
+	//if both players are ai starting player is random
+	if (dynamic_cast<AiPlayer*>(m_player1.get()) && dynamic_cast<AiPlayer*>(m_player2.get())) {
+		static std::random_device randomDevice;
+		static std::mt19937 randomEngine = std::mt19937{ randomDevice() };
+		std::bernoulli_distribution dis(0.5f);
+		//50% chance that second player start
+		if (dis(randomEngine))
+			m_current_player = m_player2.get();
+	}
+	
+	m_state = State::None;
+}
+
 void Game::updateState()
 {
 	if (m_player1->getNumberPillars() == 0 && m_player2->getNumberPillars() == 0) m_state = State::Draw;
+	//check if the board is full with pillars
+	for (const auto& line : m_board.getData()) {
+		for (const auto& base : line) {
+			//ignore corners
+			if (!base)
+				continue;
+
+			//check if base is a base not a pillar
+			if (base->getColor() == PieceColor::None)
+				return;
+		}
+	}
+	m_state = State::Draw;
 }
 
 void Game::updateState(const Point& point1, const Point& point2)
@@ -89,7 +194,7 @@ void Game::updateState(const Point& point1, const Point& point2)
 	if(m_board.gameIsEnded(point1,point2,m_current_player->getColor())) m_state = State::Win;
 }
 
-const bool& Game::saveGame(const std::string& fisier)
+bool Game::saveGame(const std::string& fisier)
 {
 	std::ofstream output_file{fisier};
 	// Check if the file is successfully opened
@@ -99,7 +204,7 @@ const bool& Game::saveGame(const std::string& fisier)
 	}
 	// Write to the file
 	// First line is the currentPlayer
-	if (m_current_player == m_player1)
+	if (m_current_player == m_player1.get())
 		output_file << 0;
 	else
 		output_file << 1;
@@ -112,7 +217,7 @@ const bool& Game::saveGame(const std::string& fisier)
 	return true;
 }
 
-const bool& Game::loadGame(const std::string& fisier)
+bool Game::loadGame(const std::string& fisier)
 {
 	std::ifstream input_file{ fisier };
 	// Check if the file is successfully opened
@@ -126,13 +231,13 @@ const bool& Game::loadGame(const std::string& fisier)
 	uint16_t number_pillars, number_bridges;
 	input_file >> last_player;
 	input_file >> color >> number_pillars >> number_bridges >> player_move;
-	m_player1 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
+	m_player1 = std::make_unique<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player1->setMoved(player_move);
 	input_file >> color >> number_pillars >> number_bridges >> player_move;
-	m_player2 = std::make_shared<Player>(number_pillars, number_bridges, charToPieceColor(color));
+	m_player2 = std::make_unique<Player>(number_pillars, number_bridges, charToPieceColor(color));
 	m_player2->setMoved(player_move);
-	if (!last_player) m_current_player = m_player1;
-	else m_current_player = m_player2;
+	if (!last_player) m_current_player = m_player1.get();
+	else m_current_player = m_player2.get();
 	//citire board;
 	input_file >> m_board;
 	//inchidere fisier;

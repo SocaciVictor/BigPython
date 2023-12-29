@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AiPlayer.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bridge.cpp" />
@@ -109,10 +110,11 @@
     <ClCompile Include="TwixTGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiPlayer.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bridge.h" />
-    <QtMoc Include="Button.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
