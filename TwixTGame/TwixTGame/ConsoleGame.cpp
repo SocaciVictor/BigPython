@@ -54,11 +54,11 @@ void ConsoleGame::wipeAiFiles(std::string redFileData, std::string blueFileData)
 void ConsoleGame::drawBoard(const Board& board)
 {
 	std::cout << "   ";
-	for (int i = 0; i < board.getData().size(); i++) {
+	for (int i = 0; i < board.getBases().size(); i++) {
 		std::cout << std::setw(3) << i;
 	}
 	std::cout << "\n";
-	for (const auto& [y, row] : std::views::enumerate(board.getData()))
+	for (const auto& [y, row] : std::views::enumerate(board.getBases()))
 	{
 		std::cout << std::setw(2) << y << "  ";
 		for (const auto& [x, element] : std::views::enumerate(row)) {
