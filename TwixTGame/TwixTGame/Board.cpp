@@ -63,7 +63,7 @@ Board::Board(const std::uint16_t& rows, const  std::uint16_t& columns) :
 	initBoard();
 }
 
-const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getData() const noexcept
+const std::vector<std::vector<std::unique_ptr<Base>>>& Board::getBases() const noexcept
 {
 	return m_bases;
 }
@@ -298,7 +298,7 @@ void Board::reset()
 std::ostream& operator<<(std::ostream& output, const Board& board)
 {
 	output << board.getRows() << " " << board.getColumns() << std::endl;
-	for (const auto& [i, row] : std::views::enumerate(board.getData()))
+	for (const auto& [i, row] : std::views::enumerate(board.getBases()))
 	{
 		for (const auto& [j, element] : std::views::enumerate(row)) {
 			if (element == nullptr) {
