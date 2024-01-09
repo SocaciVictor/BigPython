@@ -20,4 +20,8 @@ public:
 	const Point& getCoordinates() const noexcept;
 	uint16_t generateRandomNumber(const uint16_t& min, const uint16_t max);
 	void setCoordinates(const Point& coordinates);
+	void addBasesPoint(const Point& point);
+	void addBluePillarsPoint(const Point& point);
+	void addRedPillarsPoint(const Point& point);
+	const Point& coinToss();
 };

@@ -46,4 +46,51 @@ void Buldozer::setCoordinates(const Point& coordinates)
 {
     m_coordinates = coordinates;
 }
- 
+
+void Buldozer::addBasesPoint(const Point& point)
+{
+    m_basesPoint.insert(point);
+}
+
+void Buldozer::addBluePillarsPoint(const Point& point)
+{
+    m_bluePillarsPoint.insert(point);
+    m_basesPoint.erase(point);
+}
+
+void Buldozer::addRedPillarsPoint(const Point& point)
+{
+    m_redPillarsPoint.insert(point);
+    m_basesPoint.erase(point);
+}
+
+const Point& Buldozer::coinToss()
+{
+    //verific daca mananc un pillar sau nu;
+    if (generateRandomNumber(1, 100) <= eatProbability()) {
+        //verific daca pillarul mancat va fi albastru sau nu;
+        if (generateRandomNumber(1, 100) <= eatBlueProbability()) {
+            auto it = m_bluePillarsPoint.begin();
+            std::advance(it, generateRandomNumber(0, m_bluePillarsPoint.size() - 1));
+            Point point = *it;
+            m_bluePillarsPoint.erase(it);
+            m_basesPoint.insert(point);
+            m_bluePillarsEat++;
+            return point;
+        }
+        else {
+            auto it = m_redPillarsPoint.begin();
+            std::advance(it, generateRandomNumber(0, m_redPillarsPoint.size() - 1));
+            Point point = *it;
+            m_redPillarsPoint.erase(it);
+            m_basesPoint.insert(point);
+            m_redPillarsEat++;
+            return point;
+        }
+    }
+    else {
+        auto it = m_basesPoint.begin();
+        std::advance(it, generateRandomNumber(0, m_basesPoint.size() - 1));
+        return *it;
+    }
+}
