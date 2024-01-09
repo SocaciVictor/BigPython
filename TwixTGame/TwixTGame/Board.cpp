@@ -201,6 +201,19 @@ void Board::addBridge(const Point& point1, const Point& point2, const PieceColor
 	
 }
 
+uint16_t Board::removePillar(const Point& point)
+{
+	if (m_bases[point.y][point.x]->getColor() == PieceColor::None) return false;
+	uint16_t contor = 1;
+	while (!static_cast<Pillar*>(m_bases[point.y][point.x].get())->getNeighbors().empty()) {
+		auto it = static_cast<Pillar*>(m_bases[point.y][point.x].get())->getNeighbors().begin();
+		removeBridge(point, Point{ it->x,it->y }, m_bases[point.y][point.x]->getColor());
+		contor++;
+	}
+	m_bases[point.y][point.x] = std::make_unique<Base>(point);
+	return contor;
+}
+
 bool Board::removeBridge(const Point& point1, const Point& point2, const PieceColor& color)
 {
 	//verificam daca podul pe care vrem sa il stergem exista;
@@ -212,6 +225,7 @@ bool Board::removeBridge(const Point& point1, const Point& point2, const PieceCo
 	//stergerea conexiuni de vecinatate dintre cei doi pillari;
 	static_cast<Pillar*>(m_bases[point1.y][point1.x].get())->removeNeighbor(point2);
 	static_cast<Pillar*>(m_bases[point2.y][point2.x].get())->removeNeighbor(point1);
+
 	return true;
 }
 

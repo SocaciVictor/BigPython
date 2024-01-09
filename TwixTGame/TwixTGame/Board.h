@@ -33,7 +33,9 @@ public:
 	void addPillar(const Point& point, const PieceColor& color, bool check); //false for no checks
 	bool addBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	void addBridge(const Point& point1, const Point& point2, const PieceColor& color, bool check);//false for no checks
-	bool removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
+
+	uint16_t removePillar(const Point& point);
+	bool removeBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	bool gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
 	void reset();
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
