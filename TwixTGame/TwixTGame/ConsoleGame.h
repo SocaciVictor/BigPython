@@ -8,16 +8,16 @@
 class ConsoleGame
 {
 private:
-	Game m_game{ 5,5,50,50};
+	std::unique_ptr<Game> m_game;
 
 	void drawAiMove(Move* move);
 	void wipeAiFiles(std::string redFileData, std::string blueFileData);
 public:
-	void drawBoard(const Board& board);
+	virtual void drawBoard(const Board& board);
 	void drawPlayer(const Player* player);
 	void playerPillarMove();
 	void playerBridgesMove();
-	void run();
+	virtual void run();
 	void train(std::string redFileData, std::string blueFileData);
 };
 
