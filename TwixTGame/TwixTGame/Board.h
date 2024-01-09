@@ -22,7 +22,7 @@ protected:
 public:
 	Board(const std::uint16_t& rows, const std::uint16_t& columns);
 	Board() = default;
-	const std::vector<std::vector<std::unique_ptr<Base>>>& getData() const noexcept;
+	const std::vector<std::vector<std::unique_ptr<Base>>>& getBases() const noexcept;
 	const uint16_t& getRows() const noexcept;
 	const uint16_t& getColumns() const noexcept;
 	const std::unordered_map<TwoPoint, Bridge, TwoPointHash>& getBridges() const noexcept;
@@ -33,7 +33,6 @@ public:
 	void addPillar(const Point& point, const PieceColor& color, bool check); //false for no checks
 	bool addBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	void addBridge(const Point& point1, const Point& point2, const PieceColor& color, bool check);//false for no checks
-
 	uint16_t removePillar(const Point& point);
 	bool removeBridge(const Point& point1, const Point& point2, const PieceColor& color);
 	bool gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);

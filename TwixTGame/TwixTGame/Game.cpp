@@ -138,6 +138,23 @@ bool Game::addBridge(const Point& point1, const Point& point2)
 	return true;
 }
 
+bool Game::removePillar(const Point& point)
+{
+	PieceColor color = m_board.getBases()[point.y][point.x]->getColor();
+	uint16_t removed_bridges = m_board.removePillar(point);
+	if (!removed_bridges) return false;
+	if (color == m_player1->getColor()) {
+		m_player1->updateNumberPillars(1);
+		m_player1->updateNumberBridges(removed_bridges - 1);
+	}
+	else {
+		m_player2->updateNumberPillars(1);
+		m_player2->updateNumberBridges(removed_bridges - 1);
+	}
+
+	return true;
+}
+
 bool Game::removeBridges(const Point& point1, const Point& point2)
 {
 	//verificare daca player a adaugat pilon;
@@ -175,7 +192,7 @@ void Game::updateState()
 {
 	if (m_player1->getNumberPillars() == 0 && m_player2->getNumberPillars() == 0) m_state = State::Draw;
 	//check if the board is full with pillars
-	for (const auto& line : m_board.getData()) {
+	for (const auto& line : m_board.getBases()) {
 		for (const auto& base : line) {
 			//ignore corners
 			if (!base)

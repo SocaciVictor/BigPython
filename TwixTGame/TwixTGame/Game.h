@@ -33,6 +33,7 @@ public:
 	void switchPlayer(); //changes to other player without checking gameState and updating the state
 	bool addPillar(const Point& point);
 	bool addBridge(const Point& point1, const Point& point2);
+	bool removePillar(const Point& point);
 	bool removeBridges(const Point& point1,const Point& point2);
 	void reset();
 	void updateState();
