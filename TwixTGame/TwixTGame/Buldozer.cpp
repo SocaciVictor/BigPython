@@ -1,4 +1,4 @@
-#include "Buldozer.h"
+﻿#include "Buldozer.h"
 
 std::uint16_t Buldozer::eatProbability()
 {
@@ -24,8 +24,8 @@ std::uint16_t Buldozer::eatBlueProbability()
     return  probabiliti;
 }
 
-Buldozer::Buldozer(const Point& coordinates):
-    m_coordinates{ coordinates }, m_bluePillarsEat{ 0 }, m_redPillarsEat{ 0 }
+Buldozer::Buldozer(const Point& coordinates) :
+    m_coordinates{ coordinates }, m_bluePillarsEat {0}, m_redPillarsEat{ 0 }
 {}
 
 const Point& Buldozer::getCoordinates() const noexcept
@@ -71,7 +71,7 @@ const Point& Buldozer::coinToss()
         //verific daca pillarul mancat va fi albastru sau nu;
         if (generateRandomNumber(1, 100) <= eatBlueProbability()) {
             auto it = m_bluePillarsPoint.begin();
-            std::advance(it, generateRandomNumber(0, m_bluePillarsPoint.size() - 1));
+            std::advance(it, generateRandomNumber(0, m_bluePillarsPoint.size()-1));
             Point point = *it;
             m_bluePillarsPoint.erase(it);
             m_basesPoint.insert(point);
@@ -80,7 +80,7 @@ const Point& Buldozer::coinToss()
         }
         else {
             auto it = m_redPillarsPoint.begin();
-            std::advance(it, generateRandomNumber(0, m_redPillarsPoint.size() - 1));
+            std::advance(it, generateRandomNumber(0, m_redPillarsPoint.size()-1));
             Point point = *it;
             m_redPillarsPoint.erase(it);
             m_basesPoint.insert(point);

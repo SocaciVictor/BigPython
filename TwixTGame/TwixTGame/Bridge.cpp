@@ -8,13 +8,3 @@ const PieceColor& Bridge::getColor() const noexcept
 {
 	return m_color;
 }
-
-Point Bridge::getStartPoint() const noexcept
-{
-	return m_start;
-}
-
-Point Bridge::getEndPoint() const noexcept
-{
-	return m_end;
-}

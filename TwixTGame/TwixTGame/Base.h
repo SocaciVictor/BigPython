@@ -1,15 +1,6 @@
 #pragma once
 #include<iostream>
 #include <unordered_set>
-#include <string>
-
-enum class PieceType : std::uint8_t{
-	BluePillar,
-	BlueBridge,
-	RedPillar,
-	RedBridge,
-	None
-};
 
 enum class PieceColor : std::uint8_t {
 	Blue,
@@ -17,9 +8,9 @@ enum class PieceColor : std::uint8_t {
 	None
 };
 
-char pieceColorToChar(const PieceColor& color);
+const char& pieceColorToChar(const PieceColor& color);
 
-PieceColor charToPieceColor(const char& character);
+const PieceColor& charToPieceColor(const char& character);
 
 struct Point {
 	std::uint16_t x;
@@ -29,21 +20,12 @@ struct Point {
 	bool operator==(const Point& other) const {
 		return ((x == other.x) && (y == other.y));
 	}
-	bool operator<(const Point& other) const { //the minimum point is the one at top left corner
-		if (y == other.y)
-			return (x < other.x);
-		return (y < other.y);
-	}
-	friend std::ostream& operator<<(std::ostream& out, const Point& point) {
-		out << "(" << point.x << ", " << point.y << ")";
-		return out;
-	}
 };
 
 struct PointHash {
 	size_t operator()(const Point& p) const {
-		size_t hashX = std::hash<int>{}(p.x);
-		size_t hashY = std::hash<int>{}(p.y);
+		size_t hashX = std::hash<uint16_t>{}(p.x);
+		size_t hashY = std::hash<uint16_t>{}(p.y);
 		return hashX ^ (hashY << 1);
 	}
 };
@@ -74,7 +56,7 @@ protected:
 public:
 	Base(const Point& coordinates);
 	const Point& getCoordinates() const noexcept;
-	virtual PieceColor getColor() const noexcept;
+	virtual const PieceColor& getColor() const noexcept;
 };
 
 //Clasa Pillar
@@ -88,7 +70,7 @@ public:
 	void addNeighbor(const Point& neighbor);
 	void removeNeighbor(const Point& neighbor);
 	const std::unordered_set<Point, PointHash>& getNeighbors() const noexcept;
-	PieceColor getColor() const noexcept override;
+	const PieceColor& getColor() const noexcept override;
 };
 
 

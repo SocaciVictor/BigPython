@@ -13,39 +13,45 @@
     <ClCompile Include="Game.cpp">
       <Filter>GameLogic\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="ConsoleGame.cpp">
-      <Filter>ConsoleDraw</Filter>
+      <Filter>ConsoleGames</Filter>
     </ClCompile>
     <ClCompile Include="Bridge.cpp">
       <Filter>GameLogic\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>QtGraphics\Sources</Filter>
+    <ClCompile Include="TwixTGame.cpp">
+      <Filter>QTGraphics\Sources</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>QtGraphics\Sources</Filter>
+      <Filter>QTGraphics\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>QtGraphics\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsBase.cpp">
-      <Filter>QtGraphics\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsBridge.cpp">
-      <Filter>QtGraphics\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SecondMenu.cpp">
-      <Filter>QtGraphics\Sources</Filter>
+    <ClCompile Include="Button.cpp">
+      <Filter>QTGraphics\Sources</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <Filter>QtGraphics\Sources</Filter>
+      <Filter>QTGraphics\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="TwixTGame.cpp">
-      <Filter>QtGraphics\Sources</Filter>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>QTGraphics\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="AiPlayer.cpp">
-      <Filter>GameLogic\Sources</Filter>
+    <ClCompile Include="GraphicsBase.cpp">
+      <Filter>QTGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsBridge.cpp">
+      <Filter>QTGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondMenu.cpp">
+      <Filter>QTGraphics\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Buldozer.cpp">
+      <Filter>BuldozerLogic\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BuldozeristGame.cpp">
+      <Filter>BuldozerLogic\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleBulzozeristGame.cpp">
+      <Filter>ConsoleGames</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,20 +64,29 @@
     <Filter Include="GameLogic\Sources">
       <UniqueIdentifier>{44d5bbe4-00cf-49c4-a8b6-8098b7e6bb0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ConsoleDraw">
+    <Filter Include="SaveFiles">
+      <UniqueIdentifier>{e52e66b7-f51f-42aa-a153-54d4666f62b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QTGraphics">
+      <UniqueIdentifier>{94c72869-d38e-4c31-8a31-b58fc3d15996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QTGraphics\Headers">
+      <UniqueIdentifier>{b80f0484-e8e0-45cb-be3e-bdb6badb6d66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QTGraphics\Sources">
+      <UniqueIdentifier>{75925d23-4daa-4fdf-be5e-9b14addd28c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BuldozerLogic">
+      <UniqueIdentifier>{7749c7af-f174-47a7-a2b9-03f7283cfd00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BuldozerLogic\Header">
+      <UniqueIdentifier>{3559ec90-b412-4d8c-a13c-1df8e82125db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BuldozerLogic\Source">
+      <UniqueIdentifier>{81607161-efe9-462b-87de-a17b83eaeebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConsoleGames">
       <UniqueIdentifier>{e430ab40-5cbb-4ac7-a6ab-f96fc9d6e381}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SaveFile">
-      <UniqueIdentifier>{78c49851-8a9e-414f-b86b-ed7a5d5c2d39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="QtGraphics">
-      <UniqueIdentifier>{c59579f2-d632-4bcb-a519-7f66cacaa34c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="QtGraphics\Headers">
-      <UniqueIdentifier>{36d45b4a-9636-47b4-9970-9d954fdc9c9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="QtGraphics\Sources">
-      <UniqueIdentifier>{3d6ab0a5-81da-4704-8a7b-fdd650700bd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,42 +103,50 @@
       <Filter>GameLogic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleGame.h">
-      <Filter>ConsoleDraw</Filter>
+      <Filter>ConsoleGames</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
       <Filter>GameLogic\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>QtGraphics\Headers</Filter>
+      <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
-      <Filter>QtGraphics\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsBase.h">
-      <Filter>QtGraphics\Headers</Filter>
+      <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsBridge.h">
-      <Filter>QtGraphics\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>QtGraphics\Headers</Filter>
+      <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
     <ClInclude Include="SecondMenu.h">
-      <Filter>QtGraphics\Headers</Filter>
+      <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="TwixTGame.h">
-      <Filter>QtGraphics\Headers</Filter>
+    <ClInclude Include="Buldozer.h">
+      <Filter>BuldozerLogic\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>QtGraphics\Headers</Filter>
+    <ClInclude Include="BuldozeristGame.h">
+      <Filter>BuldozerLogic\Header</Filter>
     </ClInclude>
-    <ClInclude Include="AiPlayer.h">
-      <Filter>GameLogic\Headers</Filter>
+    <ClInclude Include="ConsoleBulzozeristGame.h">
+      <Filter>ConsoleGames</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt">
-      <Filter>SaveFile</Filter>
+      <Filter>SaveFiles</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="TwixTGame.h">
+      <Filter>QTGraphics\Headers</Filter>
+    </QtMoc>
+    <QtMoc Include="Button.h">
+      <Filter>QTGraphics\Headers</Filter>
+    </QtMoc>
+    <QtMoc Include="GraphicsBase.h">
+      <Filter>QTGraphics\Headers</Filter>
+    </QtMoc>
+    <QtMoc Include="MainMenu.h">
+      <Filter>QTGraphics\Headers</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{698A37AF-662D-407B-A06A-A0CC136AF7BE}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.22000.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -92,39 +93,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AiPlayer.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bridge.cpp" />
+    <ClCompile Include="Buldozer.cpp" />
+    <ClCompile Include="BuldozeristGame.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ConsoleBulzozeristGame.cpp" />
     <ClCompile Include="ConsoleGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GraphicsBase.cpp" />
     <ClCompile Include="GraphicsBridge.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SecondMenu.cpp" />
     <ClCompile Include="TwixTGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AiPlayer.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bridge.h" />
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="Buldozer.h" />
+    <ClInclude Include="BuldozeristGame.h" />
+    <ClInclude Include="ConsoleBulzozeristGame.h" />
+    <ClInclude Include="SecondMenu.h" />
+    <QtMoc Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConsoleGame.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="GraphicsBase.h" />
+    <QtMoc Include="GraphicsBase.h" />
     <ClInclude Include="GraphicsBridge.h" />
-    <ClInclude Include="MainMenu.h" />
+    <QtMoc Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="SecondMenu.h" />
-    <ClInclude Include="TwixTGame.h" />
+    <QtMoc Include="TwixTGame.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt" />

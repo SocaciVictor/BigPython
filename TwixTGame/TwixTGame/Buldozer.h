@@ -13,7 +13,7 @@ private:
 	std::uint16_t m_redPillarsEat;
 	std::random_device m_random;
 	std::uint16_t eatProbability();
-	std::uint16_t eatBlueProbability();
+	std::uint16_t eatBlueProbability(); 
 public:
 	Buldozer() = default;
 	Buldozer(const Point& coordinates);
@@ -25,3 +25,4 @@ public:
 	void addRedPillarsPoint(const Point& point);
 	const Point& coinToss();
 };
+

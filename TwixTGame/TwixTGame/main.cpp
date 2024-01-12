@@ -1,19 +1,22 @@
-#include <QtWidgets/QApplication>
+﻿#include <QtWidgets/QApplication>
+#include <QFontDatabase>
 #include "ConsoleGame.h"
+#include "ConsoleBulzozeristGame.h"
+#include "TwixTGame.h"
 
-int main(int argc, char* argv[])
-{   
-  QApplication app(argc, argv);
-  
-    ConsoleGame gameTrain;
-    ConsoleGame game;
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    QFont appFont("Itim", 24, 1);
+    app.setFont(appFont);
 
-    gameTrain.train("RedData", "BlueData");
-
-    game.run();
-    return 0;
-    //uncomment all the headers and sources from QtGraphics for this to work
-    /*TwixTGame game;
+  /*  ConsoleBulzozeristGame game;
     game.run();*/
+
+   
+
+    TwixTGame game;
+    game.run();
+
     return app.exec();
 }

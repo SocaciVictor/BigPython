@@ -2,10 +2,11 @@
 #include "ConsoleGame.h"
 #include "BuldozeristGame.h"
 
-class ConsoleBuldozeristGame : public ConsoleGame
+class ConsoleBulzozeristGame : public ConsoleGame
 {
 public:
-	ConsoleBuldozeristGame();
+	ConsoleBulzozeristGame();
 	void drawBoard(const Board& board) override;
 	void run() override;
 };
+

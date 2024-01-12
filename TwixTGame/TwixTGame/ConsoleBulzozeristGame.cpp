@@ -1,11 +1,11 @@
-#include "ConsoleBuldozeristGame.h"
+#include "ConsoleBulzozeristGame.h"
 
-ConsoleBuldozeristGame::ConsoleBuldozeristGame()
+ConsoleBulzozeristGame::ConsoleBulzozeristGame() 
 {
 	m_game = std::make_unique<BuldozeristGame>(24, 24, 50, 50);
 }
 
-void ConsoleBuldozeristGame::drawBoard(const Board& board)
+void ConsoleBulzozeristGame::drawBoard(const Board& board)
 {
 	std::cout << "   ";
 	for (int i = 0; i < board.getBases().size(); i++) {
@@ -43,7 +43,7 @@ void ConsoleBuldozeristGame::drawBoard(const Board& board)
 	std::cout << std::endl;
 }
 
-void ConsoleBuldozeristGame::run()
+void ConsoleBulzozeristGame::run()
 {
 	uint16_t player = 0;
 	do {
