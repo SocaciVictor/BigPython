@@ -1,6 +1,9 @@
 #include "ConsoleGame.h"
 
-ConsoleGame::ConsoleGame() : m_game{ std::make_unique<Game>(24,24,50,50) }
+ConsoleGame::ConsoleGame() : m_game{ std::make_unique<Game>(5,5,50,50) }
+{}
+
+ConsoleGame::ConsoleGame(const uint16_t& size) : m_game{ std::make_unique<Game>(size,size,size * 2 + 2,size * 2 + 2) }
 {}
 
 void ConsoleGame::drawBoard(const Board& board)

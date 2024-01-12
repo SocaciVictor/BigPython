@@ -17,29 +17,37 @@ protected:
 	Board m_board;
 	State m_state{ State::None };
 	uint16_t m_turnNumber{ 0 };
+	uint16_t maxNumPillars;
+	uint16_t maxNumBridges;
 public:
 	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges);
 	Game() = default;
 	const Board& getBoard() const noexcept;
 	uint16_t getTurnNumber() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
+	void setPlayerAi(std::string redFileData, std::string blueFileData);
 	Player* getPlayer1() const noexcept;
 	Player* getPlayer2() const noexcept;
+	bool addMove(Move* move); //return true when a move is an end turn move, false otherwise
 	const State& getState() const noexcept;
-	const bool& finished() const;
+	void setState(State&& state);
+	bool finished() const;
 	void nextPlayer();
-	virtual const bool& addPillar(const Point& point);
-	const bool& addBridge(const Point& point1, const Point& point2);
+	void switchPlayer(); //changes to other player without checking gameState and updating the state
+	virtual bool addPillar(const Point& point);
+	bool addBridge(const Point& point1, const Point& point2);
 	bool removePillar(const Point& point);
-	const bool& removeBridges(const Point& point1,const Point& point2);
+	bool removeBridges(const Point& point1,const Point& point2);
+	void reset();
 	void updateState();
 	void updateState(const Point& point1, const Point& point2);
 	void swichColor();
-	const bool& saveGame(const std::string& fisier);
-	const bool& loadGame(const std::string& fisier);
+	bool saveGame(const std::string& fisier);
+	bool loadGame(const std::string& fisier);
 protected:
-	std::shared_ptr<Player> m_player1;
-	std::shared_ptr<Player> m_player2;
-	std::shared_ptr<Player> m_current_player;
+	std::unique_ptr<Player> m_player1;
+	std::unique_ptr<Player> m_player2;
+	//observer
+	Player* m_current_player;
 };
 

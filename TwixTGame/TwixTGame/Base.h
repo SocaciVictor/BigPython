@@ -2,15 +2,23 @@
 #include<iostream>
 #include <unordered_set>
 
+enum class PieceType : std::uint8_t {
+	BluePillar,
+	BlueBridge,
+	RedPillar,
+	RedBridge,
+	None
+};
+
 enum class PieceColor : std::uint8_t {
 	Blue,
 	Red,
 	None
 };
 
-const char& pieceColorToChar(const PieceColor& color);
+char pieceColorToChar(const PieceColor& color);
 
-const PieceColor& charToPieceColor(const char& character);
+PieceColor charToPieceColor(const char& character);
 
 struct Point {
 	std::uint16_t x;
@@ -19,6 +27,15 @@ struct Point {
 	Point(const std::uint16_t& c_x,const std::uint16_t& c_y) : x{ c_x }, y{ c_y } {};
 	bool operator==(const Point& other) const {
 		return ((x == other.x) && (y == other.y));
+	}
+	bool operator<(const Point& other) const { //the minimum point is the one at top left corner
+		if (y == other.y)
+			return (x < other.x);
+		return (y < other.y);
+	}
+	friend std::ostream& operator<<(std::ostream& out, const Point& point) {
+		out << "(" << point.x << ", " << point.y << ")";
+		return out;
 	}
 };
 
@@ -56,7 +73,7 @@ protected:
 public:
 	Base(const Point& coordinates);
 	const Point& getCoordinates() const noexcept;
-	virtual const PieceColor& getColor() const noexcept;
+	virtual PieceColor getColor() const noexcept;
 };
 
 //Clasa Pillar
@@ -70,7 +87,7 @@ public:
 	void addNeighbor(const Point& neighbor);
 	void removeNeighbor(const Point& neighbor);
 	const std::unordered_set<Point, PointHash>& getNeighbors() const noexcept;
-	const PieceColor& getColor() const noexcept override;
+	PieceColor getColor() const noexcept override;
 };
 
 

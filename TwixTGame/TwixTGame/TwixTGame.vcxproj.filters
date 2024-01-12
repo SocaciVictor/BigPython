@@ -53,6 +53,12 @@
     <ClCompile Include="ConsoleBulzozeristGame.cpp">
       <Filter>ConsoleGames</Filter>
     </ClCompile>
+    <ClCompile Include="AiPlayer.cpp">
+      <Filter>GameLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleTrainAiGame.cpp">
+      <Filter>ConsoleGames</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameLogic">
@@ -129,6 +135,12 @@
     <ClInclude Include="ConsoleBulzozeristGame.h">
       <Filter>ConsoleGames</Filter>
     </ClInclude>
+    <ClInclude Include="AiPlayer.h">
+      <Filter>GameLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleTrainAiGame.h">
+      <Filter>ConsoleGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt">
@@ -139,13 +151,13 @@
     <QtMoc Include="TwixTGame.h">
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
-    <QtMoc Include="Button.h">
+    <QtMoc Include="MainMenu.h">
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
     <QtMoc Include="GraphicsBase.h">
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
-    <QtMoc Include="MainMenu.h">
+    <QtMoc Include="Button.h">
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
   </ItemGroup>

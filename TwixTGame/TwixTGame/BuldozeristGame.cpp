@@ -26,7 +26,7 @@ const Point& BuldozeristGame::getBuldozerCoordinates()
 	return m_buldozer.getCoordinates();
 }
 
-const bool& BuldozeristGame::addPillar(const Point& point)
+bool BuldozeristGame::addPillar(const Point& point)
 {
 	if (point == m_buldozer.getCoordinates()) return false;
 	if (!Game::addPillar(point)) return false;
