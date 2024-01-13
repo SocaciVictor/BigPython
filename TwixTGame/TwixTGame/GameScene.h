@@ -35,6 +35,7 @@ public:
     void addPillar(GraphicsBase* base);
     void addBridge(GraphicsBase* base);
     void newGame(const uint16_t& size);
+    void loadGame();
     void endGame();
 public slots:
     void nextPlayer();

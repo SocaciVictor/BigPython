@@ -47,7 +47,8 @@ void TwixTGame::aiGame()
 
 void TwixTGame::load()
 {
-    std::cout << "load\n";
+    m_camera.setScene(&m_game_scene);
+    m_game_scene.loadGame();
 }
 
 void TwixTGame::exit()
@@ -60,6 +61,5 @@ void TwixTGame::backToMainMenu()
     m_camera.setScene(&m_main_menu);
     m_main_menu.update();
     m_game_scene.reset();
- 
     Game::m_aiPlayer.reset();
 }

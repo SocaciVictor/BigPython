@@ -14,11 +14,10 @@ int main(int argc, char *argv[])
     game.run();*/
     /*ConsoleTrainAiGame trainGame{ 6 };
     trainGame.train("RedData", "BlueData");*/
-  /*  ConsoleBulzozeristGame game;
+  /*ConsoleBulzozeristGame game;
     game.run();*/
 
    
-
     TwixTGame game;
     game.run();
 

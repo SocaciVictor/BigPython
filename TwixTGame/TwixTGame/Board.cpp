@@ -328,13 +328,12 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 std::istream& operator>>(std::istream& input, Board& board)
 {
 	//citire bases
-	uint16_t rows, columns;
 	char base;
-	input >> rows >> columns;
-	board.m_bases.resize(rows);
-	for (uint16_t i = 0; i < rows; i++) {
-		board.m_bases[i].resize(columns);
-		for (uint16_t j = 0; j < columns; j++) {
+	input >> board.m_rows >> board.m_columns;
+	board.m_bases.resize(board.m_rows);
+	for (uint16_t i = 0; i < board.m_rows; i++) {
+		board.m_bases[i].resize(board.m_columns);
+		for (uint16_t j = 0; j < board.m_columns; j++) {
 			input >> base;
 			if (base == 'N') {
 				board.m_bases[i][j] = nullptr;
