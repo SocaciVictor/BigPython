@@ -60,5 +60,6 @@ void TwixTGame::backToMainMenu()
     m_camera.setScene(&m_main_menu);
     m_main_menu.update();
     m_game_scene.reset();
+ 
     Game::m_aiPlayer.reset();
 }

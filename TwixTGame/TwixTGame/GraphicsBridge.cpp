@@ -13,6 +13,6 @@ GraphicsBridge::GraphicsBridge(const uint16_t size, const Point& point1, const P
 	setTransformOriginPoint(boundingRect().center());
 	QPen pen;
 	pen.setColor(m_color);
-	pen.setWidth(72/size);
+	pen.setWidth(base_size/6 * 4);
 	setPen(pen);
 }

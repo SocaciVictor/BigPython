@@ -253,8 +253,17 @@ void ConsoleTrainAiGame::train(std::string redFileData, std::string blueFileData
 	//set player to initial state
 	m_game->switchPlayer();
 
+	std::cout << "Saving files please wait...\n";
+	auto startFiles = std::chrono::high_resolution_clock::now();
+
 	static_cast<AiPlayer*>(m_game->getCurrentPlayer())->savePolicy();
 	m_game->switchPlayer();
 	static_cast<AiPlayer*>(m_game->getCurrentPlayer())->savePolicy();
+
+	auto endFiles = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> durationFiles = startFiles - endFiles;
+	std::cout << "Time spent saving: " << durationFiles << "\n";
+	std::cout << "DONE!\n";
+
 	system("PAUSE");
 }

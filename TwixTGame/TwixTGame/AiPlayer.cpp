@@ -9,14 +9,15 @@ void AiPlayer::loadPolicy()
 	std::ifstream input{ m_dataFile };
 	if (input.bad())
 		throw std::runtime_error("Error input file");
-
 	std::string hash;
 	float value;
 	while (!input.eof()) {
 		input >> hash >> value;
 		char* str;
 		alocateCharPtr(str, hash);
-		m_stateMoveCosts.insert(std::make_pair(str, value));
+		auto mapIt = m_stateMoveCosts.insert(std::make_pair(str, value));
+		if (!mapIt.second)
+			delete str;
 	}
 	input.close();
 }
