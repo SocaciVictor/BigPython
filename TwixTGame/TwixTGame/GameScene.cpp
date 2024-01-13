@@ -36,7 +36,19 @@ void GameScene::newGame(const uint16_t& size)
 	m_board.setTransformationMode(Qt::SmoothTransformation);
 	m_board.setScale(0.5);
 	m_board.setPos(235, 25);
+	m_hint1.setPixmap(QPixmap{ "../assets/hint.png" });
+	m_hint1.setTransformationMode(Qt::SmoothTransformation);
+	m_hint1.setScale(0.5);
+	m_hint1.setZValue(2);
+	m_hint1.setVisible(false);
+	m_hint2.setPixmap(QPixmap{ "../assets/hint.png" });
+	m_hint2.setTransformationMode(Qt::SmoothTransformation);
+	m_hint2.setScale(0.5);
+	m_hint2.setZValue(2);
+	m_hint2.setVisible(false);
 	addItem(&m_board);
+	addItem(&m_hint1);
+	addItem(&m_hint2);
 	uint16_t count = 0;
 	for (uint16_t i = 0; i < m_game->getBoard().getRows(); i++) {
 		for (uint16_t j = 0; j < m_game->getBoard().getColumns(); j++) {
@@ -53,12 +65,15 @@ void GameScene::newGame(const uint16_t& size)
 	m_next[0] = std::make_unique<Button>("../assets/nextB", QPoint{ 50,420 });
 	m_next[1] = std::make_unique<Button>("../assets/nextR", QPoint{ 760,420 });
 	m_next[2] = std::make_unique<Button>("../assets/switch", QPoint{ 760,230 });
+	m_next[3] = std::make_unique<Button>("../assets/bec", QPoint{ 16,480 });
 	QObject::connect(m_next[0].get(), &Button::buttonClicked, this, &GameScene::nextPlayer);
 	QObject::connect(m_next[1].get(), &Button::buttonClicked, this, &GameScene::nextPlayer);
 	QObject::connect(m_next[2].get(), &Button::buttonClicked, this, &GameScene::switchColor);
+	QObject::connect(m_next[3].get(), &Button::buttonClicked, this, &GameScene::seeHint);
 	m_next[1]->setDisable();
 	addItem(m_next[0].get());
 	addItem(m_next[1].get());
+	addItem(m_next[3].get());
 	//textul
 	m_texts[0]->setPlainText("Pillars: " + QString::number(m_game->getPlayer1()->getNumberPillars()));
 	m_texts[1]->setPlainText("Bridges: " + QString::number(m_game->getPlayer1()->getNumberBridges()));
@@ -90,6 +105,9 @@ void GameScene::newGame(const uint16_t& size)
 		addItem(player.get());
 	}
 	removeItem(m_images[3].get());
+	if (Game::m_aiPlayer) {
+		Game::m_aiPlayer->setBoard(m_game->getBoardPtr());
+	}
 }
 
 void GameScene::reset()
@@ -104,7 +122,6 @@ void GameScene::reset()
 void GameScene::nextPlayer()
 {
 	if (!m_game->getCurrentPlayer()->getMoved()) return;
-
 	if (save_pillar != nullptr) {
 		save_pillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
 		save_pillar = nullptr;
@@ -116,6 +133,8 @@ void GameScene::nextPlayer()
 	removeItem(m_images[(m_game->getTurnNumber() + 1) % 2 + 2].get());
 	if(m_game->getTurnNumber() == 1) 
 		addItem(m_next[2].get());
+	m_hint1.setVisible(false);
+	m_hint2.setVisible(false);
 }
 
 void GameScene::switchColor()
@@ -154,6 +173,7 @@ void GameScene::addPillar(GraphicsBase* base)
 	m_texts[2]->setPlainText("Pillars: " + QString::number(m_game->getPlayer2()->getNumberPillars()));
 	if (m_game->getTurnNumber() == 1)
 		removeItem(m_next[2].get());
+	m_hint1.setVisible(false);
 }
 
 void GameScene::addBridge(GraphicsBase* base)
@@ -180,6 +200,8 @@ void GameScene::addBridge(GraphicsBase* base)
 	addItem(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get());
 	save_pillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
 	save_pillar = nullptr;
+	m_hint1.setVisible(false);
+	m_hint2.setVisible(false);
 	m_texts[1]->setPlainText("Bridges: " + QString::number(m_game->getPlayer1()->getNumberBridges()));
 	m_texts[3]->setPlainText("Bridges: " + QString::number(m_game->getPlayer2()->getNumberBridges()));
 	endGame();
@@ -237,6 +259,40 @@ void GameScene::resetGame()
 	uint16_t size = m_game->getBoard().getColumns();
 	reset();
 	newGame(size);
+}
+
+void GameScene::seeHint()
+{
+	std::unique_ptr<Move> move = m_game->getHint();
+	if (!move) return;
+	//verificam daca este de tipul Move Pillar;
+	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(move.get());
+	if (moveBridge) {
+		if (moveBridge->moveType == MoveType::Next) {
+			if (m_game->getCurrentPlayer() == m_game->getPlayer1()) {
+				m_hint1.setPos(110, 390);
+			}
+			else {
+				m_hint1.setPos(825, 390);
+			}
+			m_hint1.setVisible(true);
+		}
+		else {
+			uint16_t margine_distance = 24 / m_game->getBoard().getRows() * 35;
+			uint16_t base_size = (490 - margine_distance * 2) / (3 * m_game->getBoard().getRows() - 2);
+			m_hint1.setPos(235 + margine_distance + moveBridge->startPozition.x * 3 * base_size - base_size / 2, 25 + margine_distance + moveBridge->startPozition.y * 3 * base_size - base_size * 2 - 3);
+			m_hint2.setPos(235 + margine_distance + moveBridge->endPozition.x * 3 * base_size - base_size / 2, 25 + margine_distance + moveBridge->endPozition.y * 3 * base_size - base_size * 2 - 3);
+			m_hint1.setVisible(true);
+			m_hint2.setVisible(true);
+		}
+	}
+	else {
+		MovePillar* movePillar = dynamic_cast<MovePillar*>(move.get());
+		uint16_t margine_distance = 24 / m_game->getBoard().getRows() * 35;
+		uint16_t base_size = (490 - margine_distance * 2) / (3 * m_game->getBoard().getRows() - 2);
+		m_hint1.setPos(235 + margine_distance + movePillar->pozition.x * 3 * base_size - base_size/2, 25 + margine_distance + movePillar->pozition.y * 3 * base_size - base_size*2 - 3);
+		m_hint1.setVisible(true);
+	}
 }
 
 

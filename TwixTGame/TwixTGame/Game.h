@@ -1,8 +1,10 @@
 #pragma once
 #include "Board.h"
+#include "AiPlayer.h"
 #include "Player.h"
 #include <fstream>
 #include <string>
+
 
 enum class State : std::uint8_t
 {
@@ -23,9 +25,10 @@ public:
 	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges);
 	Game() = default;
 	const Board& getBoard() const noexcept;
+	Board* getBoardPtr();
 	uint16_t getTurnNumber() const noexcept;
 	Player* getCurrentPlayer() const noexcept;
-	void setPlayerAi(std::string redFileData, std::string blueFileData);
+	void setPlayerAi(uint16_t nr_player, std::string fileData);
 	Player* getPlayer1() const noexcept;
 	Player* getPlayer2() const noexcept;
 	bool addMove(Move* move); //return true when a move is an end turn move, false otherwise
@@ -44,10 +47,12 @@ public:
 	void swichColor();
 	bool saveGame(const std::string& fisier);
 	bool loadGame(const std::string& fisier);
+	std::unique_ptr<Move> getHint();
 protected:
 	std::unique_ptr<Player> m_player1;
 	std::unique_ptr<Player> m_player2;
 	//observer
 	Player* m_current_player;
+public:
+	static std::unique_ptr<AiPlayer> m_aiPlayer;
 };
-

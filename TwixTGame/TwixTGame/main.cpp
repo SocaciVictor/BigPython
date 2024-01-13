@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QFont appFont("Itim", 24, 1);
     app.setFont(appFont);
-   /*ConsoleTrainAiGame game{5};
+   /* ConsoleTrainAiGame game{6};
     game.run();*/
-    /*ConsoleTrainAiGame trainGame{ 5 };
+    /*ConsoleTrainAiGame trainGame{ 6 };
     trainGame.train("RedData", "BlueData");*/
   /*  ConsoleBulzozeristGame game;
     game.run();*/

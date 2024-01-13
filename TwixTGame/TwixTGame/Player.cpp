@@ -14,7 +14,7 @@ std::unique_ptr<Move> Player::getNextMove(bool randomMoves)
 	return std::unique_ptr<Move>();
 }
 
-const PieceColor& Player::getColor() const noexcept
+PieceColor Player::getColor() const noexcept
 {
 	return m_color;
 }

@@ -96,14 +96,7 @@ void ConsoleTrainAiGame::playerBridgesMove()
 void ConsoleTrainAiGame::run()
 {
 	//if there are aiplayers load policy
-	AiPlayer* p1 = dynamic_cast<AiPlayer*>(m_game->getCurrentPlayer());
-	m_game->switchPlayer();
-	AiPlayer* p2 = dynamic_cast<AiPlayer*>(m_game->getCurrentPlayer());
-	m_game->switchPlayer();
-	if (p1)
-		p1->loadPolicy();
-	if (p2)
-		p2->loadPolicy();
+	m_game->setPlayerAi(2,"redData");
 
 	//m_game.loadGame("save1.txt");
 	do {
@@ -142,12 +135,13 @@ void ConsoleTrainAiGame::run()
 	}
 	system("PAUSE");
 	m_game.reset();
-
 }
 
 void ConsoleTrainAiGame::train(std::string redFileData, std::string blueFileData)
 {
-	m_game->setPlayerAi(redFileData, blueFileData);
+	m_game->setPlayerAi(1, blueFileData);
+	m_game->setPlayerAi(2, redFileData);
+	m_game->nextPlayer();
 	uint64_t count{ 0 };
 	bool watchCount{ true };
 
@@ -259,8 +253,17 @@ void ConsoleTrainAiGame::train(std::string redFileData, std::string blueFileData
 	//set player to initial state
 	m_game->switchPlayer();
 
+	std::cout << "Saving files please wait...\n";
+	auto startFiles = std::chrono::high_resolution_clock::now();
+
 	static_cast<AiPlayer*>(m_game->getCurrentPlayer())->savePolicy();
 	m_game->switchPlayer();
 	static_cast<AiPlayer*>(m_game->getCurrentPlayer())->savePolicy();
+
+	auto endFiles = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> durationFiles = startFiles - endFiles;
+	std::cout << "Time spent saving: " << durationFiles << "\n";
+	std::cout << "DONE!\n";
+
 	system("PAUSE");
 }
