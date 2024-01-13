@@ -38,6 +38,8 @@ void TwixTGame::normalGame()
 
 void TwixTGame::aiGame()
 {
+    Game::m_aiPlayer = std::make_unique<AiPlayer>(14, 14, PieceColor::None, "aiData");
+    Game::m_aiPlayer->loadPolicy();
     m_camera.setScene(&m_game_scene);
     m_game_scene.newGame(6);
     m_main_menu.back();
@@ -58,4 +60,5 @@ void TwixTGame::backToMainMenu()
     m_camera.setScene(&m_main_menu);
     m_main_menu.update();
     m_game_scene.reset();
+    Game::m_aiPlayer.reset();
 }

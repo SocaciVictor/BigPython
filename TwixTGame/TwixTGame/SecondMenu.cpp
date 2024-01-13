@@ -33,9 +33,9 @@ SecondMenu::SecondMenu(QGraphicsScene* parent)
     m_winer.setTransformationMode(Qt::SmoothTransformation);
     m_winer.setScale(0.5);
     m_winer.setPos(230, 250);
-    m_buttons[0] = std::make_unique<Button>("../assets/screen2",QPoint{420,130},this);
-    m_buttons[1] = std::make_unique<Button>( "../assets/load2",QPoint{180,370},this );
-    m_buttons[2] = std::make_unique<Button>( "../assets/save",QPoint{385,370},this );
+    m_buttons[0] = std::make_unique<Button>("../assets/screenbutt",QPoint{420,130},this);
+    m_buttons[1] = std::make_unique<Button>( "../assets/resetbutt",QPoint{180,370},this );
+    m_buttons[2] = std::make_unique<Button>( "../assets/savebutt",QPoint{385,370},this );
     m_buttons[3] = std::make_unique<Button>( "../assets/exit2",QPoint{590,370},this );
     m_buttons[4] = std::make_unique<Button>("../assets/exitbutt", QPoint{ 520,370 },this);
     m_buttons[5] = std::make_unique<Button>("../assets/newgame", QPoint{ 205,370 },this);

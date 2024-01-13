@@ -22,7 +22,7 @@ private:
     std::array<std::unique_ptr<GraphicsBase>, 572> m_bases;
     std::unordered_map<TwoPoint, std::unique_ptr<GraphicsBridge>, TwoPointHash> m_bridges;
     GraphicsBase* save_pillar{nullptr};
-    std::array<std::unique_ptr<Button>, 3> m_next;
+    std::array<std::unique_ptr<Button>, 4> m_next;
     std::array<std::unique_ptr<QGraphicsPixmapItem>, 4> m_images;
     std::array<std::unique_ptr<QGraphicsTextItem>, 4> m_texts;
 protected:
@@ -41,5 +41,6 @@ public slots:
     void getBaseHover(GraphicsBase* base);
     void saveGame();
     void resetGame();
+    void seeHint();
 };
 

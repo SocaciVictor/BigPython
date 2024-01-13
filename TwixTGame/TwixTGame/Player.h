@@ -58,7 +58,7 @@ public:
 	Player(const std::uint16_t& number_pillars,const std::uint16_t& number_bridges,const PieceColor& color);
 	virtual ~Player() = default;
 	virtual std::unique_ptr<Move> getNextMove(bool randomMoves = true);
-	const PieceColor& getColor() const noexcept;
+	PieceColor getColor() const noexcept;
 	void setColor(const PieceColor& color);
 	const uint16_t& getNumberPillars() const noexcept;
 	const uint16_t& getNumberBridges() const noexcept;

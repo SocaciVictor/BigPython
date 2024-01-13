@@ -3,10 +3,12 @@
 #include <random>
 #include <chrono>
 
+std::unique_ptr<AiPlayer> Game::m_aiPlayer = nullptr;
+
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
 	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue) },
-	m_player2{ std::make_unique<AiPlayer>(number_pillars,number_bridges,PieceColor::Red, "RedData",m_board) },
+	m_player2{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Red) },
 	maxNumPillars{ number_pillars },
 	maxNumBridges{ number_bridges },
 	m_current_player{ m_player1.get() }
@@ -15,6 +17,11 @@ Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number
 const Board& Game::getBoard() const noexcept
 {
 	return m_board;
+}
+
+Board* Game::getBoardPtr()
+{
+	return &m_board;
 }
 
 uint16_t Game::getTurnNumber() const noexcept
@@ -27,17 +34,18 @@ Player* Game::getCurrentPlayer() const noexcept
 	return m_current_player;
 }
 
-void Game::setPlayerAi(std::string redFileData, std::string blueFileData)
+void Game::setPlayerAi(uint16_t numar_player , std::string fileData)
 {
-	m_player1 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Blue, blueFileData, m_board);
-	m_player2 = std::make_unique<AiPlayer>(maxNumPillars, maxNumBridges, PieceColor::Red, redFileData, m_board);
-	m_current_player = m_player1.get();
-
-
 	auto start = std::chrono::high_resolution_clock::now();
-	static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
-	static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
-
+	if (numar_player == 1) {
+		m_player1 = std::make_unique<AiPlayer>(m_player1->getNumberPillars(), m_player1->getNumberBridges(), m_player1->getColor(), fileData, &m_board);
+		static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
+	}
+	else {
+		m_player2 = std::make_unique<AiPlayer>(m_player2->getNumberPillars(), m_player2->getNumberBridges(), m_player2->getColor(), fileData, &m_board);
+		static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
+	}
+	
 	auto end = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> duration = end - start;
 	std::cout << "Time spent loading files: " << duration << "\n";
@@ -290,4 +298,13 @@ bool Game::loadGame(const std::string& fisier)
 	input_file.close();
 	return true;
 }
+
+std::unique_ptr<Move> Game::getHint()
+{
+	if (m_aiPlayer.get() == nullptr) return nullptr;
+	m_aiPlayer->setColor(m_current_player->getColor());
+	m_aiPlayer->setMoved(m_current_player->getMoved());
+	return m_aiPlayer->getNextMove(false);
+}
+
 

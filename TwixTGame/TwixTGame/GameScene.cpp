@@ -53,12 +53,15 @@ void GameScene::newGame(const uint16_t& size)
 	m_next[0] = std::make_unique<Button>("../assets/nextB", QPoint{ 50,420 });
 	m_next[1] = std::make_unique<Button>("../assets/nextR", QPoint{ 760,420 });
 	m_next[2] = std::make_unique<Button>("../assets/switch", QPoint{ 760,230 });
+	m_next[3] = std::make_unique<Button>("../assets/bec", QPoint{ 16,480 });
 	QObject::connect(m_next[0].get(), &Button::buttonClicked, this, &GameScene::nextPlayer);
 	QObject::connect(m_next[1].get(), &Button::buttonClicked, this, &GameScene::nextPlayer);
 	QObject::connect(m_next[2].get(), &Button::buttonClicked, this, &GameScene::switchColor);
+	QObject::connect(m_next[3].get(), &Button::buttonClicked, this, &GameScene::seeHint);
 	m_next[1]->setDisable();
 	addItem(m_next[0].get());
 	addItem(m_next[1].get());
+	addItem(m_next[3].get());
 	//textul
 	m_texts[0]->setPlainText("Pillars: " + QString::number(m_game->getPlayer1()->getNumberPillars()));
 	m_texts[1]->setPlainText("Bridges: " + QString::number(m_game->getPlayer1()->getNumberBridges()));
@@ -90,6 +93,9 @@ void GameScene::newGame(const uint16_t& size)
 		addItem(player.get());
 	}
 	removeItem(m_images[3].get());
+	if (Game::m_aiPlayer) {
+		Game::m_aiPlayer->setBoard(m_game->getBoardPtr());
+	}
 }
 
 void GameScene::reset()
@@ -237,6 +243,25 @@ void GameScene::resetGame()
 	uint16_t size = m_game->getBoard().getColumns();
 	reset();
 	newGame(size);
+}
+
+void GameScene::seeHint()
+{
+	std::unique_ptr<Move> move = m_game->getHint();
+	if (!move) return;
+	//verificam daca este de tipul Move Pillar;
+	MoveBridge* moveBridge = dynamic_cast<MoveBridge*>(move.get());
+	if (moveBridge) {
+		if (moveBridge->moveType == MoveType::Next)
+			std::cout << "next";
+		else {
+			std::cout<<moveBridge->startPozition<<" "<<moveBridge->endPozition;
+		}
+	}
+	else {
+		MovePillar* movePillar = dynamic_cast<MovePillar*>(move.get());
+		std::cout<<movePillar->pozition;
+	}
 }
 
 
