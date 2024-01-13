@@ -4,6 +4,7 @@
 #include "ConsoleTrainAiGame.h"
 #include "ConsoleBulzozeristGame.h"
 #include "TwixTGame.h"
+#include "ConsoleMineGame.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,10 +18,11 @@ int main(int argc, char *argv[])
   /*  ConsoleBulzozeristGame game;
     game.run();*/
 
-   
-
-    TwixTGame game;
+    ConsoleMineGame game;
     game.run();
+
+   /* TwixTGame game;
+    game.run();*/
 
     return app.exec();
 }

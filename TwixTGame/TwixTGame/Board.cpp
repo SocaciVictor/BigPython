@@ -289,6 +289,22 @@ bool Board::gameIsEnded(const Point& point1, const Point& point2, const PieceCol
 	return false;
 }
 
+bool Board::addMine(const Point& point)
+{
+	//verificare daca punctul se afla in board;
+	if (!isInBoard(point)) return false;
+	//verificare daca punctul este pillar
+	if (m_bases[point.y][point.x]->getColor() != PieceColor::None && m_bases[point.y][point.x]->getColor() != PieceColor::Mine) return false;
+	//verificare daca mine este explodata
+	if (m_bases[point.y][point.x]->getColor() == PieceColor::Mine)
+	{
+		if (static_cast<Mine*>(m_bases[point.y][point.x].get())->getActive() != true) return false;
+	}
+	m_bases[point.y][point.x] =
+		std::make_unique<Mine>(point, true, PieceColor::Mine);
+	return true;
+}
+
 void Board::reset()
 {
 	m_bridges.clear();

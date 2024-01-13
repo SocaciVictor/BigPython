@@ -6,6 +6,7 @@ char pieceColorToChar(const PieceColor& color)
 	case PieceColor::Blue: return 'B';
 	case PieceColor::Red: return 'R';
 	case PieceColor::None: return 'N';
+	case PieceColor::Mine: return 'M';
 	default: return '?';
 	}
 }

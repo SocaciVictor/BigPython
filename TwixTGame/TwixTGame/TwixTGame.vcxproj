@@ -108,6 +108,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConsoleBulzozeristGame.cpp" />
     <ClCompile Include="ConsoleGame.cpp" />
+    <ClCompile Include="ConsoleMineGame.cpp" />
     <ClCompile Include="ConsoleTrainAiGame.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -120,6 +121,8 @@
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="MineGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SecondMenu.cpp" />
     <ClCompile Include="TwixTGame.cpp" />
@@ -132,7 +135,10 @@
     <ClInclude Include="Buldozer.h" />
     <ClInclude Include="BuldozeristGame.h" />
     <ClInclude Include="ConsoleBulzozeristGame.h" />
+    <ClInclude Include="ConsoleMineGame.h" />
     <ClInclude Include="ConsoleTrainAiGame.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="MineGame.h" />
     <ClInclude Include="SecondMenu.h" />
     <QtMoc Include="Button.h" />
     <ClInclude Include="Camera.h" />
