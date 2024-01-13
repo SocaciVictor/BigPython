@@ -39,7 +39,7 @@ void TwixTGame::normalGame()
 void TwixTGame::aiGame()
 {
     m_camera.setScene(&m_game_scene);
-    m_game_scene.newGame(8);
+    m_game_scene.newGame(6);
     m_main_menu.back();
 }
 

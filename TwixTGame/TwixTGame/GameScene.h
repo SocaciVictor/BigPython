@@ -29,10 +29,10 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 public:
 	GameScene(QObject* parent = nullptr);
-    void newGame(const uint16_t& size);
     void reset();
     void addPillar(GraphicsBase* base);
     void addBridge(GraphicsBase* base);
+    void newGame(const uint16_t& size);
     void endGame();
 public slots:
     void nextPlayer();
@@ -40,5 +40,6 @@ public slots:
     void getBaseClicked(GraphicsBase* base);
     void getBaseHover(GraphicsBase* base);
     void saveGame();
+    void resetGame();
 };
 

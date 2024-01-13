@@ -1,4 +1,5 @@
-#include "Camera.h"
+﻿#include "Camera.h"
+
 
 Camera::Camera(int width, int height, QWidget* parent) : QGraphicsView{ parent }
 {

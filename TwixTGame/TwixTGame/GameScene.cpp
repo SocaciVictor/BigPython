@@ -4,6 +4,7 @@
 
 void GameScene::keyPressEvent(QKeyEvent* event)
 {
+	if (m_game->finished()) return;
 	if (event->key() == Qt::Key_Escape) {
 		if (items().contains(&m_second_menu)) {
 			removeItem(&m_second_menu);
@@ -93,6 +94,7 @@ void GameScene::newGame(const uint16_t& size)
 
 void GameScene::reset()
 {
+	m_second_menu.setNormal();
 	removeItem(&m_second_menu);
 	for (QGraphicsItem* item : items()) {
 		removeItem(item);
@@ -156,6 +158,8 @@ void GameScene::addPillar(GraphicsBase* base)
 
 void GameScene::addBridge(GraphicsBase* base)
 {
+	//verific daca playeryl a apasat deja;
+	if (!m_game->getCurrentPlayer()->getMoved()) return;
 	//verificare daca pillarul apesat este de aceiasi culoare;
 	if (colorToPieceColor(base->getColor()) != m_game->getCurrentPlayer()->getColor()) return;
 	//crearea bridgeului;
@@ -184,12 +188,10 @@ void GameScene::addBridge(GraphicsBase* base)
 void GameScene::endGame()
 {
 	if (m_game->finished()) {
-		if (m_game->getState() == State::Win) {
-			QMessageBox::information(nullptr, "EndGame", "Player " + QString(pieceColorToChar(m_game->getCurrentPlayer()->getColor())) + " win!");
-		}
-		else {
-			QMessageBox::information(nullptr, "EndGame", "Is A Tie" );
-		}
+		QString path = "../assets/win";
+		m_second_menu.setEnd();
+		m_second_menu.setWinner("../assets/win1b.png");
+	    addItem(&m_second_menu);
 	}
 }
 
@@ -228,6 +230,13 @@ void GameScene::getBaseHover(GraphicsBase* base)
 void GameScene::saveGame()
 {
 	m_game->saveGame("save1.txt");
+}
+
+void GameScene::resetGame()
+{
+	uint16_t size = m_game->getBoard().getColumns();
+	reset();
+	newGame(size);
 }
 
 
