@@ -34,12 +34,14 @@ Button::Button(const QString& path,const QPoint& pozitie, QGraphicsItem* parent)
 void Button::setDisable()
 {
     m_enable = false;
+    setCursor(Qt::ArrowCursor);
     setPixmap(m_disablePixmap);
 }
 
 void Button::setEnable()
 {
     m_enable = true;
+    setCursor(Qt::PointingHandCursor);
     setPixmap(m_normalPixmap);
 }
 

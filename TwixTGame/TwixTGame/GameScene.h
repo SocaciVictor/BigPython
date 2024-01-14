@@ -42,6 +42,8 @@ public slots:
     void switchColor();
     void getBaseClicked(GraphicsBase* base);
     void getBaseHover(GraphicsBase* base);
+    void getBridgeClicked(GraphicsBridge* bridge);
+    void getBridgeHover(GraphicsBridge* bridge);
     void saveGame();
     void resetGame();
     void seeHint();

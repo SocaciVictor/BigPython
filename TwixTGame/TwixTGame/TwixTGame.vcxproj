@@ -38,7 +38,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
-    <QtInstall>6.6.0_msvc2019_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.6.0_msvc2019_64</QtInstall>
@@ -140,7 +139,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
     <QtMoc Include="GraphicsBase.h" />
-    <ClInclude Include="GraphicsBridge.h" />
+    <QtMoc Include="GraphicsBridge.h" />
     <QtMoc Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
     <QtMoc Include="TwixTGame.h" />

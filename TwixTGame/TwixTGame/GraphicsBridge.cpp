@@ -16,3 +16,36 @@ GraphicsBridge::GraphicsBridge(const uint16_t size, const Point& point1, const P
 	pen.setWidth(base_size/6 * 4);
 	setPen(pen);
 }
+
+const Point& GraphicsBridge::getStart() const noexcept
+{
+	return m_point1;
+}
+
+const Point& GraphicsBridge::getEnd() const noexcept
+{
+	return m_point2;
+}
+
+const QColor& GraphicsBridge::getColor() const noexcept
+{
+	return m_color;
+}
+
+void GraphicsBridge::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+	emit bridgeClicked(this);
+}
+
+void GraphicsBridge::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+	emit bridgeHover(this);
+}
+
+void GraphicsBridge::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+	QPen new_pen{ pen() };
+	new_pen.setColor(m_color);
+	setPen(new_pen);
+	setCursor(Qt::ArrowCursor);
+}

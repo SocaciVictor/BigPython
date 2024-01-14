@@ -159,6 +159,10 @@ void GameScene::loadGame()
 			std::make_unique<GraphicsBridge>(m_game->getBoard().getRows(), bridge.second.getStartPoint(), bridge.second.getEndPoint(),
 				pieceColorToColor(bridge.second.getColor())));
 		addItem(m_bridges[TwoPoint{ bridge.second.getStartPoint(),bridge.second.getEndPoint() }].get());
+		QObject::connect(m_bridges[TwoPoint{ bridge.second.getStartPoint(),bridge.second.getEndPoint() }].get(),
+			&GraphicsBridge::bridgeClicked, this, &GameScene::getBridgeClicked);
+		QObject::connect(m_bridges[TwoPoint{ bridge.second.getStartPoint(),bridge.second.getEndPoint() }].get(),
+			&GraphicsBridge::bridgeHover, this, &GameScene::getBridgeHover);
 	}
 	
 	//next button and swich color button
@@ -312,6 +316,11 @@ void GameScene::addBridge(GraphicsBase* base)
 		std::make_unique<GraphicsBridge>(m_game->getBoard().getRows(), save_pillar->getCoordinates(), base->getCoordinates(),
 				pieceColorToColor(m_game->getCurrentPlayer()->getColor())));
 	addItem(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get());
+	QObject::connect(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get(),
+		&GraphicsBridge::bridgeClicked, this, &GameScene::getBridgeClicked);
+	QObject::connect(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get(),
+		&GraphicsBridge::bridgeHover, this, &GameScene::getBridgeHover);
+
 	save_pillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
 	save_pillar = nullptr;
 	m_hint1.setVisible(false);
@@ -361,6 +370,25 @@ void GameScene::getBaseHover(GraphicsBase* base)
 		base->setCursor(Qt::PointingHandCursor);
 		base->setBrush(QColor(pieceColorToHoverColor(m_game->getCurrentPlayer()->getColor())));
 	}
+}
+
+void GameScene::getBridgeClicked(GraphicsBridge* bridge)
+{
+	if (items().contains(&m_second_menu)) return;
+	if (!m_game->removeBridges(bridge->getStart(),bridge->getEnd())) return;
+	m_bridges.erase(TwoPoint{ bridge->getStart(),bridge->getEnd() });
+	
+}
+
+void GameScene::getBridgeHover(GraphicsBridge* bridge)
+{
+	if (items().contains(&m_second_menu)) return;
+	if (!m_game->getCurrentPlayer()->getMoved()) return;
+	if (colorToPieceColor(bridge->getColor()) != m_game->getCurrentPlayer()->getColor()) return;
+	bridge->setCursor(Qt::PointingHandCursor);
+	QPen new_pen{ bridge->pen() };
+	new_pen.setColor(QColor{ pieceColorToHoverColor(m_game->getCurrentPlayer()->getColor()) });
+	bridge->setPen(new_pen);
 }
 
 void GameScene::saveGame()

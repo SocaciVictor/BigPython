@@ -120,9 +120,6 @@
     <ClInclude Include="GameScene.h">
       <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsBridge.h">
-      <Filter>QTGraphics\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SecondMenu.h">
       <Filter>QTGraphics\Headers</Filter>
     </ClInclude>
@@ -158,6 +155,9 @@
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
     <QtMoc Include="Button.h">
+      <Filter>QTGraphics\Headers</Filter>
+    </QtMoc>
+    <QtMoc Include="GraphicsBridge.h">
       <Filter>QTGraphics\Headers</Filter>
     </QtMoc>
   </ItemGroup>
