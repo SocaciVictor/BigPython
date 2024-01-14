@@ -50,7 +50,7 @@
     <ClCompile Include="BuldozeristGame.cpp">
       <Filter>BuldozerLogic\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleBulzozeristGame.cpp">
+    <ClCompile Include="ConsoleBuldozeristGame.cpp">
       <Filter>ConsoleGames</Filter>
     </ClCompile>
     <ClCompile Include="AiPlayer.cpp">
@@ -148,7 +148,7 @@
     <ClInclude Include="BuldozeristGame.h">
       <Filter>BuldozerLogic\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleBulzozeristGame.h">
+    <ClInclude Include="ConsoleBuldozeristGame.h">
       <Filter>ConsoleGames</Filter>
     </ClInclude>
     <ClInclude Include="AiPlayer.h">

@@ -39,7 +39,7 @@ void MineGame::generateMine(const uint16_t& size)
 	}
 }
 
-int MineGame::addPillar(const Point& point)
+bool MineGame::addPillar(const Point& point)
 {
 	if (m_board.getBases()[point.y][point.x]->getColor() == PieceColor::Mine)
 	{

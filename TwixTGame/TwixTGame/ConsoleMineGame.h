@@ -9,5 +9,6 @@ public:
 	
 	void drawBoard(const Board& board) override;
 	void playerPillarMove() override;
+	void playerMineMove();
 };
 

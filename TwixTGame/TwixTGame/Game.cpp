@@ -295,7 +295,7 @@ bool Game::loadGame(const std::string& fisier)
 	//citire board;
 	input_file >> m_board;
 	//inchidere fisier;
-	input_file.close();
+	//input_file.close();
 	return true;
 }
 

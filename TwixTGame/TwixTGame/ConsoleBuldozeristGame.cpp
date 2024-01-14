@@ -1,11 +1,11 @@
-#include "ConsoleBulzozeristGame.h"
+#include "ConsoleBuldozeristGame.h"
 
-ConsoleBulzozeristGame::ConsoleBulzozeristGame() 
+ConsoleBuldozeristGame::ConsoleBuldozeristGame() 
 {
 	m_game = std::make_unique<BuldozeristGame>(24, 24, 50, 50);
 }
 
-void ConsoleBulzozeristGame::drawBoard(const Board& board)
+void ConsoleBuldozeristGame::drawBoard(const Board& board)
 {
 	std::cout << "   ";
 	for (int i = 0; i < board.getBases().size(); i++) {
@@ -43,9 +43,14 @@ void ConsoleBulzozeristGame::drawBoard(const Board& board)
 	std::cout << std::endl;
 }
 
-void ConsoleBulzozeristGame::run()
+void ConsoleBuldozeristGame::run()
 {
-	uint16_t player = 0;
+	uint16_t load = 0;
+	std::cout << "Press 1 for a load game or whatever u want for a new game: ";
+	std::cin >> load;
+	if (load == 1)
+		m_game->loadGame("save1.txt");
+	uint16_t player = m_game->getCurrentPlayer()==m_game->getPlayer2();
 	do {
 		playerPillarMove();
 		playerBridgesMove();

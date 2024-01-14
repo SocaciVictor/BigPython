@@ -22,10 +22,10 @@ void ConsoleMineGame::drawBoard(const Board& board)
 			}
 			if (element->getColor() != PieceColor::None) {
 				if (element->getColor() == PieceColor::Mine) {
-					if (static_cast<Mine*>(element.get())->getActive())
+					if (!static_cast<Mine*>(element.get())->getActive())
 						std::cout << ' ' << pieceColorToChar(element->getColor()) << ' ';
 					else
-						std::cout << ' - ';
+						std::cout << " . ";
 				}
 				else
 				{
@@ -55,7 +55,9 @@ void ConsoleMineGame::playerPillarMove()
 	if (m_game->getCurrentPlayer()->getMoved()) return;
 	bool valid_move{ true };
 	uint16_t x, y;
+	uint16_t had_pillars;
 	do {
+		had_pillars = m_game->getCurrentPlayer()->getNumberPillars();
 		std::system("cls");
 		drawBoard(m_game->getBoard());
 		if (!valid_move)
@@ -69,5 +71,32 @@ void ConsoleMineGame::playerPillarMove()
 		}
 		std::cin >> y;
 		valid_move = m_game->addPillar(Point{ x,y });
+		if (valid_move && had_pillars== m_game->getCurrentPlayer()->getNumberPillars()) {
+			playerMineMove();
+			return;
+		}
+	} while (!valid_move || x == 88);
+}
+
+void ConsoleMineGame::playerMineMove()
+{
+	bool valid_move{ true };
+	uint16_t x, y;
+	do {
+		std::system("cls");
+		drawBoard(m_game->getBoard());
+		if (!valid_move)
+			std::cout << "Invalid moved!\n";
+		else
+			std::cout << "   Oops! You hit a mine !\n";
+		drawPlayer(m_game->getCurrentPlayer());
+		std::cout << "add mine on x y pozition or press 88 for save game: ";
+		std::cin >> x;
+		if (x == 88) {
+			m_game->saveGame("save1.txt");
+			continue;
+		}
+		std::cin >> y;
+		valid_move = static_cast<MineGame*>(m_game.get())->addMine(Point{ x,y });
 	} while (!valid_move || x == 88);
 }

@@ -106,7 +106,7 @@
     <ClCompile Include="BuldozeristGame.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ConsoleBulzozeristGame.cpp" />
+    <ClCompile Include="ConsoleBuldozeristGame.cpp" />
     <ClCompile Include="ConsoleGame.cpp" />
     <ClCompile Include="ConsoleMineGame.cpp" />
     <ClCompile Include="ConsoleTrainAiGame.cpp" />
@@ -134,7 +134,7 @@
     <ClInclude Include="Bridge.h" />
     <ClInclude Include="Buldozer.h" />
     <ClInclude Include="BuldozeristGame.h" />
-    <ClInclude Include="ConsoleBulzozeristGame.h" />
+    <ClInclude Include="ConsoleBuldozeristGame.h" />
     <ClInclude Include="ConsoleMineGame.h" />
     <ClInclude Include="ConsoleTrainAiGame.h" />
     <ClInclude Include="Mine.h" />

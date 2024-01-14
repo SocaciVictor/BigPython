@@ -16,6 +16,8 @@ PieceColor charToPieceColor(const char& character)
 	switch (character) {
 	case 'B': return PieceColor::Blue;
 	case 'R': return PieceColor::Red;
+	case '1': return PieceColor::Mine;
+	case '0': return PieceColor::Mine;
 	default: return PieceColor::None;
 	}
 }

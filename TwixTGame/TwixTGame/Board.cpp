@@ -322,6 +322,11 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 			}
 			else
 			if (element->getColor() != PieceColor::None) {
+				if (element->getColor() == PieceColor::Mine) {
+					output << static_cast<Mine*>(element.get())->getActive();
+						
+				}
+				else
 				output << pieceColorToChar(element->getColor());
 			}
 			else {
@@ -362,7 +367,11 @@ std::istream& operator>>(std::istream& input, Board& board)
 			}
 			if (base == 'R' || base == 'B') {
 				board.m_bases[i][j] = std::make_unique<Pillar>(Point{ j,i }, charToPieceColor(base));
+				continue;
 			}
+			
+			board.m_bases[i][j] = std::make_unique<Mine>(Point{ j,i }, base=='1', charToPieceColor(base));
+			
 		}
 	}
 	//citire poduri
