@@ -289,6 +289,22 @@ bool Board::gameIsEnded(const Point& point1, const Point& point2, const PieceCol
 	return false;
 }
 
+bool Board::addMine(const Point& point)
+{
+	//verificare daca punctul se afla in board;
+	if (!isInBoard(point)) return false;
+	//verificare daca punctul este pillar
+	if (m_bases[point.y][point.x]->getColor() != PieceColor::None && m_bases[point.y][point.x]->getColor() != PieceColor::Mine) return false;
+	//verificare daca mine este explodata
+	if (m_bases[point.y][point.x]->getColor() == PieceColor::Mine)
+	{
+		if (static_cast<Mine*>(m_bases[point.y][point.x].get())->getActive() != true) return false;
+	}
+	m_bases[point.y][point.x] =
+		std::make_unique<Mine>(point, true, PieceColor::Mine);
+	return true;
+}
+
 void Board::reset()
 {
 	m_bridges.clear();
@@ -306,6 +322,11 @@ std::ostream& operator<<(std::ostream& output, const Board& board)
 			}
 			else
 			if (element->getColor() != PieceColor::None) {
+				if (element->getColor() == PieceColor::Mine) {
+					output << static_cast<Mine*>(element.get())->getActive();
+						
+				}
+				else
 				output << pieceColorToChar(element->getColor());
 			}
 			else {
@@ -345,7 +366,11 @@ std::istream& operator>>(std::istream& input, Board& board)
 			}
 			if (base == 'R' || base == 'B') {
 				board.m_bases[i][j] = std::make_unique<Pillar>(Point{ j,i }, charToPieceColor(base));
+				continue;
 			}
+			
+			board.m_bases[i][j] = std::make_unique<Mine>(Point{ j,i }, base=='1', charToPieceColor(base));
+			
 		}
 	}
 	//citire poduri

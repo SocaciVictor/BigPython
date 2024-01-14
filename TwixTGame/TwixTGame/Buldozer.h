@@ -16,7 +16,7 @@ private:
 	std::uint16_t eatBlueProbability(); 
 public:
 	Buldozer() = default;
-	Buldozer(const Point& coordinates);
+	Buldozer(const Point& coordinates, const std::uint16_t& m_bluePillarsEat=0,const std::uint16_t& m_redPillarsEat=0);
 	const Point& getCoordinates() const noexcept;
 	uint16_t generateRandomNumber(const uint16_t& min, const uint16_t max);
 	void setCoordinates(const Point& coordinates);
@@ -24,5 +24,7 @@ public:
 	void addBluePillarsPoint(const Point& point);
 	void addRedPillarsPoint(const Point& point);
 	const Point& coinToss();
+	friend std::ostream& operator<<(std::ostream& output, const Buldozer& buldozer);
+	friend std::istream& operator>>(std::istream& input, Buldozer& buldozer);
 };
 

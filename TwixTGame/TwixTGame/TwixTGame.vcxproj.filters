@@ -50,7 +50,7 @@
     <ClCompile Include="BuldozeristGame.cpp">
       <Filter>BuldozerLogic\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleBulzozeristGame.cpp">
+    <ClCompile Include="ConsoleBuldozeristGame.cpp">
       <Filter>ConsoleGames</Filter>
     </ClCompile>
     <ClCompile Include="AiPlayer.cpp">
@@ -59,6 +59,13 @@
     <ClCompile Include="ConsoleTrainAiGame.cpp">
       <Filter>ConsoleGames</Filter>
     </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>MineLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MineGame.cpp">
+      <Filter>MineLogic\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleMineGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameLogic">
@@ -93,6 +100,15 @@
     </Filter>
     <Filter Include="ConsoleGames">
       <UniqueIdentifier>{e430ab40-5cbb-4ac7-a6ab-f96fc9d6e381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MineLogic">
+      <UniqueIdentifier>{83a13459-6ac1-4b4e-b6ec-d0d7cbab4275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MineLogic\Headers">
+      <UniqueIdentifier>{b9e2fe2d-b235-4fd3-bd0e-0508d6eebf30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MineLogic\Sources">
+      <UniqueIdentifier>{c8912ec4-e21e-4905-a2d6-dfbd06e39a1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,7 +145,7 @@
     <ClInclude Include="BuldozeristGame.h">
       <Filter>BuldozerLogic\Header</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleBulzozeristGame.h">
+    <ClInclude Include="ConsoleBuldozeristGame.h">
       <Filter>ConsoleGames</Filter>
     </ClInclude>
     <ClInclude Include="AiPlayer.h">
@@ -138,6 +154,13 @@
     <ClInclude Include="ConsoleTrainAiGame.h">
       <Filter>ConsoleGames</Filter>
     </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>MineLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MineGame.h">
+      <Filter>MineLogic\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleMineGame.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="save1.txt">

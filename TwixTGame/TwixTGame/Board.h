@@ -1,5 +1,6 @@
 #pragma once
 #include"Base.h"
+#include"Mine.h"
 #include"Bridge.h"
 #include"Player.h"
 #include<iostream>
@@ -36,6 +37,7 @@ public:
 	uint16_t removePillar(const Point& point);
 	bool removeBridge(const Point& point1, const Point& point2,const PieceColor& color);
 	bool gameIsEnded(const Point& point1, const Point& point2,const PieceColor& color);
+	bool addMine(const Point& point);
 	void reset();
 	friend std::ostream& operator<<(std::ostream& output, const Board& board);
 	friend std::istream& operator>>(std::istream& input, Board& board);

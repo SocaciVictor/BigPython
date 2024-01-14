@@ -45,8 +45,8 @@ public:
 	void updateState();
 	void updateState(const Point& point1, const Point& point2);
 	void swichColor();
-	bool saveGame(const std::string& fisier);
-	bool loadGame(const std::string& fisier);
+	virtual bool saveGame(const std::string& fisier);
+	virtual bool loadGame(const std::string& fisier);
 	std::unique_ptr<Move> getHint();
 protected:
 	std::unique_ptr<Player> m_player1;

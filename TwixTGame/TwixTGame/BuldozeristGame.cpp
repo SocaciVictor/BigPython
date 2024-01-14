@@ -39,4 +39,39 @@ bool BuldozeristGame::addPillar(const Point& point)
 	return true;
 }
 
+bool BuldozeristGame::saveGame(const std::string& fisier)
+{
+	Game::saveGame(fisier);
+	std::ofstream f(fisier, std::ios::app);
+	f << "\nD\n" << m_buldozer;
+	return true;
+}
+
+bool BuldozeristGame::loadGame(const std::string& fisier)
+{
+	std::ifstream f(fisier);
+	char cauta = 'd';
+	Game::loadGame(fisier);
+	while (cauta != 'D') {
+		f >> cauta;
+	}
+	f >> m_buldozer;
+
+	for (uint16_t i = 0; i < m_board.getRows() - 1; i++) {
+		for (uint16_t j = 0; j < m_board.getRows() - 1; j++) {
+			if ((j == 0 || j == m_board.getColumns() - 1) && (i == 0 || i == m_board.getRows() - 1)) continue;
+			if (m_board.getBases()[j][i]->getColor() == PieceColor::None)
+				continue;
+			if (m_board.getBases()[j][i]->getColor() == PieceColor::Red) {
+				m_buldozer.addRedPillarsPoint(Point{ j,i });
+			}
+			else {
+				m_buldozer.addBluePillarsPoint(Point{ j,i });
+			}
+		}
+	}
+
+	return true;
+}
+
 

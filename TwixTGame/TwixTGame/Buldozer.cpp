@@ -24,7 +24,7 @@ std::uint16_t Buldozer::eatBlueProbability()
     return  probabiliti;
 }
 
-Buldozer::Buldozer(const Point& coordinates) :
+Buldozer::Buldozer(const Point& coordinates, const std::uint16_t& m_bluePillarsEat, const std::uint16_t& m_redPillarsEat) :
     m_coordinates{ coordinates }, m_bluePillarsEat {0}, m_redPillarsEat{ 0 }
 {}
 
@@ -93,4 +93,18 @@ const Point& Buldozer::coinToss()
         std::advance(it, generateRandomNumber(0, m_basesPoint.size() - 1));
         return *it;
     }
+}
+
+std::ostream& operator<<(std::ostream& output, const Buldozer& buldozer)
+{
+    output << buldozer.m_coordinates.x << ' ' << buldozer.m_coordinates.y << '\n';
+    output << buldozer.m_bluePillarsEat << ' ' << buldozer.m_redPillarsEat << '\n';
+    return output;
+}
+
+std::istream& operator>>(std::istream& input,  Buldozer& buldozer)
+{
+    input >> buldozer.m_coordinates.x >> buldozer.m_coordinates.y >>
+        buldozer.m_bluePillarsEat >> buldozer.m_redPillarsEat;
+    return input;
 }
