@@ -5,7 +5,7 @@
 class ConsoleBuldozeristGame : public ConsoleGame
 {
 public:
-	ConsoleBuldozeristGame();
+	ConsoleBuldozeristGame(const std::string path);
 	void drawBoard(const Board& board) override;
 	void run() override;
 };

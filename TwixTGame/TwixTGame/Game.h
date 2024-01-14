@@ -19,8 +19,8 @@ protected:
 	Board m_board;
 	State m_state{ State::None };
 	uint16_t m_turnNumber{ 0 };
-	uint16_t maxNumPillars;
-	uint16_t maxNumBridges;
+	uint16_t m_maxNumPillars;
+	uint16_t m_maxNumBridges;
 public:
 	Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges);
 	Game() = default;
@@ -54,5 +54,6 @@ protected:
 	//observer
 	Player* m_current_player;
 public:
-	static std::unique_ptr<AiPlayer> m_aiPlayer;
+	static std::unique_ptr<AiPlayer> m_aiPlayerRed;
+	static std::unique_ptr<AiPlayer> m_aiPlayerBlue;
 };

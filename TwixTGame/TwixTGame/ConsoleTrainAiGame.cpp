@@ -5,6 +5,7 @@
 
 void ConsoleTrainAiGame::drawAiMove(Move* move)
 {
+	system("CLS");
 	drawBoard(m_game->getBoard());
 	drawPlayer(m_game->getCurrentPlayer());
 	std::cout << "\nMoved ";
@@ -50,13 +51,15 @@ void ConsoleTrainAiGame::wipeAiFiles(std::string redFileData, std::string blueFi
 	if (wipe.good())
 		wipe.close();
 }
-ConsoleTrainAiGame::ConsoleTrainAiGame(const uint16_t& size) : ConsoleGame{size}
-{}
+ConsoleTrainAiGame::ConsoleTrainAiGame(const uint16_t& size, const std::string& path) : ConsoleGame{path}
+{
+   m_game = std::make_unique<Game>(size, size, size * 2 + 2, size * 2 + 2);
+}
 void ConsoleTrainAiGame::playerPillarMove()
 {
 	bool valid_move{ true };
 	uint16_t x, y;
-	m_game->saveGame("save1.txt");
+	m_game->saveGame(m_path);
 	do {
 		std::system("cls");
 		drawBoard(m_game->getBoard());
@@ -67,7 +70,7 @@ void ConsoleTrainAiGame::playerPillarMove()
 		std::cin >> x >> y;
 		valid_move = m_game->addPillar(Point{ x, y });
 	} while (!valid_move);
-	m_game->saveGame("save1.txt");
+	m_game->saveGame(m_path);
 }
 
 void ConsoleTrainAiGame::playerBridgesMove()
@@ -89,16 +92,19 @@ void ConsoleTrainAiGame::playerBridgesMove()
 		valid_move = m_game->addBridge(Point{ x, y }, Point{ a,b });
 		if (!valid_move)
 			valid_move = m_game->removeBridges(Point{ x, y }, Point{ a,b });
-		m_game->saveGame("save1.txt");
+		m_game->saveGame(m_path);
 	} while (x != 99 && !m_game->finished());
 }
 
 void ConsoleTrainAiGame::run()
 {
 	//if there are aiplayers load policy
+	uint16_t load = 0;
+	std::cout << "Press 1 for a load game or whatever u want for a new game: ";
+	std::cin >> load;
+	if (load == 1)
+		m_game->loadGame(m_path);
 	m_game->setPlayerAi(2,"redData");
-
-	//m_game.loadGame("save1.txt");
 	do {
 		//moves by aiPlayer
 		if (dynamic_cast<AiPlayer*>(m_game->getCurrentPlayer())) {
@@ -216,9 +222,9 @@ void ConsoleTrainAiGame::train(std::string redFileData, std::string blueFileData
 		//feed reward for each ai
 		switch (m_game->getState()) {
 		case State::Draw:
-			static_cast<AiPlayer*>(m_game->getCurrentPlayer())->feedReward(0.1f);
+			static_cast<AiPlayer*>(m_game->getCurrentPlayer())->feedReward(0.5f);
 			m_game->switchPlayer();
-			static_cast<AiPlayer*>(m_game->getCurrentPlayer())->feedReward(0.1f);
+			static_cast<AiPlayer*>(m_game->getCurrentPlayer())->feedReward(0.5f);
 			break;
 		case State::Win:
 			static_cast<AiPlayer*>(m_game->getCurrentPlayer())->feedReward(1.0f);

@@ -28,6 +28,5 @@ signals:
 	void bridgeClicked(GraphicsBridge* base);
 signals:
 	void bridgeHover(GraphicsBridge* base);
-
 };
 

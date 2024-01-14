@@ -1,9 +1,6 @@
 #include "ConsoleGame.h"
 
-ConsoleGame::ConsoleGame() : m_game{ std::make_unique<Game>(5,5,50,50) }
-{}
-
-ConsoleGame::ConsoleGame(const uint16_t& size) : m_game{ std::make_unique<Game>(size,size,size * 2 + 2,size * 2 + 2) }
+ConsoleGame::ConsoleGame(std::string path) : m_path{path}
 {}
 
 void ConsoleGame::drawBoard(const Board& board)
@@ -61,7 +58,7 @@ void ConsoleGame::playerPillarMove()
 		std::cout << "add pillars on x y pozition or press 88 for save game: ";
 		std::cin >> x;
 		if (x == 88) {
-			m_game->saveGame("save1.txt");
+			m_game->saveGame(m_path);
 			continue;
 		} 
 		std::cin >> y;
@@ -83,7 +80,7 @@ void ConsoleGame::playerBridgesMove()
 		std::cout << "add Bridges or remove on x y, a b pozition or add 99 for next player or 88 for save game: ";
 		std::cin >> x;
 		if (x == 88) {
-			m_game->saveGame("save1.txt");
+			m_game->saveGame(m_path);
 			continue;
 		}
 		if (x == 99) break;
@@ -102,7 +99,14 @@ void ConsoleGame::run()
 	std::cout << "Press 1 for a load game or whatever u want for a new game: ";
 	std::cin >> load;
 	if (load == 1)
-		m_game->loadGame("save1.txt");
+		m_game->loadGame(m_path);
+	else {
+		uint16_t size;
+		system("CLS");
+		std::cout << "Introdu marimea tablei de joc: ";
+		std::cin >> size;
+		m_game = std::make_unique<Game>(size, size, size * 2 + 2, size * 2 + 2);
+	}
 	do {
 		playerPillarMove();
 		playerBridgesMove();

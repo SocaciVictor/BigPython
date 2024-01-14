@@ -65,7 +65,9 @@
     <ClCompile Include="MineGame.cpp">
       <Filter>MineLogic\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleMineGame.cpp" />
+    <ClCompile Include="ConsoleMineGame.cpp">
+      <Filter>ConsoleGames</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameLogic">
@@ -160,10 +162,21 @@
     <ClInclude Include="MineGame.h">
       <Filter>MineLogic\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleMineGame.h" />
+    <ClInclude Include="ConsoleMineGame.h">
+      <Filter>ConsoleGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="save1.txt">
+    <Text Include="saveN.txt">
+      <Filter>SaveFiles</Filter>
+    </Text>
+    <Text Include="saveM.txt">
+      <Filter>SaveFiles</Filter>
+    </Text>
+    <Text Include="saveB.txt">
+      <Filter>SaveFiles</Filter>
+    </Text>
+    <Text Include="saveG.txt">
       <Filter>SaveFiles</Filter>
     </Text>
   </ItemGroup>

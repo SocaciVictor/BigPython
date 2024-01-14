@@ -5,10 +5,10 @@
 class ConsoleMineGame : public ConsoleGame
 {
 public:
-	ConsoleMineGame();
-	
+	ConsoleMineGame(const std::string& path);
 	void drawBoard(const Board& board) override;
 	void playerPillarMove() override;
 	void playerMineMove();
+	void run() override;
 };
 

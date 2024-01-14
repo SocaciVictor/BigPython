@@ -51,8 +51,8 @@ class Player
 {
 protected:
 	PieceColor m_color;
-	std::uint16_t m_number_pillars;
-	std::uint16_t m_number_bridges;
+	std::uint16_t m_numberPillars;
+	std::uint16_t m_numberBridges;
 	bool m_moved;
 public:
 	Player(const std::uint16_t& number_pillars,const std::uint16_t& number_bridges,const PieceColor& color);
@@ -60,8 +60,8 @@ public:
 	virtual std::unique_ptr<Move> getNextMove(bool randomMoves = true);
 	PieceColor getColor() const noexcept;
 	void setColor(const PieceColor& color);
-	const uint16_t& getNumberPillars() const noexcept;
-	const uint16_t& getNumberBridges() const noexcept;
+	uint16_t getNumberPillars() const noexcept;
+	uint16_t getNumberBridges() const noexcept;
 	void updateNumberPillars(const int16_t& addend);
 	void updateNumberBridges(const int16_t& addend);
 	bool getMoved() const noexcept;

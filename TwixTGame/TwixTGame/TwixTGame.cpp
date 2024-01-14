@@ -6,7 +6,7 @@ TwixTGame::TwixTGame()
 {
 	QApplication::setStyle("Plastique");
 	QFontDatabase::addApplicationFont("../assets/Itim.ttf");//fontul pe care il folosesc
-	m_camera.setScene(&m_main_menu);
+	m_camera.setScene(&m_mainMenu);
 }
 
 void TwixTGame::run()
@@ -31,24 +31,26 @@ void TwixTGame::switchScreen()
 
 void TwixTGame::normalGame() 
 {
-    m_camera.setScene(&m_game_scene);
-    m_game_scene.newGame(24);
-    m_main_menu.back();
+    m_camera.setScene(&m_gameScene);
+    m_gameScene.newGame(24);
+    m_mainMenu.back();
 }
 
 void TwixTGame::aiGame()
 {
-    Game::m_aiPlayer = std::make_unique<AiPlayer>(14, 14, PieceColor::None, "aiData");
-    Game::m_aiPlayer->loadPolicy();
-    m_camera.setScene(&m_game_scene);
-    m_game_scene.newGame(6);
-    m_main_menu.back();
+    Game::m_aiPlayerRed = std::make_unique<AiPlayer>(14, 14, PieceColor::Red, "RedData");
+    Game::m_aiPlayerBlue = std::make_unique<AiPlayer>(14, 14, PieceColor::Blue, "BlueData");
+    Game::m_aiPlayerRed->loadPolicy();
+    Game::m_aiPlayerBlue->loadPolicy();
+    m_camera.setScene(&m_gameScene);
+    m_gameScene.newGame(6);
+    m_mainMenu.back();
 }
 
 void TwixTGame::load()
 {
-    m_camera.setScene(&m_game_scene);
-    m_game_scene.loadGame();
+    m_camera.setScene(&m_gameScene);
+    m_gameScene.loadGame();
 }
 
 void TwixTGame::exit()
@@ -58,8 +60,9 @@ void TwixTGame::exit()
 
 void TwixTGame::backToMainMenu()
 {
-    m_camera.setScene(&m_main_menu);
-    m_main_menu.update();
-    m_game_scene.reset();
-    Game::m_aiPlayer.reset();
+    m_camera.setScene(&m_mainMenu);
+    m_mainMenu.update();
+    m_gameScene.reset();
+    Game::m_aiPlayerRed.reset();
+    Game::m_aiPlayerBlue.reset();
 }

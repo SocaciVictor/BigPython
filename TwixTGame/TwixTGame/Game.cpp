@@ -3,14 +3,15 @@
 #include <random>
 #include <chrono>
 
-std::unique_ptr<AiPlayer> Game::m_aiPlayer = nullptr;
+std::unique_ptr<AiPlayer> Game::m_aiPlayerRed = nullptr;
+std::unique_ptr<AiPlayer> Game::m_aiPlayerBlue = nullptr;
 
 Game::Game(const uint16_t& rows, const uint16_t& columns, const uint16_t& number_pillars, const uint16_t& number_bridges) :
 	m_board{ rows,columns },
 	m_player1{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Blue) },
 	m_player2{ std::make_unique<Player>(number_pillars,number_bridges,PieceColor::Red) },
-	maxNumPillars{ number_pillars },
-	maxNumBridges{ number_bridges },
+	m_maxNumPillars{ number_pillars },
+	m_maxNumBridges{ number_bridges },
 	m_current_player{ m_player1.get() }
 {}
 
@@ -193,8 +194,8 @@ bool Game::removeBridges(const Point& point1, const Point& point2)
 void Game::reset()
 {
 	m_board.reset();
-	m_player1->reset(maxNumPillars, maxNumBridges);
-	m_player2->reset(maxNumPillars, maxNumBridges);
+	m_player1->reset(m_maxNumPillars, m_maxNumBridges);
+	m_player2->reset(m_maxNumPillars, m_maxNumBridges);
 
 	//default starting player
 	m_current_player = m_player1.get();
@@ -301,10 +302,16 @@ bool Game::loadGame(const std::string& fisier)
 
 std::unique_ptr<Move> Game::getHint()
 {
-	if (m_aiPlayer.get() == nullptr) return nullptr;
-	m_aiPlayer->setColor(m_current_player->getColor());
-	m_aiPlayer->setMoved(m_current_player->getMoved());
-	return m_aiPlayer->getNextMove(false);
+	if (m_aiPlayerRed.get() == nullptr) return nullptr;
+	if (m_current_player->getColor() == PieceColor::Blue) {
+		m_aiPlayerBlue->setMoved(m_current_player->getMoved());
+		return m_aiPlayerBlue->getNextMove(false);
+	}
+	else {
+		m_aiPlayerRed->setMoved(m_current_player->getMoved());
+		return m_aiPlayerRed->getNextMove(false);
+	}
+	
 }
 
 

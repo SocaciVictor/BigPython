@@ -1,16 +1,15 @@
 ﻿#include "GameScene.h"
 #include<QDebug>
 
-
 void GameScene::keyPressEvent(QKeyEvent* event)
 {
 	if (m_game->finished()) return;
 	if (event->key() == Qt::Key_Escape) {
-		if (items().contains(&m_second_menu)) {
-			removeItem(&m_second_menu);
+		if (items().contains(&m_secondMenu)) {
+			removeItem(&m_secondMenu);
 		}
 		else {
-			addItem(&m_second_menu);
+			addItem(&m_secondMenu);
 		}
 		update();
 	}
@@ -18,7 +17,7 @@ void GameScene::keyPressEvent(QKeyEvent* event)
 }
 
 GameScene::GameScene(QObject* parent) : QGraphicsScene{ 0,0,960,540,parent },
-	m_second_menu{ this }
+	m_secondMenu{ this }
 {
 	setBackgroundBrush(QBrush("#efefef"));
 	m_texts[0] = std::make_unique<QGraphicsTextItem>("Pillars: " + QString::number(50));
@@ -32,7 +31,7 @@ void GameScene::newGame(const uint16_t& size)
 	//game logic
 	m_game = std::make_unique<Game>(size, size, size*2+2, size*2+2);
 	//board
-	m_board.setPixmap(QPixmap{ "../assets/board.png" });
+	m_board.setPixmap(QPixmap{ "../assets/board" + QString::number(size)+ ".png" });
 	m_board.setTransformationMode(Qt::SmoothTransformation);
 	m_board.setScale(0.5);
 	m_board.setPos(235, 25);
@@ -108,8 +107,9 @@ void GameScene::newGame(const uint16_t& size)
 		addItem(player.get());
 	}
 	removeItem(m_images[3].get());
-	if (Game::m_aiPlayer) {
-		Game::m_aiPlayer->setBoard(m_game->getBoardPtr());
+	if (Game::m_aiPlayerRed && Game::m_aiPlayerBlue) {
+		Game::m_aiPlayerRed->setBoard(m_game->getBoardPtr());
+		Game::m_aiPlayerBlue->setBoard(m_game->getBoardPtr());
 	}
 }
 
@@ -119,9 +119,9 @@ void GameScene::loadGame()
 {
 	//game logic
 	m_game = std::make_unique<Game>();
-	m_game->loadGame("save1.txt");
+	m_game->loadGame("saveG.txt");
 	//board
-	m_board.setPixmap(QPixmap{ "../assets/board.png" });
+	m_board.setPixmap(QPixmap{ "../assets/board" + QString::number(m_game->getBoard().getRows()) + ".png" });
 	m_board.setTransformationMode(Qt::SmoothTransformation);
 	m_board.setScale(0.5);
 	m_board.setPos(235, 25);
@@ -166,8 +166,8 @@ void GameScene::loadGame()
 	}
 	
 	//next button and swich color button
-	m_next[0] = std::make_unique<Button>("../assets/nextB", QPoint{ 50,420 });
-	m_next[1] = std::make_unique<Button>("../assets/nextR", QPoint{ 760,420 });
+	m_next[0] = std::make_unique<Button>("../assets/next" + QString{ pieceColorToChar(m_game->getPlayer1()->getColor()) }, QPoint{ 50,420 });
+	m_next[1] = std::make_unique<Button>("../assets/next" + QString{ pieceColorToChar(m_game->getPlayer2()->getColor()) }, QPoint{ 760,420 });
 	m_next[2] = std::make_unique<Button>("../assets/switch", QPoint{ 760,230 });
 	m_next[3] = std::make_unique<Button>("../assets/bec", QPoint{ 16,480 });
 	QObject::connect(m_next[0].get(), &Button::buttonClicked, this, &GameScene::nextPlayer);
@@ -187,22 +187,22 @@ void GameScene::loadGame()
 	m_texts[3]->setPlainText("Bridges: " + QString::number(m_game->getPlayer2()->getNumberBridges()));
 	m_texts[0]->setPos(48, 110);
 	m_texts[1]->setPos(40, 151);
-	m_texts[0]->setDefaultTextColor(QColor("#4798CE"));
-	m_texts[1]->setDefaultTextColor(QColor("#4798CE"));
-	m_texts[2]->setDefaultTextColor(QColor("#E31021"));
-	m_texts[3]->setDefaultTextColor(QColor("#E31021"));
+	m_texts[0]->setDefaultTextColor(QColor{ pieceColorToColor(m_game->getPlayer1()->getColor()) });
+	m_texts[1]->setDefaultTextColor(QColor{ pieceColorToColor(m_game->getPlayer1()->getColor()) });
+	m_texts[2]->setDefaultTextColor(QColor{ pieceColorToColor(m_game->getPlayer2()->getColor()) });
+	m_texts[3]->setDefaultTextColor(QColor{ pieceColorToColor(m_game->getPlayer2()->getColor()) });
 	m_texts[2]->setPos(768, 110);
 	m_texts[3]->setPos(760, 151);
 	for (auto& text : m_texts) {
 		addItem(text.get());
 	}
 	//Pixmap Images
-	m_images[0] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/player1B" });
-	m_images[1] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/player2R" });
+	m_images[0] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/player1" + QString{pieceColorToChar(m_game->getPlayer1()->getColor())} });
+	m_images[1] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/player2" + QString{pieceColorToChar(m_game->getPlayer2()->getColor())} });
 	m_images[0]->setPos(20, 50);
 	m_images[1]->setPos(740, 50);
-	m_images[2] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/arrowB" });
-	m_images[3] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/arrowR" });
+	m_images[2] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/arrow" + QString{pieceColorToChar(m_game->getPlayer1()->getColor())} });
+	m_images[3] = std::make_unique<QGraphicsPixmapItem>(QPixmap{ "../assets/arrow" + QString{pieceColorToChar(m_game->getPlayer2()->getColor())} });
 	m_images[2]->setPos(100, 10);
 	m_images[3]->setPos(820, 10);
 
@@ -221,16 +221,19 @@ void GameScene::loadGame()
 		removeItem(m_images[2].get());
 	}
 	if (m_game->getBoard().getRows() == 6) {
-		Game::m_aiPlayer = std::make_unique<AiPlayer>(14, 14, PieceColor::None, "aiData");
-		Game::m_aiPlayer->loadPolicy();
-		Game::m_aiPlayer->setBoard(m_game->getBoardPtr());
+		Game::m_aiPlayerRed = std::make_unique<AiPlayer>(14, 14, PieceColor::Red, "RedData");
+		Game::m_aiPlayerBlue = std::make_unique<AiPlayer>(14, 14, PieceColor::Blue, "BlueData");
+		Game::m_aiPlayerRed->loadPolicy();
+		Game::m_aiPlayerBlue->loadPolicy();
+		Game::m_aiPlayerRed->setBoard(m_game->getBoardPtr());
+		Game::m_aiPlayerBlue->setBoard(m_game->getBoardPtr());
 	}
 }
 
 void GameScene::reset()
 {
-	m_second_menu.setNormal();
-	removeItem(&m_second_menu);
+	m_secondMenu.setNormal();
+	removeItem(&m_secondMenu);
 	for (QGraphicsItem* item : items()) {
 		removeItem(item);
 	}
@@ -239,9 +242,9 @@ void GameScene::reset()
 void GameScene::nextPlayer()
 {
 	if (!m_game->getCurrentPlayer()->getMoved()) return;
-	if (save_pillar != nullptr) {
-		save_pillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
-		save_pillar = nullptr;
+	if (savePillar != nullptr) {
+		savePillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
+		savePillar = nullptr;
 	}
 	m_game->nextPlayer();
 	m_next[m_game->getTurnNumber() % 2]->setEnable();
@@ -252,6 +255,7 @@ void GameScene::nextPlayer()
 		addItem(m_next[2].get());
 	m_hint1.setVisible(false);
 	m_hint2.setVisible(false);
+	endGame();
 }
 
 void GameScene::switchColor()
@@ -301,28 +305,28 @@ void GameScene::addBridge(GraphicsBase* base)
 	//verificare daca pillarul apesat este de aceiasi culoare;
 	if (colorToPieceColor(base->getColor()) != m_game->getCurrentPlayer()->getColor()) return;
 	//crearea bridgeului;
-	if (save_pillar == nullptr) {
-		save_pillar = base;
+	if (savePillar == nullptr) {
+		savePillar = base;
 		base->setColor(pieceColorToHoverColor(m_game->getCurrentPlayer()->getColor()));
 		return;
 	}
-	if (save_pillar == base) {
+	if (savePillar == base) {
 		base->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
-		save_pillar = nullptr;
+		savePillar = nullptr;
 		return;
 	}
-	if (!m_game->addBridge(save_pillar->getCoordinates(), base->getCoordinates())) return;
-	m_bridges.emplace(TwoPoint{save_pillar->getCoordinates(),base->getCoordinates()},
-		std::make_unique<GraphicsBridge>(m_game->getBoard().getRows(), save_pillar->getCoordinates(), base->getCoordinates(),
+	if (!m_game->addBridge(savePillar->getCoordinates(), base->getCoordinates())) return;
+	m_bridges.emplace(TwoPoint{savePillar->getCoordinates(),base->getCoordinates()},
+		std::make_unique<GraphicsBridge>(m_game->getBoard().getRows(), savePillar->getCoordinates(), base->getCoordinates(),
 				pieceColorToColor(m_game->getCurrentPlayer()->getColor())));
-	addItem(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get());
-	QObject::connect(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get(),
+	addItem(m_bridges[TwoPoint{ savePillar->getCoordinates(),base->getCoordinates() }].get());
+	QObject::connect(m_bridges[TwoPoint{ savePillar->getCoordinates(),base->getCoordinates() }].get(),
 		&GraphicsBridge::bridgeClicked, this, &GameScene::getBridgeClicked);
-	QObject::connect(m_bridges[TwoPoint{ save_pillar->getCoordinates(),base->getCoordinates() }].get(),
+	QObject::connect(m_bridges[TwoPoint{ savePillar->getCoordinates(),base->getCoordinates() }].get(),
 		&GraphicsBridge::bridgeHover, this, &GameScene::getBridgeHover);
 
-	save_pillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
-	save_pillar = nullptr;
+	savePillar->setColor(pieceColorToColor(m_game->getCurrentPlayer()->getColor()));
+	savePillar = nullptr;
 	m_hint1.setVisible(false);
 	m_hint2.setVisible(false);
 	m_texts[1]->setPlainText("Bridges: " + QString::number(m_game->getPlayer1()->getNumberBridges()));
@@ -333,10 +337,21 @@ void GameScene::addBridge(GraphicsBase* base)
 void GameScene::endGame()
 {
 	if (m_game->finished()) {
-		QString path = "../assets/win";
-		m_second_menu.setEnd();
-		m_second_menu.setWinner("../assets/win1b.png");
-	    addItem(&m_second_menu);
+		QString path;
+		if (m_game->getState() == State::Draw) {
+			path = "../assets/draw";
+		}
+		else {
+			path = "../assets/win";
+			if (m_game->getCurrentPlayer() == m_game->getPlayer1())
+				path += "1";
+			else
+				path += "2";
+			path += pieceColorToChar(m_game->getCurrentPlayer()->getColor());
+		}
+		m_secondMenu.setEnd();
+		m_secondMenu.setWinner(path + ".png");
+	    addItem(&m_secondMenu);
 	}
 }
 
@@ -352,7 +367,7 @@ void GameScene::getBaseClicked(GraphicsBase* base)
 
 void GameScene::getBaseHover(GraphicsBase* base)
 {
-	if (items().contains(&m_second_menu)) return;
+	if (items().contains(&m_secondMenu)) return;
 	if (m_game->getCurrentPlayer()->getColor() == PieceColor::Blue &&
 		(base->getCoordinates().x == 0 || base->getCoordinates().x == m_game->getBoard().getColumns() - 1)) return;
 	if (m_game->getCurrentPlayer()->getColor() == PieceColor::Red &&
@@ -374,7 +389,7 @@ void GameScene::getBaseHover(GraphicsBase* base)
 
 void GameScene::getBridgeClicked(GraphicsBridge* bridge)
 {
-	if (items().contains(&m_second_menu)) return;
+	if (items().contains(&m_secondMenu)) return;
 	if (!m_game->removeBridges(bridge->getStart(),bridge->getEnd())) return;
 	m_bridges.erase(TwoPoint{ bridge->getStart(),bridge->getEnd() });
 	
@@ -382,7 +397,7 @@ void GameScene::getBridgeClicked(GraphicsBridge* bridge)
 
 void GameScene::getBridgeHover(GraphicsBridge* bridge)
 {
-	if (items().contains(&m_second_menu)) return;
+	if (items().contains(&m_secondMenu)) return;
 	if (!m_game->getCurrentPlayer()->getMoved()) return;
 	if (colorToPieceColor(bridge->getColor()) != m_game->getCurrentPlayer()->getColor()) return;
 	bridge->setCursor(Qt::PointingHandCursor);
@@ -393,7 +408,7 @@ void GameScene::getBridgeHover(GraphicsBridge* bridge)
 
 void GameScene::saveGame()
 {
-	m_game->saveGame("save1.txt");
+	m_game->saveGame("saveG.txt");
 }
 
 void GameScene::resetGame()

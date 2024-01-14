@@ -9,9 +9,9 @@
 #include <QTransform>
 #include "Base.h"
 
-const QString pieceColorToColor(const PieceColor& piece_color);
-const QString pieceColorToHoverColor(const PieceColor& piece_color);
-const PieceColor colorToPieceColor(const QColor& color);
+QString pieceColorToColor(const PieceColor& piece_color);
+QString pieceColorToHoverColor(const PieceColor& piece_color);
+PieceColor colorToPieceColor(const QColor& color);
 
 class GraphicsBase : public QObject, public QGraphicsEllipseItem
 {
@@ -19,7 +19,7 @@ class GraphicsBase : public QObject, public QGraphicsEllipseItem
 private:
 	Point m_coordinates;
 	QColor m_color;
-	bool m_is_pillar;
+	bool m_isPillar;
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
@@ -28,7 +28,7 @@ public:
 	GraphicsBase(const uint16_t size, const Point& coordinates, const QString& color, const bool& is_pillar, QGraphicsItem* parent = nullptr);
 	const Point& getCoordinates() const noexcept;
 	const QColor& getColor() const noexcept;
-	const bool& isPillar() const noexcept;
+	bool isPillar() const noexcept;
 	void setColor(const QString& color);
 	void setIsPillar(const bool& is_pillar);
 signals:

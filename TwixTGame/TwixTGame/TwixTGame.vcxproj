@@ -40,7 +40,6 @@
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.6.0_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -151,7 +150,10 @@
     <QtMoc Include="TwixTGame.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="save1.txt" />
+    <Text Include="saveB.txt" />
+    <Text Include="saveG.txt" />
+    <Text Include="saveM.txt" />
+    <Text Include="saveN.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

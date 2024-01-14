@@ -12,7 +12,7 @@ private:
 	void drawAiMove(Move* move);
 	void wipeAiFiles(std::string redFileData, std::string blueFileData);
 public:
-	ConsoleTrainAiGame(const uint16_t& size);
+	ConsoleTrainAiGame(const uint16_t& size, const std::string& path);
 	void playerPillarMove();
 	void playerBridgesMove();
 	void run();

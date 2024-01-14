@@ -31,23 +31,27 @@ int main(int argc, char *argv[])
             break;
         }
         case 2: {
-            ConsoleBuldozeristGame game;
+            ConsoleBuldozeristGame game{"saveB.txt" };
             game.run();
             break;
         }
         case 3: {
-            ConsoleMineGame game;
+            ConsoleMineGame game{"saveM.txt" };
             game.run();
             break;
         }
         case 4: {
-            ConsoleTrainAiGame game{ 6 };
+            ConsoleTrainAiGame game{ 6,"saveN.txt"};
             game.run();
             break;
         }
         case 5: {
-            ConsoleTrainAiGame trainGame{ 6 };
+            ConsoleTrainAiGame trainGame{ 6,"saveN.txt" };
             trainGame.train("RedData", "BlueData");
+            break;
+        }
+        case 0: {
+            exit(0);
             break;
         }
         default: {
@@ -60,6 +64,4 @@ int main(int argc, char *argv[])
     } while (option != 0);
 
     return app.exec();
-
-    //TODO: salvam si modul de joc in savegame
 }

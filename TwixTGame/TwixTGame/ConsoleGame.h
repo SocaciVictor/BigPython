@@ -7,10 +7,9 @@ class ConsoleGame
 {
 protected:
 	std::unique_ptr<Game> m_game;
-
+	std::string m_path;
 public:
-	ConsoleGame();
-	ConsoleGame(const uint16_t& size);
+	ConsoleGame(std::string path);
 	virtual void drawBoard(const Board& board);
     virtual void drawPlayer(const Player* player);
 	virtual void playerPillarMove();

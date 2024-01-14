@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color) :
-	m_number_pillars{ number_pillars }, m_number_bridges{ number_bridges }, m_color{ color }, m_moved{ false }
+	m_numberPillars{ number_pillars }, m_numberBridges{ number_bridges }, m_color{ color }, m_moved{ false }
 {}
 
 //only used by AiPlayer
@@ -24,24 +24,24 @@ void Player::setColor(const PieceColor& color)
 	m_color = color;
 }
 
-const uint16_t& Player::getNumberPillars() const noexcept
+uint16_t Player::getNumberPillars() const noexcept
 {
-	return m_number_pillars;
+	return m_numberPillars;
 }
 
-const uint16_t& Player::getNumberBridges() const noexcept
+uint16_t Player::getNumberBridges() const noexcept
 {
-	return m_number_bridges;
+	return m_numberBridges;
 }
 
 void Player::updateNumberPillars(const int16_t& addend)
 {
-	m_number_pillars += addend;
+	m_numberPillars += addend;
 }
 
 void Player::updateNumberBridges(const int16_t& addend)
 {
-	m_number_bridges += addend;
+	m_numberBridges += addend;
 }
 
 bool Player::getMoved() const noexcept
@@ -56,8 +56,8 @@ void Player::setMoved(const bool& moved)
 
 void Player::reset(uint16_t& maxNumPillars, uint16_t& maxNumBridge)
 {
-	m_number_pillars = maxNumPillars;
-	m_number_bridges = maxNumBridge;
+	m_numberPillars = maxNumPillars;
+	m_numberBridges = maxNumBridge;
 	m_moved = false;
 }
 

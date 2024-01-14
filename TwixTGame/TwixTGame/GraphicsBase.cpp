@@ -1,6 +1,6 @@
 #include "GraphicsBase.h"
 
-const QString pieceColorToColor(const PieceColor& piece_color)
+QString pieceColorToColor(const PieceColor& piece_color)
 {
 	switch (piece_color) {
 	case PieceColor::Blue: return "#4798CE";
@@ -10,7 +10,7 @@ const QString pieceColorToColor(const PieceColor& piece_color)
 	}
 }
 
-const QString pieceColorToHoverColor(const PieceColor& piece_color)
+QString pieceColorToHoverColor(const PieceColor& piece_color)
 {
 	switch (piece_color) {
 	case PieceColor::Blue: return "#38D3CA";
@@ -20,7 +20,7 @@ const QString pieceColorToHoverColor(const PieceColor& piece_color)
 	}
 }
 
-const PieceColor colorToPieceColor(const QColor& color)
+PieceColor colorToPieceColor(const QColor& color)
 {
 	if (color == "#4798CE" || color == "#38D3CA")
 		return PieceColor::Blue;
@@ -45,12 +45,12 @@ void GraphicsBase::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 	setBrush(QColor(m_color));
 	setOpacity(1.0);
 	setCursor(Qt::ArrowCursor);
-	if(!m_is_pillar)
+	if(!m_isPillar)
 		setScale(1.0);
 }
 
 GraphicsBase::GraphicsBase(const uint16_t size, const Point& coordinates, const QString& color, const bool& is_pillar, QGraphicsItem* parent) :
-	m_coordinates{ coordinates }, m_color{ color }, m_is_pillar{ is_pillar }, QGraphicsEllipseItem{ parent }
+	m_coordinates{ coordinates }, m_color{ color }, m_isPillar{ is_pillar }, QGraphicsEllipseItem{ parent }
 {
 	uint16_t margine_distance = 24 / size * 35;
 	uint16_t base_size = (490 - margine_distance * 2) / (3 * size - 2);
@@ -73,9 +73,9 @@ const QColor& GraphicsBase::getColor() const noexcept
 	return m_color;
 }
 
-const bool& GraphicsBase::isPillar() const noexcept
+bool GraphicsBase::isPillar() const noexcept
 {
-	return m_is_pillar;
+	return m_isPillar;
 }
 
 void GraphicsBase::setColor(const QString& color)
@@ -86,5 +86,5 @@ void GraphicsBase::setColor(const QString& color)
 
 void GraphicsBase::setIsPillar(const bool& is_pillar)
 {
-	m_is_pillar = is_pillar;
+	m_isPillar = is_pillar;
 }

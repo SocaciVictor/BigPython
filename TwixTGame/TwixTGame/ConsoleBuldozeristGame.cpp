@@ -1,9 +1,7 @@
 #include "ConsoleBuldozeristGame.h"
 
-ConsoleBuldozeristGame::ConsoleBuldozeristGame() 
-{
-	m_game = std::make_unique<BuldozeristGame>(24, 24, 50, 50);
-}
+ConsoleBuldozeristGame::ConsoleBuldozeristGame(const std::string path) : ConsoleGame{path}
+{}
 
 void ConsoleBuldozeristGame::drawBoard(const Board& board)
 {
@@ -49,7 +47,17 @@ void ConsoleBuldozeristGame::run()
 	std::cout << "Press 1 for a load game or whatever u want for a new game: ";
 	std::cin >> load;
 	if (load == 1)
-		m_game->loadGame("save1.txt");
+	{
+		m_game = std::make_unique<BuldozeristGame>();
+		m_game->loadGame(m_path);
+	}
+	else {
+		uint16_t size;
+		system("CLS");
+		std::cout << "Introdu marimea tablei de joc: ";
+		std::cin >> size;
+		m_game = std::make_unique<BuldozeristGame>(size, size, size*2+2, size * 2 + 2);
+	}
 	uint16_t player = m_game->getCurrentPlayer()==m_game->getPlayer2();
 	do {
 		playerPillarMove();

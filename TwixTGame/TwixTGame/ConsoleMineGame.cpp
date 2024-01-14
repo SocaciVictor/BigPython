@@ -1,8 +1,7 @@
 #include "ConsoleMineGame.h"
 
-ConsoleMineGame::ConsoleMineGame()
+ConsoleMineGame::ConsoleMineGame(const std::string& path) : ConsoleGame{path}
 {
-	m_game = std::make_unique<MineGame>(24, 24, 50, 50);
 }
 
 void ConsoleMineGame::drawBoard(const Board& board)
@@ -66,7 +65,7 @@ void ConsoleMineGame::playerPillarMove()
 		std::cout << "add pillars on x y pozition or press 88 for save game: ";
 		std::cin >> x;
 		if (x == 88) {
-			m_game->saveGame("save1.txt");
+			m_game->saveGame(m_path);
 			continue;
 		}
 		std::cin >> y;
@@ -93,10 +92,42 @@ void ConsoleMineGame::playerMineMove()
 		std::cout << "add mine on x y pozition or press 88 for save game: ";
 		std::cin >> x;
 		if (x == 88) {
-			m_game->saveGame("save1.txt");
+			m_game->saveGame(m_path);
 			continue;
 		}
 		std::cin >> y;
 		valid_move = static_cast<MineGame*>(m_game.get())->addMine(Point{ x,y });
 	} while (!valid_move || x == 88);
+}
+
+void ConsoleMineGame::run()
+{
+	uint16_t load = 0;
+	std::cout << "Press 1 for a load game or whatever u want for a new game: ";
+	std::cin >> load;
+	if (load == 1) {
+		m_game = std::make_unique<MineGame>();
+		m_game->loadGame(m_path);
+	}
+	else {
+		uint16_t size;
+		system("CLS");
+		std::cout << "Introdu marimea tablei de joc: ";
+		std::cin >> size;
+		m_game = std::make_unique<MineGame>(size, size, size * 2 + 2, size * 2 + 2);
+	}
+	do {
+		playerPillarMove();
+		playerBridgesMove();
+		m_game->nextPlayer();
+	} while (!m_game->finished());
+	std::system("cls");
+	drawBoard(m_game->getBoard());
+	if (m_game->getState() == State::Draw) {
+		std::cout << "Jocul sa terminat cu remiza. \n";
+	}
+	else {
+		std::cout << std::format("\n Player {}, a castigat! ",
+			pieceColorToChar(m_game->getCurrentPlayer()->getColor()));
+	}
 }
