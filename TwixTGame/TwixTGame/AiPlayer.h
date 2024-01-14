@@ -38,7 +38,7 @@ private:
 	std::random_device randomDevice;
 	std::mt19937 randomEngine = std::mt19937{ randomDevice()};
 	const float initialEstimation = 0.5f;
-	const float explorationRate = 0.3f;
+	const float explorationRate = 0.2f;
 	const float learningRate = 0.3f;
 public:
 	AiPlayer(const std::uint16_t& number_pillars, const std::uint16_t& number_bridges, const PieceColor& color,

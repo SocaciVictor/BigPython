@@ -267,7 +267,7 @@ void ConsoleTrainAiGame::train(std::string redFileData, std::string blueFileData
 	static_cast<AiPlayer*>(m_game->getCurrentPlayer())->savePolicy();
 
 	auto endFiles = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> durationFiles = startFiles - endFiles;
+	std::chrono::duration<double> durationFiles = endFiles - startFiles;
 	std::cout << "Time spent saving: " << durationFiles << "\n";
 	std::cout << "DONE!\n";
 

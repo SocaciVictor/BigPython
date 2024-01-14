@@ -39,11 +39,11 @@ void Game::setPlayerAi(uint16_t numar_player , std::string fileData)
 {
 	auto start = std::chrono::high_resolution_clock::now();
 	if (numar_player == 1) {
-		m_player1 = std::make_unique<AiPlayer>(m_player1->getNumberPillars(), m_player1->getNumberBridges(), m_player1->getColor(), fileData, &m_board);
+		m_player1 = std::make_unique<AiPlayer>(m_player1->getNumberPillars(), m_player1->getNumberBridges(), PieceColor::Blue, fileData, &m_board);
 		static_cast<AiPlayer*>(m_player1.get())->loadPolicy();
 	}
 	else {
-		m_player2 = std::make_unique<AiPlayer>(m_player2->getNumberPillars(), m_player2->getNumberBridges(), m_player2->getColor(), fileData, &m_board);
+		m_player2 = std::make_unique<AiPlayer>(m_player2->getNumberPillars(), m_player2->getNumberBridges(), PieceColor::Red, fileData, &m_board);
 		static_cast<AiPlayer*>(m_player2.get())->loadPolicy();
 	}
 	
